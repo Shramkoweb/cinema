@@ -1,6 +1,6 @@
 export const getFilmDetails = () => {
   return `
-    <section class="film-details">
+    <section class="film-details visually-hidden">
       <form class="film-details__inner" action="" method="get">
         <div class="form-details__top-container">
           <div class="film-details__close">
