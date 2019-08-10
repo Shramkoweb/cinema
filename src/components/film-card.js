@@ -1,4 +1,4 @@
-export const getFilmCard = () => {
+const getFilmCard = () => {
   return `
     <article class="film-card">
       <h3 class="film-card__title">Popeye the Sailor Meets Sindbad the Sailor</h3>
@@ -18,4 +18,16 @@ export const getFilmCard = () => {
       </form>
     </article>
   `;
+};
+
+
+/* Ф-я гереации карточек */
+export const getFilmCards = (count) => {
+  const cards = [];
+
+  for (let i = 0; i < count; i++) {
+    cards.push(getFilmCard());
+  }
+
+  return cards.join(` `);
 };
