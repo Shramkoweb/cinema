@@ -4,6 +4,8 @@ import {getNavigation} from "./components/navigation";
 import {getFilmDetails} from "./components/film-details";
 import {getFilms} from "./components/films";
 
+const FILMS_COUNT = 5;
+
 const headerElement = document.querySelector(`header`);
 const mainElement = document.querySelector(`.main`);
 const bodyElement = document.querySelector(`body`);
@@ -16,5 +18,5 @@ const renderComponent = (container, component) => {
 renderComponent(headerElement, getSearch());
 renderComponent(headerElement, getProfile());
 renderComponent(mainElement, getNavigation());
-renderComponent(mainElement, getFilms(5));
+renderComponent(mainElement, getFilms(FILMS_COUNT));
 renderComponent(bodyElement, getFilmDetails());
