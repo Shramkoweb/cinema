@@ -7,6 +7,8 @@ const MAX_FILM_DURATION = 180;
 const MINUTES_IN_HOUR = 60;
 const MIN_FILM_COMMENTS = 0;
 const MAX_FILM_COMMENTS = 300;
+const MIN_AGE = 13;
+const MAX_AGE = 18;
 
 const TITLES = [
   `The Shawshank Redemption`,
@@ -83,8 +85,8 @@ const generateMovieMock = () => ({
   country: getRandomItemFrom(COUNTRIES),
   genres: new Set([`Drama`, `Comedy`, `Film-Noir`, `Mystery`]),
   description: getRandomDescription(DESCRIPTIONS, getRandomNumberInRange(1, 3)),
-  age: getRandomNumberInRange(13, 18),
-  isFavorite: getShowMoreButton(),
+  age: getRandomNumberInRange(MIN_AGE, MAX_AGE),
+  isFavorite: getRandomBoolean(),
   isWatched: getRandomBoolean(),
   isInWatchlist: getRandomBoolean(),
   comments: getRandomNumberInRange(MIN_FILM_COMMENTS, MAX_FILM_COMMENTS),
