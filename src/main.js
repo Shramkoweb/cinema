@@ -1,8 +1,8 @@
 import {getSearch} from "./components/search";
 import {getProfile} from "./components/profile";
 import {getNavigation} from "./components/navigation";
-import {getFilmDetails} from "./components/film-details";
-import {generateMoviesBoard} from "./components/films";
+import {getFilmDetails} from "./components/movie-details";
+import {getBoardTemplate} from "./components/movies";
 import {getMovies} from "./data";
 
 const FILMS_COUNT = 23;
@@ -19,5 +19,5 @@ const renderComponent = (container, component) => {
 renderComponent(headerElement, getSearch());
 renderComponent(headerElement, getProfile());
 renderComponent(mainElement, getNavigation());
-renderComponent(mainElement, generateMoviesBoard(getMovies(FILMS_COUNT)));
+renderComponent(mainElement, getBoardTemplate(getMovies(FILMS_COUNT)));
 renderComponent(bodyElement, getFilmDetails());

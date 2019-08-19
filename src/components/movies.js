@@ -1,20 +1,20 @@
 import {getShowMoreButton} from "./show-more-button";
-import {getMovieTemplate} from "./film-card";
+import {getMovieTemplate} from "./movie";
 
 const MAX_FILMS_COUNT = 5;
 
-const getFilmsTemplate = (movies) => {
+const getMoviesTamplate = (movies) => {
   return movies.map((movie) => getMovieTemplate(movie)).join(``);
 };
 
-export const generateMoviesBoard = (movies) => {
+export const getBoardTemplate = (movies) => {
   return `
     <section class="films">
       <section class="films-list">
         <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
     
         <div class="films-list__container">
-          ${getFilmsTemplate(movies.slice(0, MAX_FILMS_COUNT))}               
+          ${getMoviesTamplate(movies.slice(0, MAX_FILMS_COUNT))}               
         </div>
          
          ${getShowMoreButton()}
