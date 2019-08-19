@@ -2,10 +2,10 @@ import {getSearch} from "./components/search";
 import {getProfile} from "./components/profile";
 import {getNavigation} from "./components/navigation";
 import {getFilmDetails} from "./components/film-details";
-import {generateMoviesBoard, getFilms} from "./components/films";
+import {generateMoviesBoard} from "./components/films";
 import {getMovies} from "./data";
 
-const FILMS_COUNT = 5;
+const FILMS_COUNT = 23;
 
 const headerElement = document.querySelector(`header`);
 const mainElement = document.querySelector(`.main`);
@@ -19,5 +19,5 @@ const renderComponent = (container, component) => {
 renderComponent(headerElement, getSearch());
 renderComponent(headerElement, getProfile());
 renderComponent(mainElement, getNavigation());
-renderComponent(mainElement, generateMoviesBoard(getMovies(5)));
+renderComponent(mainElement, generateMoviesBoard(getMovies(FILMS_COUNT)));
 renderComponent(bodyElement, getFilmDetails());

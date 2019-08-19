@@ -37,15 +37,3 @@ export const getMovieTemplate = ({
     </article>
   `.trim();
 };
-
-//
-// /* Ф-я гереации карточек */
-// export const getFilmCards = (count) => {
-//   const cards = [];
-//
-//   for (let i = 0; i < count; i++) {
-//     cards.push(getFilmCard());
-//   }
-//
-//   return cards.join(` `);
-// };

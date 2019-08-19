@@ -14,10 +14,10 @@ export const generateMoviesBoard = (movies) => {
         <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
     
         <div class="films-list__container">
-          ${getFilmsTemplate(movies)}               
+          ${getFilmsTemplate(movies.slice(0, MAX_FILMS_COUNT))}               
         </div>
          
-         ${getShowMoreButton(movies.slice(0, MAX_FILMS_COUNT))}
+         ${getShowMoreButton()}
       </section>
     
       <section class="films-list--extra">
