@@ -91,4 +91,4 @@ const generateMovieMock = () => ({
 });
 
 /* Получаем массив фильмов */
-const getMovies = (count) => new Array(count).fill(``).map(generateMovieMock);
+export const getMovies = (count) => new Array(count).fill(``).map(generateMovieMock);
