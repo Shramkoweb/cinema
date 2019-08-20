@@ -33,24 +33,24 @@ const getCommentTemplate = ({author, date, comment, emoji}) => {
       </div>
     </li>
   `.trim();
-}
+};
 
 export const getMovieDetailsTemplate = ({
-                                          title,
-                                          rating,
-                                          releaseDate,
-                                          director,
-                                          writers,
-                                          genres,
-                                          actors,
-                                          age,
-                                          originalTitle,
-                                          country,
-                                          runtime,
-                                          image,
-                                          description,
-                                          comments,
-                                        }) => {
+  title,
+  rating,
+  releaseDate,
+  director,
+  writers,
+  genres,
+  actors,
+  age,
+  originalTitle,
+  country,
+  runtime,
+  image,
+  description,
+  comments,
+}) => {
   return `
     <section class="film-details visually-hidden">
       <form class="film-details__inner" action="" method="get">

@@ -1,12 +1,12 @@
 import {getShowMoreButton} from "./show-more-button";
 import {getMovieTemplate} from "./movie";
 
-const MAX_FILMS_COUNT = 5;
-
+/* Разметка для фильмов */
 export const getMoviesTamplate = (movies) => {
   return movies.map((movie) => getMovieTemplate(movie)).join(``);
 };
 
+/* Получаем 2 самых рейтинговых фильма */
 const getMostRatedMovies = (movies, count = 2) => {
   const moviesCopy = [...movies];
   moviesCopy.sort((a, b) => a.rating - b.rating);
@@ -14,7 +14,7 @@ const getMostRatedMovies = (movies, count = 2) => {
   return moviesCopy.slice(-count);
 };
 
-
+/* Получаем 2 самых коментируемых фильма */
 export const getMostCommentedMovies = (movies, count = 2) => {
   const moviesCopy = [...movies];
   moviesCopy.sort((a, b) => a.comments - b.comments);
