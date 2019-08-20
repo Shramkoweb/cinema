@@ -184,5 +184,5 @@ export const getMovieDetailsTemplate = ({
         </div>
       </form>
     </section>
-  `;
+  `.trim();
 };

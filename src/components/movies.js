@@ -51,5 +51,5 @@ export const getBoardTemplate = (movies) => {
         </div>
       </section>
     </section>
-  `;
+  `.trim();
 };
