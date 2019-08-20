@@ -24,6 +24,11 @@ const getMovieFullDate = (date) => {
   });
 };
 
+/* Получаем год из даты */
+const getMovieYear = (date) => {
+  return new Date(date).getFullYear();
+};
+
 /* Получаем случайное булевое значение */
 const getRandomBoolean = () => {
   return Boolean(Math.round(Math.random()));
@@ -50,6 +55,7 @@ const shuffleArray = (array) => {
 export {
   getRandomBoolean,
   getRandomItemFrom,
+  getMovieYear,
   getMovieFullDate,
   renderComponent,
   getRandomNumberInRange,

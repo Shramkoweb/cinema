@@ -1,4 +1,4 @@
-import {getFilmDuration} from "../util";
+import {getFilmDuration, getMovieYear} from "../util";
 
 /* Возврат активного класса для елемента */
 const elementAddActiveClass = (isActive) => {
@@ -23,7 +23,7 @@ export const getMovieTemplate = ({
       <h3 class="film-card__title">${title}</h3>
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
-        <span class="film-card__year">${new Date(releaseDate).getFullYear()}</span>
+        <span class="film-card__year">${getMovieYear(releaseDate)}</span>
         <span class="film-card__duration">${getFilmDuration(runtime)}</span>
         <span class="film-card__genre">${[...genres][0]}</span>
       </p>
