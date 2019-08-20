@@ -30,6 +30,33 @@ const TITLES = [
   `John Wick: Chapter 3 - Parabellum`,
 ];
 
+const DIRECTORS = [
+  `Adrian Grunberg`,
+  `Tim Miller`,
+  `Ric Roman Waugh`,
+  `Tyler Gillett`,
+  `Matt Bettinelli-Olpin`,
+];
+
+const WRITERS = [
+  `Paul Downs Colaizzo`,
+  `James Cameron`,
+  `Charles H. Eglee`,
+  `Josh Friedman`,
+  `Justin Rhodes`,
+  `Billy Ray`,
+  `David S. Goyer`,
+];
+
+const ACTORS = [
+  `Jillian Bell`,
+  `Jennifer Dundas`,
+  `Mikey Day`,
+  `Michael Weist`,
+  `Adam Brody`,
+  `Liam MacDonald`,
+];
+
 const IMAGES = [
   `made-for-each-other.png`,
   `popeye-meets-sinbad.png`,
@@ -75,11 +102,11 @@ const getRandomDescription = (descriptions, count = 1) => {
 const generateMovieMock = () => ({
   image: getRandomItemFrom(IMAGES),
   title: getRandomItemFrom(TITLES),
-  originalTitle: ``,
+  originalTitle: getRandomItemFrom(TITLES),
   rating: getRandomNumberInRange(0, 10).toFixed(1),
-  director: ``,
-  writers: ``,
-  actors: ``,
+  director: getRandomItemFrom(DIRECTORS),
+  writers: [...WRITERS],
+  actors: [...ACTORS],
   releaseDate: Date.now(),
   runtime: getRandomNumberInRange(MIN_FILM_DURATION, MAX_FILM_DURATION),
   country: getRandomItemFrom(COUNTRIES),
