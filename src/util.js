@@ -3,6 +3,18 @@ const getRandomItemFrom = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
 
+/* Получаем время в нужном формате */
+const getFilmDuration = (duration) => {
+  const UNITS = {
+    MINUTES_IN_HOUR: 60,
+  };
+  const hours = duration / UNITS.MINUTES_IN_HOUR;
+  const roundedHours = Math.floor(hours);
+  const roundedMinutes = Math.round((hours - roundedHours) * UNITS.MINUTES_IN_HOUR);
+
+  return `${roundedHours}h ${roundedMinutes}m`;
+};
+
 /* Получаем случайное булевое значение */
 const getRandomBoolean = () => {
   return Boolean(Math.round(Math.random()));
@@ -26,4 +38,4 @@ const shuffleArray = (array) => {
   }
 };
 
-export {getRandomBoolean, getRandomItemFrom, renderComponent, getRandomNumberInRange, shuffleArray};
+export {getRandomBoolean, getRandomItemFrom, renderComponent, getRandomNumberInRange, shuffleArray, getFilmDuration};

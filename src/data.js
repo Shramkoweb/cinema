@@ -4,7 +4,6 @@ const MAX_DESCRIPTION_COUNT = 3;
 const MIN_DESCRIPTION_COUNT = 1;
 const MIN_FILM_DURATION = 30;
 const MAX_FILM_DURATION = 180;
-const MINUTES_IN_HOUR = 60;
 const MIN_FILM_COMMENTS = 0;
 const MAX_FILM_COMMENTS = 300;
 const MIN_AGE = 13;
@@ -76,12 +75,13 @@ const getRandomDescription = (descriptions, count = 1) => {
 const generateMovieMock = () => ({
   image: getRandomItemFrom(IMAGES),
   title: getRandomItemFrom(TITLES),
+  originalTitle: ``,
   rating: getRandomNumberInRange(0, 10).toFixed(1),
   director: ``,
   writers: ``,
   actors: ``,
   releaseDate: Date.now(),
-  runtime: (getRandomNumberInRange(MIN_FILM_DURATION, MAX_FILM_DURATION) / MINUTES_IN_HOUR).toFixed(1),
+  runtime: getRandomNumberInRange(MIN_FILM_DURATION, MAX_FILM_DURATION),
   country: getRandomItemFrom(COUNTRIES),
   genres: new Set([`Drama`, `Comedy`, `Film-Noir`, `Mystery`]),
   description: getRandomDescription(DESCRIPTIONS, getRandomNumberInRange(MIN_DESCRIPTION_COUNT, MAX_DESCRIPTION_COUNT)),
