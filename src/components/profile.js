@@ -1,3 +1,22 @@
+const filmsToRating = {
+  21: `movie buff`,
+  20: `fan`,
+  10: `novice`,
+  0: ``,
+};
+
+export const getUserRating = (movies) => {
+  let watchedMovies = 0;
+  movies.forEach((movie) => {
+    if (movie.isWatched) {
+      watchedMovies++;
+    }
+  });
+
+  const profileRating = Object.keys(filmsToRating).find((count) => count >= watchedMovies);
+  return filmsToRating[profileRating];
+};
+
 export const getProfile = () => {
   return `   
     <section class="header__profile profile">

@@ -1,5 +1,5 @@
 import {getSearch} from "./components/search";
-import {getProfile} from "./components/profile";
+import {filmsToRating, getProfile, getUserRating} from "./components/profile";
 import {getNavigation} from "./components/navigation";
 import {getFilmDetails} from "./components/movie-details";
 import {getBoardTemplate, getMostCommentedMovies} from "./components/movies";
@@ -25,3 +25,4 @@ renderComponent(bodyElement, getFilmDetails());
 
 
 console.table(getMostCommentedMovies(FILMS));
+console.log(getUserRating(FILMS));
