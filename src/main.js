@@ -1,8 +1,8 @@
 import {getSearch} from "./components/search";
-import {filmsToRating, getProfile, getUserRating} from "./components/profile";
+import {getProfile} from "./components/profile";
 import {getNavigation} from "./components/navigation";
 import {getFilmDetails} from "./components/movie-details";
-import {getBoardTemplate, getMostCommentedMovies} from "./components/movies";
+import {getBoardTemplate} from "./components/movies";
 import {getMovies} from "./data";
 
 const FILMS_COUNT = 23;

@@ -5,7 +5,7 @@ const filmsToRating = {
   0: ``,
 };
 
-export const getUserRating = (movies) => {
+const getUserRating = (movies) => {
   let watchedMovies = 0;
   movies.forEach((movie) => {
     if (movie.isWatched) {
