@@ -18,11 +18,7 @@ const renderComponent = (container, component) => {
 };
 
 renderComponent(headerElement, getSearch());
-renderComponent(headerElement, getProfile());
+renderComponent(headerElement, getProfile(FILMS));
 renderComponent(mainElement, getNavigation());
 renderComponent(mainElement, getBoardTemplate(FILMS));
 renderComponent(bodyElement, getFilmDetails());
-
-
-console.table(getMostCommentedMovies(FILMS));
-console.log(getUserRating(FILMS));
