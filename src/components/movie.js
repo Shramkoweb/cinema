@@ -29,7 +29,7 @@ export const getMovieTemplate = ({
       </p>
       <img src="./images/posters/${image}" alt="" class="film-card__poster">
       <p class="film-card__description">${description}</p>
-      <a class="film-card__comments">${comments} comments</a>
+      <a class="film-card__comments">${comments.length} comments</a>
       <form class="film-card__controls">
         <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist film-card__controls-item--${elementAddActiveClass(isInWatchlist)}">Add to watchlist</button>
         <button class="film-card__controls-item button film-card__controls-item--mark-as-watched film-card__controls-item--${elementAddActiveClass(isWatched)}">Mark as watched</button>
