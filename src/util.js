@@ -4,7 +4,7 @@ const getRandomItemFrom = (array) => {
 };
 
 /* Получаем время в нужном формате */
-const getFilmDuration = (duration) => {
+const getMovieDuration = (duration) => {
   const UNITS = {
     MINUTES_IN_HOUR: 60,
   };
@@ -60,5 +60,5 @@ export {
   renderComponent,
   getRandomNumberInRange,
   shuffleArray,
-  getFilmDuration
+  getMovieDuration
 };
