@@ -1,21 +1,37 @@
 import {getMovieFullDate, getMovieDuration} from "../util";
+/* Получаем */
+const getGenreTemplate = (genre) => {
+  return `
+    <span class="film-details__genre">${genre}</span>
+  `.trim();
+};
+
+const getGenresList = (genre) => {
+  const genres = [];
+  genre.forEach((elemt) => {
+    genres.push(getGenreTemplate(elemt));
+  });
+
+  return genres;
+};
 
 export const getMovieDetailsTemplate = ({
-  title,
-  rating,
-  releaseDate,
-  director,
-  writers,
-  actors,
-  age,
-  originalTitle,
-  country,
-  runtime,
-  image,
-  description,
-}) => {
+                                          title,
+                                          rating,
+                                          releaseDate,
+                                          director,
+                                          writers,
+                                          genres,
+                                          actors,
+                                          age,
+                                          originalTitle,
+                                          country,
+                                          runtime,
+                                          image,
+                                          description,
+                                        }) => {
   return `
-    <section class="film-details visually-hidden">
+    <section class="film-details ">
       <form class="film-details__inner" action="" method="get">
         <div class="form-details__top-container">
           <div class="film-details__close">
@@ -47,11 +63,11 @@ export const getMovieDetailsTemplate = ({
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">${writers}</td>
+                  <td class="film-details__cell">${writers.join(`, `)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">${actors}</td>
+                  <td class="film-details__cell">${actors.join(`, `)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
@@ -68,9 +84,8 @@ export const getMovieDetailsTemplate = ({
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">Drama</span>
-                    <span class="film-details__genre">Film-Noir</span>
-                    <span class="film-details__genre">Mystery</span></td>
+                    ${getGenresList(genres).join(``)}
+                  </td>
                 </tr>
               </table>
     
