@@ -91,6 +91,37 @@ const COUNTRIES = [
   `Russia`,
 ];
 
+const EMOJIS = [
+  `angry.png`,
+  `puke.png`,
+  `sleeping.png`,
+  `smile.png`,
+  `trophy.png`
+];
+
+const COMMENTS = [
+  `Cool`,
+  `Booooooooooring`,
+  `Very very old. Meh`,
+  `Almost two hours? Seriously?`,
+  `Nice try`,
+  `Fantastic`,
+];
+
+
+/* Обьект под каждый коментарий*/
+const getComment = () => ({
+  comment: getRandomItemFrom(COMMENTS),
+  author: getRandomItemFrom(WRITERS),
+  date: new Date(Date.now()).getDay(),
+  emoji: getRandomItemFrom(EMOJIS),
+});
+
+/* Массив коментариев */
+const getComments = (count) => {
+  return new Array(count).fill(``).map(getComment);
+};
+
 /* Получаем случайное описание фильма */
 const getRandomDescription = (descriptions, count = 1) => {
   shuffleArray(descriptions);
@@ -116,7 +147,7 @@ const generateMovieMock = () => ({
   isFavorite: getRandomBoolean(),
   isWatched: getRandomBoolean(),
   isInWatchlist: getRandomBoolean(),
-  comments: getRandomNumberInRange(MIN_FILM_COMMENTS, MAX_FILM_COMMENTS),
+  comments: getComments(5),
 });
 
 /* Получаем массив фильмов */
