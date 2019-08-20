@@ -1,9 +1,9 @@
 import {getSearch} from "./components/search";
 import {getProfile} from "./components/profile";
-import {getNavigation} from "./components/navigation";
+import {getNavigationTemplate} from "./components/filter";
 import {getFilmDetails} from "./components/movie-details";
 import {getBoardTemplate} from "./components/movies";
-import {getMovies} from "./data";
+import {getFilterCount, getMovies} from "./data";
 
 const FILMS_COUNT = 23;
 const FILMS = getMovies(FILMS_COUNT);
@@ -19,6 +19,6 @@ const renderComponent = (container, component) => {
 
 renderComponent(headerElement, getSearch());
 renderComponent(headerElement, getProfile(FILMS));
-renderComponent(mainElement, getNavigation());
+renderComponent(mainElement, getNavigationTemplate(getFilterCount(FILMS)));
 renderComponent(mainElement, getBoardTemplate(FILMS));
 renderComponent(bodyElement, getFilmDetails());

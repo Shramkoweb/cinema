@@ -1,7 +1,7 @@
 import {getRandomBoolean, getRandomItemFrom, getRandomNumberInRange, shuffleArray} from "./util";
-import {getShowMoreButton} from "./components/show-more-button";
 
 const MAX_DESCRIPTION_COUNT = 3;
+const MIN_DESCRIPTION_COUNT = 1;
 const MIN_FILM_DURATION = 30;
 const MAX_FILM_DURATION = 180;
 const MINUTES_IN_HOUR = 60;
@@ -84,7 +84,7 @@ const generateMovieMock = () => ({
   runtime: (getRandomNumberInRange(MIN_FILM_DURATION, MAX_FILM_DURATION) / MINUTES_IN_HOUR).toFixed(1),
   country: getRandomItemFrom(COUNTRIES),
   genres: new Set([`Drama`, `Comedy`, `Film-Noir`, `Mystery`]),
-  description: getRandomDescription(DESCRIPTIONS, getRandomNumberInRange(1, 3)),
+  description: getRandomDescription(DESCRIPTIONS, getRandomNumberInRange(MIN_DESCRIPTION_COUNT, MAX_DESCRIPTION_COUNT)),
   age: getRandomNumberInRange(MIN_AGE, MAX_AGE),
   isFavorite: getRandomBoolean(),
   isWatched: getRandomBoolean(),
@@ -94,3 +94,29 @@ const generateMovieMock = () => ({
 
 /* Получаем массив фильмов */
 export const getMovies = (count) => new Array(count).fill(``).map(generateMovieMock);
+
+/* Вычесляем количество фильмов подходящих под фильтр */
+export const getFilterCount = (movies) => {
+  const counts = {
+    watchlist: 0,
+    history: 0,
+    favorites: 0,
+  };
+
+  movies.forEach((movie) => {
+    counts.watchlist = movie.isInWatchlist ? counts.watchlist += 1 : counts.watchlist;
+    counts.history = movie.isWatched ? counts.history += 1 : counts.history;
+    counts.favorites = movie.isFavorite ? counts.favorites += 1 : counts.favorites;
+  });
+
+  const resultFilters = [];
+
+  for (let [key, value] of Object.entries(counts)) {
+    resultFilters.push({
+      title: key,
+      count: value
+    });
+  }
+
+  return resultFilters;
+};
