@@ -15,6 +15,15 @@ const getFilmDuration = (duration) => {
   return `${roundedHours}h ${roundedMinutes}m`;
 };
 
+/* Получаем дату в нужном формате */
+const getMovieFullDate = (date) => {
+  return new Date(date).toLocaleDateString(`en-GB`, {
+    day: `2-digit`,
+    month: `long`,
+    year: `numeric`
+  });
+};
+
 /* Получаем случайное булевое значение */
 const getRandomBoolean = () => {
   return Boolean(Math.round(Math.random()));
@@ -38,4 +47,12 @@ const shuffleArray = (array) => {
   }
 };
 
-export {getRandomBoolean, getRandomItemFrom, renderComponent, getRandomNumberInRange, shuffleArray, getFilmDuration};
+export {
+  getRandomBoolean,
+  getRandomItemFrom,
+  getMovieFullDate,
+  renderComponent,
+  getRandomNumberInRange,
+  shuffleArray,
+  getFilmDuration
+};

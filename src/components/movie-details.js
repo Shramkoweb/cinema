@@ -1,4 +1,4 @@
-import {getFilmDuration} from "../util";
+import {getMovieFullDate, getFilmDuration} from "../util";
 
 export const getMovieDetailsTemplate = ({
   title,
@@ -55,7 +55,7 @@ export const getMovieDetailsTemplate = ({
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${releaseDate}</td>
+                  <td class="film-details__cell">${getMovieFullDate(releaseDate)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
