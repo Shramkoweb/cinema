@@ -159,26 +159,34 @@ export const getMovies = (count) => new Array(count).fill(``).map(generateMovieM
 
 /* Вычесляем количество фильмов подходящих под фильтр */
 export const getFilterCount = (movies) => {
-  const counts = {
-    watchlist: 0,
-    history: 0,
-    favorites: 0,
-  };
+  let watchlistCount = 0;
+  let historyCount = 0;
+  let favoriteCount = 0;
 
-  movies.forEach((movie) => {
-    counts.watchlist = movie.isInWatchlist ? counts.watchlist += 1 : counts.watchlist;
-    counts.history = movie.isWatched ? counts.history += 1 : counts.history;
-    counts.favorites = movie.isFavorite ? counts.favorites += 1 : counts.favorites;
-  });
-
-  const resultFilters = [];
-
-  for (let [key, value] of Object.entries(counts)) {
-    resultFilters.push({
-      title: key,
-      count: value
-    });
+  for (let movie of movies) {
+    if (movie.isFavorite) {
+      favoriteCount++;
+    }
+    if (movie.isWatched) {
+      historyCount++;
+    }
+    if (movie.isInWatchlist) {
+      watchlistCount++;
+    }
   }
 
-  return resultFilters;
+  return [
+    {
+      title: `watchlist`,
+      count: watchlistCount
+    },
+    {
+      title: `history`,
+      count: historyCount
+    },
+    {
+      title: `favorites`,
+      count: favoriteCount
+    },
+  ];
 };
