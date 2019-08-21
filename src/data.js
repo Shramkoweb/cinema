@@ -124,9 +124,13 @@ const getComments = (count) => {
 
 /* Получаем случайное описание фильма */
 const getRandomDescription = (descriptions, count = 1) => {
-  shuffleArray(descriptions);
+  const radnomDescriptions = [];
 
-  return descriptions.slice(0, count);
+  for (let i = 0; i < count; i++) {
+    radnomDescriptions.push(getRandomItemFrom(descriptions));
+  }
+
+  return radnomDescriptions;
 };
 
 /* Мокап фильма */
