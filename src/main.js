@@ -6,7 +6,7 @@ import {getBoardTemplate, getMoviesTamplate} from "./components/movies";
 import {getFilterCount, getMovies} from "./data";
 import {renderComponent} from "./util";
 
-const MOVIES_COUNT = 23;
+const MOVIES_COUNT = 10;
 const MOVIES = getMovies(MOVIES_COUNT);
 const MAX_MOVIES_TO_RENDER = 5;
 

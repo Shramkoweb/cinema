@@ -1,10 +1,4 @@
-const filmsToRating = {
-  21: `movie buff`,
-  20: `fan`,
-  10: `novice`,
-  0: ``,
-};
-
+/* Получаем рейтинг пользователя */
 const getUserRating = (movies) => {
   let watchedMovies = 0;
   movies.forEach((movie) => {
@@ -13,8 +7,19 @@ const getUserRating = (movies) => {
     }
   });
 
-  const profileRating = Object.keys(filmsToRating).find((count) => count >= watchedMovies);
-  return filmsToRating[profileRating];
+  const getUserTitle = (moviesWatched) => {
+    let userTitle = ``;
+    if (moviesWatched >= 21) {
+      userTitle = `Movie Buff`;
+    } else if (moviesWatched >= 11) {
+      userTitle = `fan`;
+    } else if (moviesWatched > 0) {
+      userTitle = `novice`;
+    }
+    return userTitle;
+  };
+
+  return getUserTitle(watchedMovies);
 };
 
 export const getProfile = (movies) => {

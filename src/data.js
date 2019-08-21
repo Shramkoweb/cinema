@@ -1,4 +1,4 @@
-import {getRandomBoolean, getRandomItemFrom, getRandomNumberInRange, shuffleArray} from "./util";
+import {getRandomBoolean, getRandomItemFrom, getRandomNumberInRange} from "./util";
 
 const MAX_DESCRIPTION_COUNT = 3;
 const MIN_DESCRIPTION_COUNT = 1;
