@@ -3,8 +3,9 @@ import {getProfile} from "./components/profile";
 import {getNavigationTemplate} from "./components/filter";
 import {getMovieDetailsTemplate} from "./components/movie-details";
 import {getBoardTemplate, getMoviesTamplate} from "./components/movies";
-import {getFilterCount, getMovies} from "./data";
+import {getFilterCount} from "./filter";
 import {renderComponent} from "./util";
+import {getMovies} from "./data";
 
 const MOVIES_COUNT = 17;
 const MOVIES = getMovies(MOVIES_COUNT);
