@@ -8,5 +8,5 @@ export const getSearch = () => {
       <button type="submit" class="visually-hidden">Search</button>
       <button class="search__reset" type="reset">Reset</button>
     </form>
-  `;
+  `.trim();
 };
