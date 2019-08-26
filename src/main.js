@@ -8,7 +8,7 @@ import Profile from "./components/profile";
 import Movie from "./components/movie";
 import Movies from "./components/movies";
 
-const MOVIES_COUNT = getRandomNumberInRange(5, 10); // Временно добавил для проверки работы фильтров и т.д
+const MOVIES_COUNT = 25; // Временно добавил для проверки работы фильтров и т.д
 const MOVIES = getMovies(MOVIES_COUNT);
 const MAX_MOVIES_TO_RENDER = 5;
 
@@ -64,7 +64,7 @@ const renderMovies = (movies) => {
 };
 
 const renderBoard = (movies) => {
-  moviesContainer.appendChild(renderMovies(movies));
+  moviesContainer.appendChild(renderMovies(movies.slice(0, MAX_MOVIES_TO_RENDER)));
   mostCommentedContainer.appendChild(renderMovies(Movies.getMostCommentedMovies(movies)));
   mostRatedContainer.appendChild(renderMovies(Movies.getMostRatedMovies(movies)));
 
@@ -74,7 +74,7 @@ const renderBoard = (movies) => {
 renderSearch();
 renderProfile(MOVIES);
 renderNavigation(getFilterCount(MOVIES));
-renderBoard(MOVIES.slice(0, MAX_MOVIES_TO_RENDER));
+renderBoard(MOVIES);
 
 const loadMoreButton = mainElement.querySelector(`.films-list__show-more`);
 
@@ -98,6 +98,3 @@ const onLoadMoreButtonClick = () => {
 };
 
 loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
-
-
-console.table(MOVIES);
