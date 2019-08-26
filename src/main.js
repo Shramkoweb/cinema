@@ -2,10 +2,11 @@ import Search from "./components/search";
 import Navigation from "./components/navigation";
 import MovieDetails from "./components/movie-details";
 import {getFilterCount} from "./filter";
-import {getRandomNumberInRange, Position, renderElement} from "./util";
+import {getRandomNumberInRange, isEscKeyDown, Position, renderElement} from "./util";
 import {getMovies} from "./data";
 import Profile from "./components/profile";
 import Movie from "./components/movie";
+import Movies from "./components/movies";
 
 const MOVIES_COUNT = getRandomNumberInRange(5, 35); // Временно добавил для проверки работы фильтров и т.д
 const MOVIES = getMovies(MOVIES_COUNT);
@@ -47,6 +48,9 @@ const bodyElement = document.querySelector(`body`);
 //
 // loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
 
+const board = new Movies().getElement();
+const moviesContainer = board.querySelector(`.films-list .films-list__container`);
+
 const renderSearch = () => {
   const searchInstance = new Search();
 
@@ -75,4 +79,37 @@ const renderMovieDetail = (movie) => {
 renderSearch();
 renderProfile(MOVIES);
 renderNavigation(getFilterCount(MOVIES));
-renderMovieDetail(MOVIES[2]);
+
+
+const renderMovies = (movies) => {
+  const fragment = document.createDocumentFragment();
+
+  movies.forEach((movie) => {
+    const movieInstance = new Movie(movie);
+    const movieDetailsInstance = new MovieDetails(movie);
+    const onTaskEditEscPress = (evt) => isEscKeyDown(evt, closeEditTask);
+
+    const closeEditTask = () => {
+      mainElement.removeChild(movieDetailsInstance.getElement());
+      document.removeEventListener(`keydown`, onTaskEditEscPress);
+    };
+
+    movieInstance.getElement()
+      .addEventListener(`click`, () => {
+        mainElement.appendChild(movieDetailsInstance.getElement());
+        document.addEventListener(`keydown`, onTaskEditEscPress);
+      });
+
+    fragment.appendChild(movieInstance.getElement());
+  });
+
+  return fragment;
+};
+
+const renderBoard = (movies) => {
+  moviesContainer.appendChild(renderMovies(movies));
+
+  renderElement(mainElement, board, Position.BEFOREEND);
+};
+
+renderBoard(MOVIES);
