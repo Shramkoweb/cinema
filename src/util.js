@@ -3,18 +3,6 @@ const getRandomItemFrom = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-/* Получаем время в нужном формате */
-const getMovieDuration = (duration) => {
-  const UNITS = {
-    MINUTES_IN_HOUR: 60,
-  };
-  const hours = duration / UNITS.MINUTES_IN_HOUR;
-  const roundedHours = Math.floor(hours);
-  const roundedMinutes = Math.round((hours - roundedHours) * UNITS.MINUTES_IN_HOUR);
-
-  return `${roundedHours}h ${roundedMinutes}m`;
-};
-
 /* Получаем дату в нужном формате */
 const getMovieFullDate = (date) => {
   return new Date(date).toLocaleDateString(`en-GB`, {
@@ -22,11 +10,6 @@ const getMovieFullDate = (date) => {
     month: `long`,
     year: `numeric`
   });
-};
-
-/* Получаем год из даты */
-const getMovieYear = (date) => {
-  return new Date(date).getFullYear();
 };
 
 /* Получаем случайное булевое значение */
@@ -85,11 +68,9 @@ const isEscKeyDown = (evt, action) => {
 export {
   getRandomBoolean,
   getRandomItemFrom,
-  getMovieYear,
   getMovieFullDate,
   renderComponent,
   getRandomNumberInRange,
-  getMovieDuration,
   renderElement,
   createElement,
   isEscKeyDown,
