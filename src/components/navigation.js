@@ -1,15 +1,5 @@
 import {createElement} from "../util";
 
-export const getNavigationTemplate = (filters) => {
-  return `
-    <nav class="main-navigation">
-      <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-      ${filters.map((filter) => getFilterTemplate(filter)).join(``)}
-    </nav>
-  `.trim();
-};
-
-
 export default class Navigation {
   constructor(filters) {
     this._element = null;
