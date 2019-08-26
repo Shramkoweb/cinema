@@ -57,6 +57,10 @@ const renderMovies = (movies) => {
         document.addEventListener(`keydown`, onTaskEditEscPress);
       });
 
+    movieDetailsInstance.getElement()
+      .querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, closeEditTask);
+
     fragment.appendChild(movieInstance.getElement());
   });
 
