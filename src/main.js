@@ -1,6 +1,6 @@
 import {getSearch} from "./components/search";
 import {getProfile} from "./components/profile";
-import {getNavigationTemplate} from "./components/filter";
+import {getNavigationTemplate} from "./components/navigation";
 import {getMovieDetailsTemplate} from "./components/movie-details";
 import {getBoardTemplate, getMoviesTamplate} from "./components/movies";
 import {getFilterCount} from "./filter";
