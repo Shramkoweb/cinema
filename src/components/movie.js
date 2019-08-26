@@ -39,25 +39,13 @@ export default class Movie {
       return `${isActive ? `active` : ``}`;
     };
 
-    /* Получаем время в нужном формате */
-    const getMovieDuration = (duration) => {
-      const UNITS = {
-        MINUTES_IN_HOUR: 60,
-      };
-      const hours = duration / UNITS.MINUTES_IN_HOUR;
-      const roundedHours = Math.floor(hours);
-      const roundedMinutes = Math.round((hours - roundedHours) * UNITS.MINUTES_IN_HOUR);
-
-      return `${roundedHours}h ${roundedMinutes}m`;
-    };
-
     return `
       <article class="film-card">
         <h3 class="film-card__title">${this._title}</h3>
         <p class="film-card__rating">${this._rating}</p>
         <p class="film-card__info">
           <span class="film-card__year">${getMovieYear(this._releaseDate)}</span>
-          <span class="film-card__duration">${getMovieDuration(this._runtime)}</span>
+          <span class="film-card__duration">${Movie.getMovieDuration(this._runtime)}</span>
           <span class="film-card__genre">${[...this._genres][0]}</span>
         </p>
         <img src="./images/posters/${this._image}" alt="" class="film-card__poster">
@@ -70,5 +58,16 @@ export default class Movie {
         </form>
       </article>
     `.trim();
+  }
+
+  static getMovieDuration(duration) {
+    const UNITS = {
+      MINUTES_IN_HOUR: 60,
+    };
+    const hours = duration / UNITS.MINUTES_IN_HOUR;
+    const roundedHours = Math.floor(hours);
+    const roundedMinutes = Math.round((hours - roundedHours) * UNITS.MINUTES_IN_HOUR);
+
+    return `${roundedHours}h ${roundedMinutes}m`;
   }
 }

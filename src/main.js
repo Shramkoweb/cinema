@@ -1,11 +1,11 @@
-import Search, {getSearch} from "./components/search";
-import Navigation, {getNavigationTemplate} from "./components/navigation";
-import {getMovieDetailsTemplate} from "./components/movie-details";
-import {getBoardTemplate, getMoviesTamplate} from "./components/movies";
+import Search from "./components/search";
+import Navigation from "./components/navigation";
+import MovieDetails from "./components/movie-details";
 import {getFilterCount} from "./filter";
-import {getRandomNumberInRange, Position, renderComponent, renderElement} from "./util";
+import {getRandomNumberInRange, Position, renderElement} from "./util";
 import {getMovies} from "./data";
 import Profile from "./components/profile";
+import Movie from "./components/movie";
 
 const MOVIES_COUNT = getRandomNumberInRange(5, 35); // Временно добавил для проверки работы фильтров и т.д
 const MOVIES = getMovies(MOVIES_COUNT);
@@ -65,6 +65,14 @@ const renderNavigation = (filters) => {
   renderElement(mainElement, navigationInstance.getElement(), Position.BEFOREEND);
 };
 
+const renderMovieDetail = (movie) => {
+  const foo = new MovieDetails(movie);
+
+  renderElement(mainElement, foo.getElement(), Position.BEFOREEND);
+};
+
+
 renderSearch();
 renderProfile(MOVIES);
 renderNavigation(getFilterCount(MOVIES));
+renderMovieDetail(MOVIES[2]);
