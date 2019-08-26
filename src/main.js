@@ -8,7 +8,7 @@ import Profile from "./components/profile";
 import Movie from "./components/movie";
 import Movies from "./components/movies";
 
-const MOVIES_COUNT = getRandomNumberInRange(5, 35); // Временно добавил для проверки работы фильтров и т.д
+const MOVIES_COUNT = getRandomNumberInRange(5, 10); // Временно добавил для проверки работы фильтров и т.д
 const MOVIES = getMovies(MOVIES_COUNT);
 const MAX_MOVIES_TO_RENDER = 5;
 
@@ -50,6 +50,8 @@ const bodyElement = document.querySelector(`body`);
 
 const board = new Movies().getElement();
 const moviesContainer = board.querySelector(`.films-list .films-list__container`);
+const mostCommentedContainer = board.querySelectorAll(`.films-list--extra .films-list__container`)[1];
+const mostRatedContainer = board.querySelectorAll(`.films-list--extra .films-list__container`)[0];
 
 const renderSearch = () => {
   const searchInstance = new Search();
@@ -68,13 +70,6 @@ const renderNavigation = (filters) => {
 
   renderElement(mainElement, navigationInstance.getElement(), Position.BEFOREEND);
 };
-
-const renderMovieDetail = (movie) => {
-  const foo = new MovieDetails(movie);
-
-  renderElement(mainElement, foo.getElement(), Position.BEFOREEND);
-};
-
 
 renderSearch();
 renderProfile(MOVIES);
@@ -108,6 +103,8 @@ const renderMovies = (movies) => {
 
 const renderBoard = (movies) => {
   moviesContainer.appendChild(renderMovies(movies));
+  mostCommentedContainer.appendChild(renderMovies(Movies.getMostCommentedMovies(movies)));
+  mostRatedContainer.appendChild(renderMovies(Movies.getMostRatedMovies(movies)));
 
   renderElement(mainElement, board, Position.BEFOREEND);
 };

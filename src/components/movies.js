@@ -47,7 +47,7 @@ export default class Movies {
 
   static getMostCommentedMovies(movies, count = 2) {
     const moviesCopy = [...movies];
-    moviesCopy.sort((a, b) => a.comments - b.comments);
+    moviesCopy.sort((a, b) => a.comments.length - b.comments.length);
 
     return moviesCopy.slice(-count);
   }
