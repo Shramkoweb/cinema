@@ -8,8 +8,8 @@ import Profile from "./components/profile";
 import Movie from "./components/movie";
 import Movies from "./components/movies";
 
-const MOVIES_COUNT = 25; // Временно добавил для проверки работы фильтров и т.д
-const MOVIES = getMovies(MOVIES_COUNT);
+const moviesAmount = getRandomNumberInRange(5, 25); // Временно добавил для проверки работы фильтров и т.д
+const moviesArray = getMovies(moviesAmount);
 const MAX_MOVIES_TO_RENDER = 5;
 
 const headerElement = document.querySelector(`header`);
@@ -44,22 +44,24 @@ const renderMovies = (movies) => {
   movies.forEach((movie) => {
     const movieInstance = new Movie(movie);
     const movieDetailsInstance = new MovieDetails(movie);
-    const onTaskEditEscPress = (evt) => isEscKeyDown(evt, closeEditTask);
+    const onMoviePopUpEscPress = (evt) => isEscKeyDown(evt, closeMoviePopUp);
 
-    const closeEditTask = () => {
+    const closeMoviePopUp = () => {
       mainElement.removeChild(movieDetailsInstance.getElement());
-      document.removeEventListener(`keydown`, onTaskEditEscPress);
+      document.removeEventListener(`keydown`, onMoviePopUpEscPress);
+    };
+
+    const opeMoviePopup = () => {
+      mainElement.appendChild(movieDetailsInstance.getElement());
+      document.addEventListener(`keydown`, onMoviePopUpEscPress);
     };
 
     movieInstance.getElement()
-      .addEventListener(`click`, () => {
-        mainElement.appendChild(movieDetailsInstance.getElement());
-        document.addEventListener(`keydown`, onTaskEditEscPress);
-      });
+      .addEventListener(`click`, opeMoviePopup);
 
     movieDetailsInstance.getElement()
       .querySelector(`.film-details__close-btn`)
-      .addEventListener(`click`, closeEditTask);
+      .addEventListener(`click`, closeMoviePopUp);
 
     fragment.appendChild(movieInstance.getElement());
   });
@@ -76,21 +78,21 @@ const renderBoard = (movies) => {
 };
 
 renderSearch();
-renderProfile(MOVIES);
-renderNavigation(getFilterCount(MOVIES));
-renderBoard(MOVIES);
+renderProfile(moviesArray);
+renderNavigation(getFilterCount(moviesArray));
+renderBoard(moviesArray);
 
 const loadMoreButton = mainElement.querySelector(`.films-list__show-more`);
 
 
-let MOVIES_ON_PAGE = MAX_MOVIES_TO_RENDER;
-let LEFT_MOVIES_TO_RENDER = MOVIES.length - MOVIES_ON_PAGE;
+let MOVIES_ON_PAGE = 8;
+let LEFT_MOVIES_TO_RENDER = moviesArray.length - MOVIES_ON_PAGE;
 
 const renderLeftMovies = () => {
-  moviesContainer.appendChild(renderMovies(MOVIES.slice(MOVIES_ON_PAGE, (MOVIES_ON_PAGE + MAX_MOVIES_TO_RENDER))));
+  moviesContainer.appendChild(renderMovies(moviesArray.slice(MOVIES_ON_PAGE, (MOVIES_ON_PAGE + MAX_MOVIES_TO_RENDER))));
 
   MOVIES_ON_PAGE = MOVIES_ON_PAGE + MAX_MOVIES_TO_RENDER;
-  LEFT_MOVIES_TO_RENDER = MOVIES.length - MOVIES_ON_PAGE;
+  LEFT_MOVIES_TO_RENDER = moviesArray.length - MOVIES_ON_PAGE;
 
   if (LEFT_MOVIES_TO_RENDER <= 0) {
     unrenderElement(loadMoreButton);
