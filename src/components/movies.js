@@ -45,16 +45,9 @@ export default class Movies {
     `.trim();
   }
 
-  static getMostCommentedMovies(movies, count = 2) {
+  static getSortingArray(movies, compareFunction, count = 2) {
     const moviesCopy = [...movies];
-    moviesCopy.sort((a, b) => a.comments.length - b.comments.length);
-
-    return moviesCopy.slice(-count);
-  }
-
-  static getMostRatedMovies(movies, count = 2) {
-    const moviesCopy = [...movies];
-    moviesCopy.sort((a, b) => a.rating - b.rating);
+    moviesCopy.sort(compareFunction());
 
     return moviesCopy.slice(-count);
   }

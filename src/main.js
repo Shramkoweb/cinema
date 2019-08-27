@@ -2,7 +2,15 @@ import Search from "./components/search";
 import Navigation from "./components/navigation";
 import MovieDetails from "./components/movie-details";
 import {getFilterCount} from "./filter";
-import {getRandomNumberInRange, isEscKeyDown, Position, renderElement, unrenderElement} from "./util";
+import {
+  getRandomNumberInRange,
+  isEscKeyDown,
+  Position,
+  renderElement,
+  sortByComments,
+  sortByRating,
+  unrenderElement,
+} from "./util";
 import {getMovies} from "./data";
 import Profile from "./components/profile";
 import Movie from "./components/movie";
@@ -71,8 +79,8 @@ const renderMovies = (movies) => {
 
 const renderBoard = (movies) => {
   moviesContainer.appendChild(renderMovies(movies.slice(0, MAX_MOVIES_TO_RENDER)));
-  mostCommentedContainer.appendChild(renderMovies(Movies.getMostCommentedMovies(movies)));
-  mostRatedContainer.appendChild(renderMovies(Movies.getMostRatedMovies(movies)));
+  mostCommentedContainer.appendChild(renderMovies(Movies.getSortingArray(movies, sortByComments)));
+  mostRatedContainer.appendChild(renderMovies(Movies.getSortingArray(movies, sortByRating)));
 
   renderElement(mainElement, board, Position.BEFOREEND);
 };

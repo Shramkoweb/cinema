@@ -8,7 +8,7 @@ const getMovieFullDate = (date) => {
   return new Date(date).toLocaleDateString(`en-GB`, {
     day: `2-digit`,
     month: `long`,
-    year: `numeric`
+    year: `numeric`,
   });
 };
 
@@ -29,7 +29,7 @@ const getRandomNumberInRange = (min, max) => {
 
 const Position = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
 };
 
 /* Создаем елемент из темплейта */
@@ -65,10 +65,18 @@ const isEscKeyDown = (evt, action) => {
   }
 };
 
+/* Сортировка по коментариям */
+const sortByComments = () => (a, b) => a.comments.length - b.comments.length;
+
+/* Сортировка по рейтингу */
+const sortByRating = () => (a, b) => a.rating - b.rating;
+
 export {
   getRandomBoolean,
   getRandomItemFrom,
   getMovieFullDate,
+  sortByComments,
+  sortByRating,
   renderComponent,
   getRandomNumberInRange,
   renderElement,
