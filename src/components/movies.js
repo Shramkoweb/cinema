@@ -1,55 +1,54 @@
-import {getShowMoreButton} from "./show-more-button";
-import {getMovieTemplate} from "./movie";
+import ShowMoreButton from "./show-more-button";
+import {createElement} from "../util";
 
-/* Разметка для фильмов */
-export const getMoviesTamplate = (movies) => {
-  return movies.map((movie) => getMovieTemplate(movie)).join(``);
-};
+export default class Movies {
+  constructor(movies) {
+    this._element = null;
+    this._movies = movies;
+  }
 
-/* Получаем 2 самых рейтинговых фильма */
-const getMostRatedMovies = (movies, count = 2) => {
-  const moviesCopy = [...movies];
-  moviesCopy.sort((a, b) => a.rating - b.rating);
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
 
-  return moviesCopy.slice(-count);
-};
+    return this._element;
+  }
 
-/* Получаем 2 самых коментируемых фильма */
-export const getMostCommentedMovies = (movies, count = 2) => {
-  const moviesCopy = [...movies];
-  moviesCopy.sort((a, b) => a.comments - b.comments);
+  removeElement() {
+    this._element = null;
+  }
 
-  return moviesCopy.slice(-count);
-};
-
-export const getBoardTemplate = (movies) => {
-  return `
-    <section class="films">
-      <section class="films-list">
-        <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
-    
-        <div class="films-list__container">
-          ${getMoviesTamplate(movies)}               
-        </div>
-         
-         ${getShowMoreButton()}
+  getTemplate() {
+    return `
+      <section class="films">
+        <section class="films-list">
+          <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+      
+          <div class="films-list__container"></div>
+           
+           ${ShowMoreButton.getTemplate()}
+        </section>
+      
+        <section class="films-list--extra">
+          <h2 class="films-list__title">Top rated</h2>
+      
+          <div class="films-list__container"></div>
+        </section>
+      
+        <section class="films-list--extra">
+          <h2 class="films-list__title">Most commented</h2>
+      
+          <div class="films-list__container"></div>
+        </section>
       </section>
-    
-      <section class="films-list--extra">
-        <h2 class="films-list__title">Top rated</h2>
-    
-        <div class="films-list__container">
-          ${getMoviesTamplate(getMostRatedMovies(movies, 2))}
-        </div>
-      </section>
-    
-      <section class="films-list--extra">
-        <h2 class="films-list__title">Most commented</h2>
-    
-        <div class="films-list__container">
-          ${getMoviesTamplate(getMostCommentedMovies(movies, 2))}
-        </div>
-      </section>
-    </section>
-  `.trim();
-};
+    `.trim();
+  }
+
+  static getSortingArray(movies, compareFunction, count = 2) {
+    const moviesCopy = [...movies];
+    moviesCopy.sort(compareFunction);
+
+    return moviesCopy.slice(-count);
+  }
+}
