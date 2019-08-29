@@ -15,6 +15,7 @@ import {getMovies} from "./data";
 import Profile from "./components/profile";
 import Movie from "./components/movie";
 import Movies from "./components/movies";
+import EmptyBoard from "./components/empty-board";
 
 const moviesAmount = getRandomNumberInRange(5, 25); // Временно добавил для проверки работы фильтров и т.д
 const moviesArray = getMovies(moviesAmount);
@@ -88,37 +89,42 @@ const renderMovies = (movies) => {
 };
 
 const renderBoard = (movies) => {
-  moviesContainer.appendChild(renderMovies(movies.slice(0, MAX_MOVIES_TO_RENDER)));
-  mostCommentedContainer.appendChild(renderMovies(Movies.getSortingArray(movies, sortByComments)));
-  mostRatedContainer.appendChild(renderMovies(Movies.getSortingArray(movies, sortByRating)));
+  if (movies.length === 0) {
+    const epmtyBoardInstance = new EmptyBoard();
+    renderElement(mainElement, epmtyBoardInstance.getElement(), Position.BEFOREEND);
+  } else {
+    moviesContainer.appendChild(renderMovies(movies.slice(0, MAX_MOVIES_TO_RENDER)));
+    mostCommentedContainer.appendChild(renderMovies(Movies.getSortingArray(movies, sortByComments)));
+    mostRatedContainer.appendChild(renderMovies(Movies.getSortingArray(movies, sortByRating)));
 
-  renderElement(mainElement, board, Position.BEFOREEND);
+    renderElement(mainElement, board, Position.BEFOREEND);
+
+    const loadMoreButton = mainElement.querySelector(`.films-list__show-more`);
+
+
+    let moviesOnPage = 8;
+    let leftMoviesToRender = moviesArray.length - moviesOnPage;
+
+    const renderLeftMovies = () => {
+      moviesContainer.appendChild(renderMovies(moviesArray.slice(moviesOnPage, (moviesOnPage + MAX_MOVIES_TO_RENDER))));
+
+      moviesOnPage = moviesOnPage + MAX_MOVIES_TO_RENDER;
+      leftMoviesToRender = moviesArray.length - moviesOnPage;
+
+      if (leftMoviesToRender <= 0) {
+        unrenderElement(loadMoreButton);
+      }
+    };
+
+    const onLoadMoreButtonClick = () => {
+      renderLeftMovies();
+    };
+
+    loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
+  }
 };
 
 renderSearch();
 renderProfile(moviesArray);
 renderNavigation(getFilterCount(moviesArray));
 renderBoard(moviesArray);
-
-const loadMoreButton = mainElement.querySelector(`.films-list__show-more`);
-
-
-let MOVIES_ON_PAGE = 8;
-let LEFT_MOVIES_TO_RENDER = moviesArray.length - MOVIES_ON_PAGE;
-
-const renderLeftMovies = () => {
-  moviesContainer.appendChild(renderMovies(moviesArray.slice(MOVIES_ON_PAGE, (MOVIES_ON_PAGE + MAX_MOVIES_TO_RENDER))));
-
-  MOVIES_ON_PAGE = MOVIES_ON_PAGE + MAX_MOVIES_TO_RENDER;
-  LEFT_MOVIES_TO_RENDER = moviesArray.length - MOVIES_ON_PAGE;
-
-  if (LEFT_MOVIES_TO_RENDER <= 0) {
-    unrenderElement(loadMoreButton);
-  }
-};
-
-const onLoadMoreButtonClick = () => {
-  renderLeftMovies();
-};
-
-loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
