@@ -71,6 +71,16 @@ const renderMovies = (movies) => {
       .querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, closeMoviePopUp);
 
+    movieDetailsInstance.getElement().querySelector(`textarea`)
+      .addEventListener(`focus`, () => {
+        document.removeEventListener(`keydown`, onMoviePopUpEscPress);
+      });
+
+    movieDetailsInstance.getElement().querySelector(`textarea`)
+      .addEventListener(`blur`, () => {
+        document.addEventListener(`keydown`, onMoviePopUpEscPress);
+      });
+
     fragment.appendChild(movieInstance.getElement());
   });
 
