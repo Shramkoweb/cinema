@@ -47,7 +47,7 @@ export default class Movies {
 
   static getSortingArray(movies, compareFunction, count = 2) {
     const moviesCopy = [...movies];
-    moviesCopy.sort(compareFunction());
+    moviesCopy.sort(compareFunction);
 
     return moviesCopy.slice(-count);
   }

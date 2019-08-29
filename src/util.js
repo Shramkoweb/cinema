@@ -66,10 +66,10 @@ const isEscKeyDown = (evt, action) => {
 };
 
 /* Сортировка по коментариям */
-const sortByComments = () => (a, b) => a.comments.length - b.comments.length;
+const sortByComments = (a, b) => a.comments.length - b.comments.length;
 
 /* Сортировка по рейтингу */
-const sortByRating = () => (a, b) => a.rating - b.rating;
+const sortByRating = (a, b) => a.rating - b.rating;
 
 export {
   getRandomBoolean,
