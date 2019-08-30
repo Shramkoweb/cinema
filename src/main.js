@@ -59,13 +59,13 @@ const renderMovies = (movies) => {
       document.removeEventListener(`keydown`, onMoviePopUpEscPress);
     };
 
-    const opeMoviePopup = () => {
+    const openMoviePopup = () => {
       mainElement.appendChild(movieDetailsInstance.getElement());
       document.addEventListener(`keydown`, onMoviePopUpEscPress);
     };
 
     movieInstance.getElement()
-      .addEventListener(`click`, opeMoviePopup);
+      .addEventListener(`click`, openMoviePopup);
 
     movieDetailsInstance.getElement()
       .querySelector(`.film-details__close-btn`)
