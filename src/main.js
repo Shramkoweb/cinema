@@ -5,7 +5,7 @@ import {getFilterCount} from "./filter";
 import {
   getRandomNumberInRange,
   isEscKeyDown,
-  Position, renderComponent,
+  Position,
   renderElement,
   sortByComments,
   sortByRating,
@@ -101,14 +101,14 @@ const renderBoard = (movies) => {
     const loadMoreButton = mainElement.querySelector(`.films-list__show-more`);
 
 
-    let moviesOnPage = 8;
-    let leftMoviesToRender = moviesArray.length - moviesOnPage;
+    let MOVIES_ON_PAGE = 8;
+    let leftMoviesToRender = moviesArray.length - MOVIES_ON_PAGE;
 
     const renderLeftMovies = () => {
-      moviesContainer.appendChild(renderMovies(moviesArray.slice(moviesOnPage, (moviesOnPage + MAX_MOVIES_TO_RENDER))));
+      moviesContainer.appendChild(renderMovies(moviesArray.slice(MOVIES_ON_PAGE, (MOVIES_ON_PAGE + MAX_MOVIES_TO_RENDER))));
 
-      moviesOnPage = moviesOnPage + MAX_MOVIES_TO_RENDER;
-      leftMoviesToRender = moviesArray.length - moviesOnPage;
+      MOVIES_ON_PAGE = MOVIES_ON_PAGE + MAX_MOVIES_TO_RENDER;
+      leftMoviesToRender = moviesArray.length - MOVIES_ON_PAGE;
 
       if (leftMoviesToRender <= 0) {
         unrenderElement(loadMoreButton);
