@@ -29,12 +29,6 @@ const mainElement = document.querySelector(`.main`);
 // const mostRatedContainer = board.querySelectorAll(`.films-list--extra .films-list__container`)[0];
 //
 //
-// const renderProfile = (movies) => {
-//   const profileInstance = new Profile(movies);
-//
-//   renderElement(headerElement, profileInstance.getElement(), Position.BEFOREEND);
-// };
-//
 // const renderNavigation = (filters) => {
 //   const navigationInstance = new Navigation(filters);
 //
@@ -136,7 +130,17 @@ const initHeader = (movies) => {
   renderElement(headerElement, fragment, Position.BEFOREEND);
 };
 
-const initMain = () => {
-  initHeader(moviesArray);
+// .main initialization
+const initMain = (movies) => {
+  initHeader(movies);
 };
-initMain();
+
+// page initialization on load
+const init = (movies) => {
+  const footerStatisticsElement = document.querySelector(`.footer__statistics p`);
+  footerStatisticsElement.textContent = `${movies.length} movies inside`;
+
+  initMain(movies);
+};
+
+init(moviesArray);
