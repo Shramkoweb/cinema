@@ -1,5 +1,6 @@
 import {getMovieFullDate, createElement} from "../util";
 import Movie from "./movie";
+import MovieRating from "./movie-rating";
 
 export default class MovieDetails {
   constructor({title, rating, releaseDate, director, writers, genres, actors, age, originalTitle, country, isFavorite, isWatched, isInWatchlist, runtime, image, description, comments}) {
@@ -21,6 +22,7 @@ export default class MovieDetails {
     this._isFavorite = isFavorite;
     this._isWatched = isWatched;
     this._isInWatchlist = isInWatchlist;
+    this._movieRatingInstance = new MovieRating({title, image});
   }
 
   getElement() {
@@ -36,6 +38,8 @@ export default class MovieDetails {
   }
 
   getTemplate() {
+    // get movie rating template if movie is watched
+    const getMovieRatingTemplate = (isWatched) => isWatched ? this._movieRatingInstance.getTemplate() : ``;
     /* Получаем  темлейт жанра фильма*/
     const getGenreTemplate = (genre) => {
       return `
@@ -153,7 +157,9 @@ export default class MovieDetails {
               <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
             </section>
           </div>
-      
+          
+          ${getMovieRatingTemplate(this._isWatched)}
+                    
           <div class="form-details__bottom-container">
             <section class="film-details__comments-wrap">
               <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
