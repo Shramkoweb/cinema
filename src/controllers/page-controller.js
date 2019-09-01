@@ -76,6 +76,8 @@ export default class PageController {
   init() {
     renderElement(this._headerElement, this._search.getElement(), Position.BEFOREEND);
     renderElement(this._headerElement, this.profile.getElement(), Position.BEFOREEND);
+    const footerStatisticsElement = document.querySelector(`.footer__statistics p`);
+    footerStatisticsElement.textContent = `${this._filmCards.length} movies inside`;
 
     // 0 films
     if (!this._hasFilms) {
