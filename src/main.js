@@ -6,7 +6,6 @@ const moviesAmount = getRandomNumberInRange(0, 23); // Временно доба
 const moviesArray = getMovies(moviesAmount);
 
 const mainElement = document.querySelector(`.main`);
-const headerElement = document.querySelector(`header`);
 
 const filmsController = new PageController(mainElement, moviesArray);
 filmsController.init();

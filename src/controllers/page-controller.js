@@ -4,6 +4,8 @@ import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
 import Sort from "../components/sort";
 import ShowMoreButton from "../components/show-more-button";
+import Search from "../components/search";
+import Profile from "../components/profile";
 
 const MAX_FILMS_TO_RENDER = 5;
 let FILMS_ON_PAGE = 5;
@@ -11,11 +13,14 @@ let FILMS_ON_PAGE = 5;
 export default class PageController {
   constructor(container, filmCards) {
     this._container = container;
+    this._filmCards = filmCards;
     this._hasFilms = Boolean(filmCards.length);
+    this._headerElement = document.querySelector(`header`);
+    this._search = new Search();
+    this.profile = new Profile(this._filmCards);
     this._sort = new Sort();
     this._films = new Films(this._hasFilms);
     this._moreButton = new ShowMoreButton();
-    this._filmCards = filmCards;
     this._filmsList = this._films.getElement().querySelector(`.films-list`);
   }
 
@@ -69,6 +74,9 @@ export default class PageController {
   }
 
   init() {
+    renderElement(this._headerElement, this._search.getElement(), Position.BEFOREEND);
+    renderElement(this._headerElement, this.profile.getElement(), Position.BEFOREEND);
+
     // 0 films
     if (!this._hasFilms) {
       renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
