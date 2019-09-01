@@ -95,7 +95,6 @@ const renderBoard = (movies) => {
     moviesContainer.appendChild(renderMovies(movies.slice(0, MAX_MOVIES_TO_RENDER)));
     mostCommentedContainer.appendChild(renderMovies(getSortingArray(movies, sortByComments)));
     mostRatedContainer.appendChild(renderMovies(getSortingArray(movies, sortByRating)));
-
     renderElement(mainElement, board, Position.BEFOREEND);
 
     const loadMoreButton = mainElement.querySelector(`.films-list__show-more`);
