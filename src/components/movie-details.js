@@ -1,10 +1,11 @@
-import {getMovieFullDate, createElement} from "../util";
+import {getMovieFullDate, isChecked} from "../util";
 import Movie from "./movie";
 import MovieRating from "./movie-rating";
+import AbstractComponent from "./absctract-component";
 
-export default class MovieDetails {
+export default class MovieDetails extends AbstractComponent {
   constructor({title, rating, releaseDate, director, writers, genres, actors, age, originalTitle, country, isFavorite, isWatched, isInWatchlist, runtime, image, description, comments}) {
-    this._element = null;
+    super();
     this._title = title;
     this._rating = rating;
     this._director = director;
@@ -25,41 +26,24 @@ export default class MovieDetails {
     this._movieRatingInstance = new MovieRating({title, image});
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  // get movie rating template if movie is watched
+  getMovieRatingTemplate(isWatched) {
+    return isWatched ? this._movieRatingInstance.getTemplate() : ``;
   }
 
-  removeElement() {
-    this._element = null;
+  // getting genres template from Set of genres
+  getGenresTemplate(genres) {
+    const genresTemplate = [];
+
+    genres.forEach((genre) => {
+      genresTemplate.push(`<span class="film-details__genre">${genre}</span>`);
+    });
+
+    return genresTemplate;
   }
 
-  getTemplate() {
-    // get movie rating template if movie is watched
-    const getMovieRatingTemplate = (isWatched) => isWatched ? this._movieRatingInstance.getTemplate() : ``;
-    /* Получаем  темлейт жанра фильма*/
-    const getGenreTemplate = (genre) => {
-      return `
-        <span class="film-details__genre">${genre}</span>
-      `.trim();
-    };
-
-    /* Получаем массив жанров*/
-    const getGenresList = (genre) => {
-      const genres = [];
-      genre.forEach((element) => {
-        genres.push(getGenreTemplate(element));
-      });
-
-      return genres;
-    };
-
-    /* Генерация разметки коментария */
-    const getCommentTemplate = ({author, date, comment, emoji}) => {
-      return `
+  getCommentTemplate({author, date, comment, emoji}) {
+    return `
         <li class="film-details__comment">
           <span class="film-details__comment-emoji">
             <img src="./images/emoji/${emoji}" width="55" height="55" alt="emoji">
@@ -74,13 +58,9 @@ export default class MovieDetails {
           </div>
         </li>
       `.trim();
-    };
+  }
 
-    /* Возврат активного класса для елемента */
-    const isChecked = (state) => {
-      return state ? `checked` : ``;
-    };
-
+  getTemplate() {
     return `
       <section class="film-details">
         <form class="film-details__inner" action="" method="get">
@@ -135,7 +115,7 @@ export default class MovieDetails {
                   <tr class="film-details__row">
                     <td class="film-details__term">Genres</td>
                     <td class="film-details__cell">
-                      ${getGenresList(this._genres).join(``)}
+                      ${this.getGenresTemplate(this._genres).join(``)}
                     </td>
                   </tr>
                 </table>
@@ -158,14 +138,14 @@ export default class MovieDetails {
             </section>
           </div>
           
-          ${getMovieRatingTemplate(this._isWatched)}
+          ${this.getMovieRatingTemplate(this._isWatched)}
                     
           <div class="form-details__bottom-container">
             <section class="film-details__comments-wrap">
               <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
       
               <ul class="film-details__comments-list">
-                ${this._comments.map((comment) => getCommentTemplate(comment)).join(``)}
+                ${this._comments.map((comment) => this.getCommentTemplate(comment)).join(``)}
               </ul>
       
               <div class="film-details__new-comment">

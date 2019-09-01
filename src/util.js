@@ -46,6 +46,10 @@ const renderElement = (container, element, place) => {
   }
 };
 
+const isChecked = (state) => {
+  return state ? `checked` : ``;
+};
+
 /* Убираем елемент если он есть */
 const unrenderElement = (element) => {
   if (element) {
@@ -77,5 +81,6 @@ export {
   createElement,
   isEscKeyDown,
   unrenderElement,
+  isChecked,
   Position,
 };
