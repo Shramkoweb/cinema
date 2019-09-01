@@ -17,7 +17,7 @@ export default class ShowMoreButton {
     this._element = null;
   }
 
-  static getTemplate() {
+  getTemplate() {
     return `
       <button class="films-list__show-more">Show more</button>
     `.trim();
