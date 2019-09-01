@@ -1,5 +1,4 @@
 import Films from "../components/films";
-import FilmsList from "../components/films-list";
 import {isEscKeyDown, Position, renderElement} from "../util";
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
@@ -8,15 +7,14 @@ export default class FilmsController {
   constructor(container, filmCards) {
     this._container = container;
     this._filmCards = filmCards;
-    this._films = new Films();
     this._hasFilms = Boolean(filmCards.length);
-    this._filmList = new FilmsList(this._hasFilms);
+    this._films = new Films(this._hasFilms);
   }
 
   _renderFilm(film) {
     const filmInstance = new FilmCard(film);
     const filmDetailsInstance = new FilmDetails(film);
-    const filmsContainer = this._filmList.getElement().querySelector(`.films-list__container`);
+    const filmsContainer = this._films.getElement().querySelector(`.films-list__container`);
     const onMoviePopUpEscPress = (evt) => isEscKeyDown(evt, closeMoviePopUp);
 
     const closeMoviePopUp = () => {
@@ -51,7 +49,6 @@ export default class FilmsController {
 
   init() {
     renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
-    renderElement(this._films.getElement(), this._filmList.getElement(), Position.BEFOREEND);
 
     this._filmCards.forEach((filmMock) => this._renderFilm(filmMock));
   }
