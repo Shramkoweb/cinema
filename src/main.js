@@ -1,6 +1,6 @@
 import {getRandomNumberInRange} from "./util";
 import {getMovies} from "./data";
-import FilmsController from "./controllers/films-controller";
+import PageController from "./controllers/page-controller";
 
 const moviesAmount = getRandomNumberInRange(5, 25); // Временно добавил для проверки работы фильтров и т.д
 const moviesArray = getMovies(moviesAmount);
@@ -73,5 +73,5 @@ const headerElement = document.querySelector(`header`);
 // renderNavigation(getFilterCount(moviesArray));
 // renderBoard(moviesArray);
 
-const filmsController = new FilmsController(mainElement, moviesArray);
+const filmsController = new PageController(mainElement, moviesArray);
 filmsController.init();

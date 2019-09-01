@@ -2,10 +2,12 @@ import Films from "../components/films";
 import {isEscKeyDown, Position, renderElement} from "../util";
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
+import Sort from "../components/sort";
 
-export default class FilmsController {
+export default class PageController {
   constructor(container, filmCards) {
     this._container = container;
+    this._sort = new Sort();
     this._filmCards = filmCards;
     this._hasFilms = Boolean(filmCards.length);
     this._films = new Films(this._hasFilms);
@@ -48,6 +50,7 @@ export default class FilmsController {
   }
 
   init() {
+    renderElement(this._container, this._sort.getElement(), Position.BEFOREEND);
     renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
 
     this._filmCards.forEach((filmMock) => this._renderFilm(filmMock));
