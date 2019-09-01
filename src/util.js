@@ -70,9 +70,18 @@ const sortByComments = (a, b) => a.comments.length - b.comments.length;
 /* Сортировка по рейтингу */
 const sortByRating = (a, b) => a.rating - b.rating;
 
+// Sorting array by compare function
+const getSortingArray = (movies, compareFunction, count = 2) => {
+  const moviesCopy = [...movies];
+  moviesCopy.sort(compareFunction);
+
+  return moviesCopy.slice(-count);
+};
+
 export {
   getRandomBoolean,
   getRandomItemFrom,
+  getSortingArray,
   getMovieFullDate,
   sortByComments,
   sortByRating,

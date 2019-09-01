@@ -1,22 +1,9 @@
 import ShowMoreButton from "./show-more-button";
-import {createElement} from "../util";
+import AbstractComponent from "./absctract-component";
 
-export default class Movies {
-  constructor(movies) {
-    this._element = null;
-    this._movies = movies;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+export default class Movies extends AbstractComponent {
+  constructor() {
+    super();
   }
 
   getTemplate() {
@@ -43,12 +30,5 @@ export default class Movies {
         </section>
       </section>
     `.trim();
-  }
-
-  static getSortingArray(movies, compareFunction, count = 2) {
-    const moviesCopy = [...movies];
-    moviesCopy.sort(compareFunction);
-
-    return moviesCopy.slice(-count);
   }
 }

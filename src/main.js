@@ -3,7 +3,7 @@ import Navigation from "./components/navigation";
 import MovieDetails from "./components/movie-details";
 import {getFilterCount} from "./filter";
 import {
-  getRandomNumberInRange,
+  getRandomNumberInRange, getSortingArray,
   isEscKeyDown,
   Position,
   renderElement,
@@ -93,8 +93,8 @@ const renderBoard = (movies) => {
     renderElement(mainElement, epmtyBoardInstance.getElement(), Position.BEFOREEND);
   } else {
     moviesContainer.appendChild(renderMovies(movies.slice(0, MAX_MOVIES_TO_RENDER)));
-    mostCommentedContainer.appendChild(renderMovies(Movies.getSortingArray(movies, sortByComments)));
-    mostRatedContainer.appendChild(renderMovies(Movies.getSortingArray(movies, sortByRating)));
+    mostCommentedContainer.appendChild(renderMovies(getSortingArray(movies, sortByComments)));
+    mostRatedContainer.appendChild(renderMovies(getSortingArray(movies, sortByRating)));
 
     renderElement(mainElement, board, Position.BEFOREEND);
 
