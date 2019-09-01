@@ -66,9 +66,9 @@ export default class PageController {
       .forEach((film) => this._renderFilms(film));
 
     FILMS_ON_PAGE = FILMS_ON_PAGE + MAX_FILMS_TO_RENDER;
-    let leftMoviesToRender = films.length - FILMS_ON_PAGE;
+    let leftFilmsRender = films.length - FILMS_ON_PAGE;
 
-    if (leftMoviesToRender <= 0) {
+    if (leftFilmsRender <= 0) {
       unrenderElement(this._moreButton.getElement());
     }
   }

@@ -7,5 +7,5 @@ const moviesArray = getMovies(moviesAmount);
 
 const mainElement = document.querySelector(`.main`);
 
-const filmsController = new PageController(mainElement, moviesArray);
-filmsController.init();
+const filmsControllerInstance = new PageController(mainElement, moviesArray);
+filmsControllerInstance.init();
