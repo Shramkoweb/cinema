@@ -128,31 +128,3 @@ renderSearch();
 renderProfile(moviesArray);
 renderNavigation(getFilterCount(moviesArray));
 renderBoard(moviesArray);
-
-// // .header initialization
-// const initHeader = (movies) => {
-//   const headerElement = document.querySelector(`header`);
-//   const searchElement = new Search().getElement();
-//   const userProfileElement = new Profile(movies).getElement();
-//
-//   const fragment = document.createDocumentFragment();
-//   fragment.appendChild(searchElement);
-//   fragment.appendChild(userProfileElement);
-//
-//   renderElement(headerElement, fragment, Position.BEFOREEND);
-// };
-//
-// // .main initialization
-// const initMain = (movies) => {
-//   initHeader(movies);
-// };
-//
-// // page initialization on load
-// const init = (movies) => {
-//   const footerStatisticsElement = document.querySelector(`.footer__statistics p`);
-//   footerStatisticsElement.textContent = `${movies.length} movies inside`;
-//
-//   initMain(movies);
-// };
-//
-// init(moviesArray);
