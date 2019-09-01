@@ -1,6 +1,6 @@
 import AbstractComponent from "./absctract-component";
 
-export default class Movie extends AbstractComponent {
+export default class FilmCard extends AbstractComponent {
   constructor({title, rating, releaseDate, runtime, genres, image, description, comments, isFavorite, isWatched, isInWatchlist}) {
     super();
     this._title = title;
@@ -23,7 +23,7 @@ export default class Movie extends AbstractComponent {
         <p class="film-card__rating">${this._rating}</p>
         <p class="film-card__info">
           <span class="film-card__year">${this.movieYear}</span>
-          <span class="film-card__duration">${Movie.getMovieDuration(this._runtime)}</span>
+          <span class="film-card__duration">${FilmCard.getMovieDuration(this._runtime)}</span>
           <span class="film-card__genre">${[...this._genres][0]}</span>
         </p>
         <img src="./images/posters/${this._image}" alt="" class="film-card__poster">

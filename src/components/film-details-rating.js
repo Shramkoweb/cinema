@@ -1,6 +1,6 @@
 import AbstractComponent from "./absctract-component";
 
-export default class MovieRating extends AbstractComponent {
+export default class FilmDetailsRating extends AbstractComponent {
   constructor({title, image}) {
     super();
     this._title = title;

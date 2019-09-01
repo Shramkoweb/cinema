@@ -1,9 +1,9 @@
 import {getMovieFullDate, isChecked} from "../util";
-import Movie from "./movie";
-import MovieRating from "./movie-rating";
+import FilmCard from "./film-card";
+import FilmDetailsRating from "./film-details-rating";
 import AbstractComponent from "./absctract-component";
 
-export default class MovieDetails extends AbstractComponent {
+export default class FilmDetails extends AbstractComponent {
   constructor({title, rating, releaseDate, director, writers, genres, actors, age, originalTitle, country, isFavorite, isWatched, isInWatchlist, runtime, image, description, comments}) {
     super();
     this._title = title;
@@ -23,7 +23,7 @@ export default class MovieDetails extends AbstractComponent {
     this._isFavorite = isFavorite;
     this._isWatched = isWatched;
     this._isInWatchlist = isInWatchlist;
-    this._movieRatingInstance = new MovieRating({title, image});
+    this._movieRatingInstance = new FilmDetailsRating({title, image});
   }
 
   // get movie rating template if movie is watched
@@ -106,7 +106,7 @@ export default class MovieDetails extends AbstractComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>
-                    <td class="film-details__cell">${Movie.getMovieDuration(this._runtime)}</td>
+                    <td class="film-details__cell">${FilmCard.getMovieDuration(this._runtime)}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Country</td>
