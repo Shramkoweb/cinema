@@ -105,7 +105,8 @@ const renderBoard = (movies) => {
     let leftMoviesToRender = moviesArray.length - MOVIES_ON_PAGE;
 
     const renderLeftMovies = () => {
-      moviesContainer.appendChild(renderMovies(moviesArray.slice(MOVIES_ON_PAGE, (MOVIES_ON_PAGE + MAX_MOVIES_TO_RENDER))));
+      const leftMovies = renderMovies(moviesArray.slice(MOVIES_ON_PAGE, (MOVIES_ON_PAGE + MAX_MOVIES_TO_RENDER)));
+      moviesContainer.appendChild(leftMovies);
 
       MOVIES_ON_PAGE = MOVIES_ON_PAGE + MAX_MOVIES_TO_RENDER;
       leftMoviesToRender = moviesArray.length - MOVIES_ON_PAGE;
