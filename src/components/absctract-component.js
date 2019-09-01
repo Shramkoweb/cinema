@@ -1,6 +1,6 @@
 import {createElement} from "../util";
 
-class AbstractComponent {
+export default class AbstractComponent {
   constructor() {
     this._element = null;
   }
@@ -11,6 +11,10 @@ class AbstractComponent {
     }
 
     return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
   }
 
   getTemplate() {
