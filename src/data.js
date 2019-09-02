@@ -142,7 +142,7 @@ const generateMovieMock = () => ({
   director: getRandomItemFrom(DIRECTORS),
   writers: [...WRITERS],
   actors: [...ACTORS],
-  releaseDate: Date.now(),
+  releaseDate: new Date(+(new Date()) - Math.floor(Math.random() * 10000000000)),
   runtime: getRandomNumberInRange(MIN_FILM_DURATION, MAX_FILM_DURATION),
   country: getRandomItemFrom(COUNTRIES),
   genres: new Set([`Drama`, `Comedy`, `Film-Noir`, `Mystery`]),
