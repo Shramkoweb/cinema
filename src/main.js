@@ -1,4 +1,4 @@
-import {getRandomNumberInRange} from "./util";
+import {getLastTwoSortedItemsFrom, getRandomNumberInRange, sortByComments} from "./util";
 import {getMovies} from "./data";
 import PageController from "./controllers/page-controller";
 
@@ -9,3 +9,4 @@ const mainElement = document.querySelector(`.main`);
 
 const filmsControllerInstance = new PageController(mainElement, moviesArray);
 filmsControllerInstance.init();
+console.log(getLastTwoSortedItemsFrom(moviesArray, sortByComments));

@@ -1,5 +1,5 @@
 import Films from "../components/films";
-import {isEscKeyDown, Position, renderElement, unrenderElement} from "../util";
+import {getLastTwoSortedItemsFrom, isEscKeyDown, Position, renderElement, sortByComments, sortByRating, unrenderElement} from "../util";
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
 import Sort from "../components/sort";
@@ -22,21 +22,25 @@ export default class PageController {
     this._films = new Films(this._hasFilms);
     this._moreButton = new ShowMoreButton();
     this._filmsList = this._films.getElement().querySelector(`.films-list`);
+    this._topRatedFilms = getLastTwoSortedItemsFrom(this._filmCards, sortByRating);
+    this._filmsContainer = this._films.getElement().querySelector(`.films-list__container`);
+    this._topRatedFilmsContainer = this._films.getElement().querySelector(`.films-list__container--rated`);
+    this._mostCommentedFilmsContainer = this._films.getElement().querySelector(`.films-list__container--commented`);
+    this._mostCommentedFilms = getLastTwoSortedItemsFrom(this._filmCards, sortByComments);
   }
 
-  _renderFilms(film) {
+  _renderFilms(film, container) {
     const filmInstance = new FilmCard(film);
     const filmDetailsInstance = new FilmDetails(film);
-    const filmsContainer = this._films.getElement().querySelector(`.films-list__container`);
     const onMoviePopUpEscPress = (evt) => isEscKeyDown(evt, closeMoviePopUp);
 
     const closeMoviePopUp = () => {
-      filmsContainer.removeChild(filmDetailsInstance.getElement());
+      this._container.removeChild(filmDetailsInstance.getElement());
       document.removeEventListener(`keydown`, onMoviePopUpEscPress);
     };
 
     const openMoviePopup = () => {
-      filmsContainer.appendChild(filmDetailsInstance.getElement());
+      this._container.appendChild(filmDetailsInstance.getElement());
       document.addEventListener(`keydown`, onMoviePopUpEscPress);
     };
 
@@ -57,13 +61,13 @@ export default class PageController {
         document.addEventListener(`keydown`, onMoviePopUpEscPress);
       });
 
-    renderElement(filmsContainer, filmInstance.getElement(), Position.BEFOREEND);
+    renderElement(container, filmInstance.getElement(), Position.BEFOREEND);
   }
 
   _renderLeftFilms(films) {
     films
       .slice(FILMS_ON_PAGE, (FILMS_ON_PAGE + MAX_FILMS_TO_RENDER))
-      .forEach((film) => this._renderFilms(film));
+      .forEach((film) => this._renderFilms(film, this._filmsContainer));
 
     FILMS_ON_PAGE = FILMS_ON_PAGE + MAX_FILMS_TO_RENDER;
     let leftFilmsRender = films.length - FILMS_ON_PAGE;
@@ -87,14 +91,18 @@ export default class PageController {
     } else if (this._filmCards.length <= MAX_FILMS_TO_RENDER) {
       renderElement(this._container, this._sort.getElement(), Position.BEFOREEND);
       renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
-      this._filmCards.forEach((film) => this._renderFilms(film));
+      this._filmCards.forEach((film) => this._renderFilms(film, this._filmsContainer));
+      this._topRatedFilms.forEach((film) => this._renderFilms(film, this._topRatedFilmsContainer));
+      this._mostCommentedFilms.forEach((film) => this._renderFilms(film, this._mostCommentedFilmsContainer));
 
       // if > 5 -> render moreButton & cards & sort
     } else {
       renderElement(this._container, this._sort.getElement(), Position.BEFOREEND);
       renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
       renderElement(this._filmsList, this._moreButton.getElement(), Position.BEFOREEND);
-      this._filmCards.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film));
+      this._filmCards.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
+      this._topRatedFilms.forEach((film) => this._renderFilms(film, this._topRatedFilmsContainer));
+      this._mostCommentedFilms.forEach((film) => this._renderFilms(film, this._mostCommentedFilmsContainer));
 
       const onLoadMoreButtonClick = () => {
         this._renderLeftFilms(this._filmCards);
