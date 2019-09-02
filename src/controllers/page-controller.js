@@ -5,7 +5,15 @@ import Sort from "../components/sort";
 import ShowMoreButton from "../components/show-more-button";
 import Search from "../components/search";
 import Profile from "../components/profile";
-import {getLastTwoSortedItemsFrom, isEscKeyDown, Position, renderElement, sortByComments, sortByRating, unrenderElement} from "../util";
+import {
+  getLastTwoSortedItemsFrom,
+  isEscKeyDown,
+  Position,
+  renderElement,
+  sortByComments,
+  sortByRating,
+  unrenderElement
+} from "../util";
 
 const MAX_FILMS_TO_RENDER = 5;
 let FILMS_ON_PAGE = 5;
@@ -77,6 +85,30 @@ export default class PageController {
     }
   }
 
+  _onSortLinkClick(evt) {
+    evt.preventDefault();
+
+    if (evt.target.tagName !== `A`) {
+      return;
+    }
+
+    this._filmsContainer.innerHTML = ``;
+
+    switch (evt.target.dataset.sortType) {
+      case `date`:
+        const sortedByDate = this._filmCards.slice().sort((a, b) => a.releaseDate - b.releaseDate);
+        sortedByDate.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
+        break;
+      case `rating`:
+        const sortedByRating = this._filmCards.slice().sort((a, b) => b.rating - a.rating);
+        sortedByRating.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
+        break;
+      case `default`:
+        this._filmCards.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
+        break;
+    }
+  }
+
   init() {
     renderElement(this._headerElement, this._search.getElement(), Position.BEFOREEND);
     renderElement(this._headerElement, this.profile.getElement(), Position.BEFOREEND);
@@ -87,13 +119,14 @@ export default class PageController {
     if (!this._hasFilms) {
       renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
 
-      // if <= 5 films -> render cards without moreButton & sort
+      // if <= 5 films -> render cards without moreButton
     } else if (this._filmCards.length <= MAX_FILMS_TO_RENDER) {
       renderElement(this._container, this._sort.getElement(), Position.BEFOREEND);
       renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
       this._filmCards.forEach((film) => this._renderFilms(film, this._filmsContainer));
       this._topRatedFilms.forEach((film) => this._renderFilms(film, this._topRatedFilmsContainer));
       this._mostCommentedFilms.forEach((film) => this._renderFilms(film, this._mostCommentedFilmsContainer));
+      this._sort.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
 
       // if > 5 -> render moreButton & cards & sort
     } else {
@@ -103,6 +136,7 @@ export default class PageController {
       this._filmCards.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
       this._topRatedFilms.forEach((film) => this._renderFilms(film, this._topRatedFilmsContainer));
       this._mostCommentedFilms.forEach((film) => this._renderFilms(film, this._mostCommentedFilmsContainer));
+      this._sort.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
 
       const onLoadMoreButtonClick = () => {
         this._renderLeftFilms(this._filmCards);
