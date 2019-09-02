@@ -38,12 +38,12 @@ export default class FilmCard extends AbstractComponent {
     `.trim();
   }
 
-  /* Получаем год из даты */
+  /* get Year from Date*/
   get movieYear() {
     return new Date(this._releaseDate).getFullYear();
   }
 
-  /* Возврат активного класса для карточек */
+  /* return active class  */
   addActiveClass(isActive) {
     return `${isActive ? `active` : ``}`;
   }

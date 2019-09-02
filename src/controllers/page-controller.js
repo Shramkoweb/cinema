@@ -1,14 +1,13 @@
 import Films from "../components/films";
-import {getLastTwoSortedItemsFrom, isEscKeyDown, Position, renderElement, sortByComments, sortByRating, unrenderElement} from "../util";
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
 import Sort from "../components/sort";
 import ShowMoreButton from "../components/show-more-button";
 import Search from "../components/search";
 import Profile from "../components/profile";
+import {getLastTwoSortedItemsFrom, isEscKeyDown, Position, renderElement, sortByComments, sortByRating, unrenderElement} from "../util";
 
 const MAX_FILMS_TO_RENDER = 5;
-let FILMS_ON_PAGE = 5;
 
 export default class PageController {
   constructor(container, filmCards) {
@@ -65,6 +64,8 @@ export default class PageController {
   }
 
   _renderLeftFilms(films) {
+    let FILMS_ON_PAGE = 5;
+
     films
       .slice(FILMS_ON_PAGE, (FILMS_ON_PAGE + MAX_FILMS_TO_RENDER))
       .forEach((film) => this._renderFilms(film, this._filmsContainer));
@@ -83,7 +84,7 @@ export default class PageController {
     const footerStatisticsElement = document.querySelector(`.footer__statistics p`);
     footerStatisticsElement.textContent = `${this._filmCards.length} movies inside`;
 
-    // 0 films
+    // if 0 films
     if (!this._hasFilms) {
       renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
 
