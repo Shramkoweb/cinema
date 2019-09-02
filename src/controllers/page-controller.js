@@ -22,6 +22,7 @@ export default class PageController {
   constructor(container, filmCards) {
     this._container = container;
     this._filmCards = filmCards;
+    this._sortedFilms = filmCards;
     this._hasFilms = Boolean(filmCards.length);
     this._headerElement = document.querySelector(`header`);
     this._search = new Search();
@@ -72,13 +73,13 @@ export default class PageController {
     renderElement(container, filmInstance.getElement(), Position.BEFOREEND);
   }
 
-  _renderLeftFilms(films) {
-    films
+  _renderLeftFilms() {
+    this._sortedFilms
       .slice(FILMS_ON_PAGE, (FILMS_ON_PAGE + MAX_FILMS_TO_RENDER))
       .forEach((film) => this._renderFilms(film, this._filmsContainer));
 
     FILMS_ON_PAGE = FILMS_ON_PAGE + MAX_FILMS_TO_RENDER;
-    let leftFilmsRender = films.length - FILMS_ON_PAGE;
+    let leftFilmsRender = this._sortedFilms.length - FILMS_ON_PAGE;
 
     if (leftFilmsRender <= 0) {
       unrenderElement(this._moreButton.getElement());
@@ -96,15 +97,15 @@ export default class PageController {
 
     switch (evt.target.dataset.sortType) {
       case `date`:
-        const sortedByDate = this._filmCards.slice().sort((a, b) => a.releaseDate - b.releaseDate);
+        const sortedByDate = this._sortedFilms.sort((a, b) => a.releaseDate - b.releaseDate);
         sortedByDate.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
         break;
       case `rating`:
-        const sortedByRating = this._filmCards.slice().sort((a, b) => b.rating - a.rating);
+        const sortedByRating = this._sortedFilms.sort((a, b) => b.rating - a.rating);
         sortedByRating.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
         break;
       case `default`:
-        this._filmCards.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
+        this._sortedFilms.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
         break;
     }
   }
