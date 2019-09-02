@@ -112,31 +112,21 @@ export default class PageController {
   init() {
     renderElement(this._headerElement, this._search.getElement(), Position.BEFOREEND);
     renderElement(this._headerElement, this.profile.getElement(), Position.BEFOREEND);
-    const footerStatisticsElement = document.querySelector(`.footer__statistics p`);
-    footerStatisticsElement.textContent = `${this._filmCards.length} movies inside`;
 
     // 0 films
     if (!this._hasFilms) {
       renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
+      return;
+    }
 
-      // if <= 5 films -> render cards without moreButton
-    } else if (this._filmCards.length <= MAX_FILMS_TO_RENDER) {
-      renderElement(this._container, this._sort.getElement(), Position.BEFOREEND);
-      renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
+    // if <= 5 films -> render cards without moreButton
+    if (this._filmCards.length <= MAX_FILMS_TO_RENDER) {
       this._filmCards.forEach((film) => this._renderFilms(film, this._filmsContainer));
-      this._topRatedFilms.forEach((film) => this._renderFilms(film, this._topRatedFilmsContainer));
-      this._mostCommentedFilms.forEach((film) => this._renderFilms(film, this._mostCommentedFilmsContainer));
-      this._sort.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
 
       // if > 5 -> render moreButton & cards & sort
     } else {
-      renderElement(this._container, this._sort.getElement(), Position.BEFOREEND);
-      renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
       renderElement(this._filmsList, this._moreButton.getElement(), Position.BEFOREEND);
       this._filmCards.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
-      this._topRatedFilms.forEach((film) => this._renderFilms(film, this._topRatedFilmsContainer));
-      this._mostCommentedFilms.forEach((film) => this._renderFilms(film, this._mostCommentedFilmsContainer));
-      this._sort.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
 
       const onLoadMoreButtonClick = () => {
         this._renderLeftFilms(this._filmCards);
@@ -144,6 +134,14 @@ export default class PageController {
 
       this._moreButton.getElement().addEventListener(`click`, onLoadMoreButtonClick);
     }
+
+    renderElement(this._container, this._sort.getElement(), Position.BEFOREEND);
+    renderElement(this._container, this._films.getElement(), Position.BEFOREEND);
+    this._sort.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
+    this._topRatedFilms.forEach((film) => this._renderFilms(film, this._topRatedFilmsContainer));
+    this._mostCommentedFilms.forEach((film) => this._renderFilms(film, this._mostCommentedFilmsContainer));
+    const footerStatisticsElement = document.querySelector(`.footer__statistics p`);
+    footerStatisticsElement.textContent = `${this._filmCards.length} movies inside`;
   }
 }
 
