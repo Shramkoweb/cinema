@@ -22,7 +22,7 @@ export default class PageController {
   constructor(container, filmCards) {
     this._container = container;
     this._filmCards = filmCards;
-    this._sortedFilms = filmCards;
+    this._sortedFilms = filmCards.slice();
     this._hasFilms = Boolean(filmCards.length);
     this._headerElement = document.querySelector(`header`);
     this._search = new Search();
@@ -105,7 +105,7 @@ export default class PageController {
         sortedByRating.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
         break;
       case `default`:
-        this._sortedFilms.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
+        this._filmCards.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainer));
         break;
     }
   }
