@@ -7,7 +7,6 @@ import Search from "../components/search";
 import Profile from "../components/profile";
 import {
   isEscKeyDown,
-  Position,
   renderElement,
   sortByComments,
   sortByRating, sortFilms,
