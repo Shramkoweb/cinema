@@ -6,7 +6,6 @@ import ShowMoreButton from "../components/show-more-button";
 import Search from "../components/search";
 import Profile from "../components/profile";
 import {
-  getLastTwoSortedItemsFrom,
   isEscKeyDown,
   Position,
   renderElement,
@@ -34,8 +33,8 @@ export default class PageController {
     this._sortComponent = new Sort();
     this._filmsComponent = new Films();
     this._moreButtonComponent = new ShowMoreButton();
-    this._mostCommentedFilms = getLastTwoSortedItemsFrom(filmCards, sortByComments);
-    this._topRatedFilms = getLastTwoSortedItemsFrom(filmCards, sortByRating);
+    this._mostCommentedFilms = sortByComments(filmCards).slice(0, 2);
+    this._topRatedFilms = sortByRating(filmCards).slice(0, 2);
     this._topRatedFilmsContainer = this._filmsComponent.getElement().querySelector(`.films-list__container--rated`);
     this._mostCommentedFilmsContainer = this._filmsComponent.getElement().querySelector(`.films-list__container--commented`);
     this._filmsListElement = this._filmsComponent.getElement().querySelector(`.films-list`);
@@ -95,15 +94,13 @@ export default class PageController {
 
     if (evt.target.tagName === `A`) {
       const sortType = evt.target.dataset.sortType;
-      this._sortedFilms = sortFilms(this._sortedFilms, sortType);
+
+      this._sortedFilms = sortFilms(this._filmCards, sortType);
 
       this._filmsContainerElement.innerHTML = ``;
 
       this._sortedFilms.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainerElement));
     }
-
-
-    console.table(this._sortedFilms);
   }
 
   getFilmsAmountStatistics() {

@@ -1,4 +1,3 @@
-/* Получаем случайный елемент массива */
 const getRandomItemFrom = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
@@ -65,9 +64,9 @@ const isEscKeyDown = (evt, action) => {
 };
 
 // sorting types
-const sortByComments = (a, b) => a.comments.length - b.comments.length;
-const sortByRating = (a, b) => b.rating - a.rating;
-const sortByDate = (a, b) => a.releaseDate - b.releaseDate;
+const sortByComments = (films) => films.slice().sort((a, b) => b.comments.length - a.comments.length);
+const sortByRating = (films) => films.slice().sort((a, b) => b.rating - a.rating);
+const sortByDate = (films) => films.slice().sort((a, b) => a.releaseDate - b.releaseDate);
 const defaultSort = (films) => films;
 
 const compareTypeToSortFunction = {
@@ -78,15 +77,7 @@ const compareTypeToSortFunction = {
 };
 
 const sortFilms = (films, compareType) => {
-  return films.sort(compareTypeToSortFunction[compareType]);
-};
-
-// Sorting array by compare function & get 2 last item
-const getLastTwoSortedItemsFrom = (movies, compareFunction, count = 2) => {
-  const moviesCopy = [...movies];
-  moviesCopy.sort(compareFunction);
-
-  return moviesCopy.slice(-count);
+  return compareTypeToSortFunction[compareType](films);
 };
 
 // get formatting duration from film
@@ -104,7 +95,6 @@ const formatFilmDuration = (duration) => {
 export {
   getRandomBoolean,
   getRandomItemFrom,
-  getLastTwoSortedItemsFrom,
   getMovieFullDate,
   sortByComments,
   sortByDate,
