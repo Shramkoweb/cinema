@@ -76,9 +76,7 @@ const compareTypeToSortFunction = {
   rating: sortByRating,
 };
 
-const sortFilms = (films, compareType) => {
-  return compareTypeToSortFunction[compareType](films);
-};
+const sortFilms = (films, compareType) => compareTypeToSortFunction[compareType](films);
 
 // get formatting duration from film
 const formatFilmDuration = (duration) => {

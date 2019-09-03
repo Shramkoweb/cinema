@@ -18,12 +18,12 @@ import {getFilterCount} from "../filter";
 import FilmsEmpty from "../components/films-empty";
 
 const MAX_FILMS_TO_RENDER = 5;
-let FILMS_ON_PAGE = 5;
 
 export default class PageController {
   constructor(container, filmCards) {
     this._container = container;
     this._filmCards = filmCards;
+    this._filmsOnPage = MAX_FILMS_TO_RENDER;
     this._sortedFilms = filmCards.slice();
     this._headerElement = document.querySelector(`header`);
     this._searchComponent = new Search();
@@ -78,11 +78,11 @@ export default class PageController {
 
   _renderLeftFilms() {
     this._sortedFilms
-      .slice(FILMS_ON_PAGE, (FILMS_ON_PAGE + MAX_FILMS_TO_RENDER))
+      .slice(this._filmsOnPage, (this._filmsOnPage + MAX_FILMS_TO_RENDER))
       .forEach((film) => this._renderFilms(film, this._filmsContainerElement));
 
-    FILMS_ON_PAGE = FILMS_ON_PAGE + MAX_FILMS_TO_RENDER;
-    let leftFilmsRender = this._sortedFilms.length - FILMS_ON_PAGE;
+    this._filmsOnPage = this._filmsOnPage + MAX_FILMS_TO_RENDER;
+    let leftFilmsRender = this._sortedFilms.length - this._filmsOnPage;
 
     if (leftFilmsRender <= 0) {
       unrenderElement(this._moreButtonComponent.getElement());
@@ -91,6 +91,10 @@ export default class PageController {
 
   _onSortLinkClick(evt) {
     evt.preventDefault();
+    this._filmsOnPage = MAX_FILMS_TO_RENDER;
+    if (this._filmCards.length > 5) {
+      renderElement(this._filmsListElement, this._moreButtonComponent.getElement(), Position.BEFOREEND);
+    }
 
     if (evt.target.tagName === `A`) {
       const sortType = evt.target.dataset.sortType;
