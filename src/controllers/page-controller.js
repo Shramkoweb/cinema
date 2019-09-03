@@ -14,6 +14,8 @@ import {
   sortByRating,
   unrenderElement
 } from "../util";
+import Navigation from "../components/navigation";
+import {getFilterCount} from "../filter";
 
 const MAX_FILMS_TO_RENDER = 5;
 let FILMS_ON_PAGE = 5;
@@ -26,16 +28,17 @@ export default class PageController {
     this._hasFilms = Boolean(filmCards.length);
     this._headerElement = document.querySelector(`header`);
     this._search = new Search();
-    this.profile = new Profile(this._filmCards);
+    this._menu = new Navigation(getFilterCount(filmCards));
+    this.profile = new Profile(filmCards);
     this._sort = new Sort();
     this._films = new Films(this._hasFilms);
     this._moreButton = new ShowMoreButton();
     this._filmsList = this._films.getElement().querySelector(`.films-list`);
-    this._topRatedFilms = getLastTwoSortedItemsFrom(this._filmCards, sortByRating);
+    this._topRatedFilms = getLastTwoSortedItemsFrom(filmCards, sortByRating);
     this._filmsContainer = this._films.getElement().querySelector(`.films-list__container`);
     this._topRatedFilmsContainer = this._films.getElement().querySelector(`.films-list__container--rated`);
     this._mostCommentedFilmsContainer = this._films.getElement().querySelector(`.films-list__container--commented`);
-    this._mostCommentedFilms = getLastTwoSortedItemsFrom(this._filmCards, sortByComments);
+    this._mostCommentedFilms = getLastTwoSortedItemsFrom(filmCards, sortByComments);
   }
 
   _renderFilms(film, container) {
@@ -113,6 +116,7 @@ export default class PageController {
   init() {
     renderElement(this._headerElement, this._search.getElement(), Position.BEFOREEND);
     renderElement(this._headerElement, this.profile.getElement(), Position.BEFOREEND);
+    renderElement(this._container, this._menu.getElement(), Position.BEFOREEND);
 
     // 0 films
     if (!this._hasFilms) {
@@ -145,5 +149,3 @@ export default class PageController {
     footerStatisticsElement.textContent = `${this._filmCards.length} movies inside`;
   }
 }
-
-
