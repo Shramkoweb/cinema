@@ -6,23 +6,23 @@ export default class Navigation extends AbstractComponent {
     this._filters = filters;
   }
 
-  getFilterTemplate({title, count}) {
-    return `
+  get filtersTemplate() {
+    const getFilterTemplate = ({title, count}) => {
+      return `
         <a href="#${title}" class="main-navigation__item">
           ${title} <span class="main-navigation__item-count">${count}</span>
         </a>
       `.trim();
-  }
+    };
 
-  getFiltersTemplate(filters) {
-    return filters.map((filter) => this.getFilterTemplate(filter)).join(``);
+    return this._filters.map((filter) => getFilterTemplate(filter)).join(``);
   }
 
   getTemplate() {
     return `
       <nav class="main-navigation">
         <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-        ${this.getFiltersTemplate(this._filters)}
+        ${this.filtersTemplate}
       </nav>
     `.trim();
   }

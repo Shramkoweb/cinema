@@ -1,5 +1,4 @@
-import {getMovieFullDate, isChecked} from "../util";
-import FilmCard from "./film-card";
+import {formatFilmDuration, getMovieFullDate, isChecked} from "../util";
 import FilmDetailsRating from "./film-details-rating";
 import AbstractComponent from "./absctract-component";
 
@@ -27,19 +26,24 @@ export default class FilmDetails extends AbstractComponent {
   }
 
   // get movie rating template if movie is watched
-  getMovieRatingTemplate(isWatched) {
-    return isWatched ? this._movieRatingInstance.getTemplate() : ``;
+  get movieRatingTemplate() {
+    return this._isWatched ? this._movieRatingInstance.getTemplate() : ``;
   }
 
   // getting genres template from Set of genres
-  getGenresTemplate(genres) {
+  get genresTemplate() {
     const genresTemplate = [];
 
-    genres.forEach((genre) => {
+    this._genres.forEach((genre) => {
       genresTemplate.push(`<span class="film-details__genre">${genre}</span>`);
     });
 
     return genresTemplate;
+  }
+
+  // get comment list from array of comments
+  get commentList() {
+    return this._comments.map((comment) => this.getCommentTemplate(comment)).join(``);
   }
 
   getCommentTemplate({author, date, comment, emoji}) {
@@ -106,7 +110,7 @@ export default class FilmDetails extends AbstractComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>
-                    <td class="film-details__cell">${FilmCard.getMovieDuration(this._runtime)}</td>
+                    <td class="film-details__cell">${formatFilmDuration(this._runtime)}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Country</td>
@@ -115,7 +119,7 @@ export default class FilmDetails extends AbstractComponent {
                   <tr class="film-details__row">
                     <td class="film-details__term">Genres</td>
                     <td class="film-details__cell">
-                      ${this.getGenresTemplate(this._genres).join(``)}
+                      ${this.genresTemplate.join(``)}
                     </td>
                   </tr>
                 </table>
@@ -138,18 +142,18 @@ export default class FilmDetails extends AbstractComponent {
             </section>
           </div>
           
-          ${this.getMovieRatingTemplate(this._isWatched)}
+          ${this.movieRatingTemplate}
                     
           <div class="form-details__bottom-container">
             <section class="film-details__comments-wrap">
               <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${this._comments.length}</span></h3>
       
               <ul class="film-details__comments-list">
-                ${this._comments.map((comment) => this.getCommentTemplate(comment)).join(``)}
+                ${this.commentList}
               </ul>
       
               <div class="film-details__new-comment">
-                <div for="add-emoji" class="film-details__add-emoji-label"></div>
+                <div class="film-details__add-emoji-label"></div>
       
                 <label class="film-details__comment-label">
                   <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
