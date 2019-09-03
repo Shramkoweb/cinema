@@ -74,7 +74,7 @@ export default class PageController {
         document.addEventListener(`keydown`, onMoviePopUpEscPress);
       });
 
-    renderElement(container, filmInstance.getElement(), Position.BEFOREEND);
+    renderElement(container, filmInstance.getElement());
   }
 
   // render films in container
@@ -101,7 +101,7 @@ export default class PageController {
     this._filmsOnPage = MAX_FILMS_TO_RENDER;
 
     if (this._filmCards.length > 5) {
-      renderElement(this._filmsListElement, this._moreButtonComponent.getElement(), Position.BEFOREEND);
+      renderElement(this._filmsListElement, this._moreButtonComponent.getElement());
     }
 
     if (evt.target.tagName === `A`) {
@@ -118,19 +118,19 @@ export default class PageController {
   }
 
   init() {
-    renderElement(this._headerElement, this._searchComponent.getElement(), Position.BEFOREEND);
-    renderElement(this._headerElement, this._profileComponent.getElement(), Position.BEFOREEND);
-    renderElement(this._container, this._menuComponent.getElement(), Position.BEFOREEND);
+    renderElement(this._headerElement, this._searchComponent.getElement());
+    renderElement(this._headerElement, this._profileComponent.getElement());
+    renderElement(this._container, this._menuComponent.getElement());
 
     // 0 films
     if (this._filmCards.length === 0) {
-      renderElement(this._container, this._emptyFilmsComponent.getElement(), Position.BEFOREEND);
+      renderElement(this._container, this._emptyFilmsComponent.getElement());
       return;
     }
 
     // if films > 5 render moreButton
     if (this._filmCards.length > MAX_FILMS_TO_RENDER) {
-      renderElement(this._filmsListElement, this._moreButtonComponent.getElement(), Position.BEFOREEND);
+      renderElement(this._filmsListElement, this._moreButtonComponent.getElement());
 
       const onLoadMoreButtonClick = () => {
         this._renderLeftFilms(this._filmCards);
@@ -139,8 +139,8 @@ export default class PageController {
       this._moreButtonComponent.getElement().addEventListener(`click`, onLoadMoreButtonClick);
     }
 
-    renderElement(this._container, this._sortComponent.getElement(), Position.BEFOREEND);
-    renderElement(this._container, this._filmsComponent.getElement(), Position.BEFOREEND);
+    renderElement(this._container, this._sortComponent.getElement());
+    renderElement(this._container, this._filmsComponent.getElement());
     this._renderFilms(this._filmCards.slice(0, MAX_FILMS_TO_RENDER), this._filmsContainerElement);
     this._renderFilms(this._topRatedFilms, this._topRatedFilmsContainer);
     this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);

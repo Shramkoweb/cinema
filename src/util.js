@@ -34,7 +34,7 @@ const createElement = (template) => {
 };
 
 /* Ф-я рендера компонента */
-const renderElement = (container, element, place) => {
+const renderElement = (container, element, place = Position.BEFOREEND) => {
   switch (place) {
     case Position.AFTERBEGIN:
       container.prepend(element);
