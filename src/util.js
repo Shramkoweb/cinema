@@ -78,6 +78,24 @@ const getLastTwoSortedItemsFrom = (movies, compareFunction, count = 2) => {
   return moviesCopy.slice(-count);
 };
 
+// get formatting duration from film
+const formatFilmDuration = (duration) => {
+  const UNITS = {
+    MINUTES_IN_HOUR: 60,
+  };
+  const hours = duration / UNITS.MINUTES_IN_HOUR;
+  const roundedHours = Math.floor(hours);
+  const roundedMinutes = Math.round((hours - roundedHours) * UNITS.MINUTES_IN_HOUR);
+
+  return `${roundedHours}h ${roundedMinutes}m`;
+};
+
+const createTemplateFromArray = (items, getTemplate) => {
+  const templates = items.map((item) => getTemplate(item));
+
+  return templates.join(``).trim();
+};
+
 export {
   getRandomBoolean,
   getRandomItemFrom,
@@ -89,6 +107,7 @@ export {
   renderElement,
   createElement,
   isEscKeyDown,
+  formatFilmDuration,
   unrenderElement,
   isChecked,
   Position,
