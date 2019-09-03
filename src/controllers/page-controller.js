@@ -11,7 +11,7 @@ import {
   Position,
   renderElement,
   sortByComments,
-  sortByRating,
+  sortByRating, sortFilms,
   unrenderElement
 } from "../util";
 import Navigation from "../components/navigation";
@@ -93,25 +93,17 @@ export default class PageController {
   _onSortLinkClick(evt) {
     evt.preventDefault();
 
-    if (evt.target.tagName !== `A`) {
-      return;
+    if (evt.target.tagName === `A`) {
+      const sortType = evt.target.dataset.sortType;
+      this._sortedFilms = sortFilms(this._sortedFilms, sortType);
+
+      this._filmsContainerElement.innerHTML = ``;
+
+      this._sortedFilms.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainerElement));
     }
 
-    this._filmsContainerElement.innerHTML = ``;
 
-    switch (evt.target.dataset.sortType) {
-      case `date`:
-        const sortedByDate = this._sortedFilms.sort((a, b) => a.releaseDate - b.releaseDate);
-        sortedByDate.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainerElement));
-        break;
-      case `rating`:
-        const sortedByRating = this._sortedFilms.sort((a, b) => b.rating - a.rating);
-        sortedByRating.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainerElement));
-        break;
-      case `default`:
-        this._filmCards.slice(0, MAX_FILMS_TO_RENDER).forEach((film) => this._renderFilms(film, this._filmsContainerElement));
-        break;
-    }
+    console.table(this._sortedFilms);
   }
 
   getFilmsAmountStatistics() {

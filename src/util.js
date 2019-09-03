@@ -64,11 +64,22 @@ const isEscKeyDown = (evt, action) => {
   }
 };
 
-/* Сортировка по коментариям */
+// sorting types
 const sortByComments = (a, b) => a.comments.length - b.comments.length;
+const sortByRating = (a, b) => b.rating - a.rating;
+const sortByDate = (a, b) => a.releaseDate - b.releaseDate;
+const defaultSort = (films) => films;
 
-/* Сортировка по рейтингу */
-const sortByRating = (a, b) => a.rating - b.rating;
+const compareTypeToSortFunction = {
+  default: defaultSort,
+  date: sortByDate,
+  comments: sortByComments,
+  rating: sortByRating,
+};
+
+const sortFilms = (films, compareType) => {
+  return films.sort(compareTypeToSortFunction[compareType]);
+};
 
 // Sorting array by compare function & get 2 last item
 const getLastTwoSortedItemsFrom = (movies, compareFunction, count = 2) => {
@@ -90,20 +101,17 @@ const formatFilmDuration = (duration) => {
   return `${roundedHours}h ${roundedMinutes}m`;
 };
 
-const createTemplateFromArray = (items, getTemplate) => {
-  const templates = items.map((item) => getTemplate(item));
-
-  return templates.join(``).trim();
-};
-
 export {
   getRandomBoolean,
   getRandomItemFrom,
   getLastTwoSortedItemsFrom,
   getMovieFullDate,
   sortByComments,
+  sortByDate,
+  defaultSort,
   sortByRating,
   getRandomNumberInRange,
+  sortFilms,
   renderElement,
   createElement,
   isEscKeyDown,
