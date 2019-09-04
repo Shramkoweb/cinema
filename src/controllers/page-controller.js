@@ -1,12 +1,9 @@
 import Films from "../components/films";
-import FilmCard from "../components/film-card";
-import FilmDetails from "../components/film-details";
 import Sort from "../components/sort";
 import ShowMoreButton from "../components/show-more-button";
 import Search from "../components/search";
 import Profile from "../components/profile";
 import {
-  isEscKeyDown,
   renderElement,
   sortByComments,
   sortByRating, sortFilms,
@@ -15,6 +12,7 @@ import {
 import Navigation from "../components/navigation";
 import {getFilterCount} from "../filter";
 import FilmsEmpty from "../components/films-empty";
+import FilmController from "./film-controller";
 
 const MAX_FILMS_TO_RENDER = 5;
 
@@ -42,38 +40,7 @@ export default class PageController {
 
   // render one exemplar of film
   _renderFilm(film, container) {
-    const filmInstance = new FilmCard(film);
-    const filmDetailsInstance = new FilmDetails(film);
-    const onMoviePopUpEscPress = (evt) => isEscKeyDown(evt, closeMoviePopUp);
-
-    const closeMoviePopUp = () => {
-      this._container.removeChild(filmDetailsInstance.getElement());
-      document.removeEventListener(`keydown`, onMoviePopUpEscPress);
-    };
-
-    const openMoviePopup = () => {
-      this._container.appendChild(filmDetailsInstance.getElement());
-      document.addEventListener(`keydown`, onMoviePopUpEscPress);
-    };
-
-    filmInstance.getElement()
-      .addEventListener(`click`, openMoviePopup);
-
-    filmDetailsInstance.getElement()
-      .querySelector(`.film-details__close-btn`)
-      .addEventListener(`click`, closeMoviePopUp);
-
-    filmDetailsInstance.getElement().querySelector(`textarea`)
-      .addEventListener(`focus`, () => {
-        document.removeEventListener(`keydown`, onMoviePopUpEscPress);
-      });
-
-    filmDetailsInstance.getElement().querySelector(`textarea`)
-      .addEventListener(`blur`, () => {
-        document.addEventListener(`keydown`, onMoviePopUpEscPress);
-      });
-
-    renderElement(container, filmInstance.getElement());
+    new FilmController(container, film);
   }
 
   // render films in container
@@ -111,7 +78,7 @@ export default class PageController {
     }
   }
 
-  getFilmsAmountStatistics() {
+  _getFilmsAmountStatistics() {
     const footerStatisticsElement = document.querySelector(`.footer__statistics p`);
     footerStatisticsElement.textContent = `${this._filmCards.length} movies inside`;
   }
@@ -144,6 +111,6 @@ export default class PageController {
     this._renderFilms(this._topRatedFilms, this._topRatedFilmsContainer);
     this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);
     this._sortComponent.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
-    this.getFilmsAmountStatistics();
+    this._getFilmsAmountStatistics();
   }
 }
