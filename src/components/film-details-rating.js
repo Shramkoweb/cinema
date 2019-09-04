@@ -1,22 +1,10 @@
-import {createElement} from "../util";
+import AbstractComponent from "./absctract-component";
 
-export default class MovieRating {
+export default class FilmDetailsRating extends AbstractComponent {
   constructor({title, image}) {
-    this._element = null;
+    super();
     this._title = title;
     this._image = image;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   getTemplate() {

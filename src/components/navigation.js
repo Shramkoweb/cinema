@@ -1,24 +1,12 @@
-import {createElement} from "../util";
+import AbstractComponent from "./absctract-component";
 
-export default class Navigation {
+export default class Navigation extends AbstractComponent {
   constructor(filters) {
-    this._element = null;
+    super();
     this._filters = filters;
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
-  getTemplate() {
+  get filtersTemplate() {
     const getFilterTemplate = ({title, count}) => {
       return `
         <a href="#${title}" class="main-navigation__item">
@@ -27,14 +15,15 @@ export default class Navigation {
       `.trim();
     };
 
-    const getFiltersTemplate = (filters) => {
-      return filters.map((filter) => getFilterTemplate(filter)).join(``);
-    };
+    return this._filters.map((filter) => getFilterTemplate(filter)).join(``);
+  }
 
+  getTemplate() {
     return `
       <nav class="main-navigation">
         <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-        ${getFiltersTemplate(this._filters)}
+        ${this.filtersTemplate}
+        <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
       </nav>
     `.trim();
   }
