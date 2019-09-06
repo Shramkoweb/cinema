@@ -8,6 +8,7 @@ export default class FilmController {
     this._data = data;
     this._film = new FilmCard(data);
     this._filmPopup = new FilmDetails(data);
+    this._bodyElement = document.body;
 
     this.create();
   }
@@ -16,13 +17,15 @@ export default class FilmController {
     const onMoviePopUpEscPress = (evt) => isEscKeyDown(evt, closeMoviePopUp);
 
     const closeMoviePopUp = () => {
-      this._container.removeChild(this._filmPopup.getElement());
+      this._bodyElement.removeChild(this._filmPopup.getElement());
       document.removeEventListener(`keydown`, onMoviePopUpEscPress);
     };
 
-    const openMoviePopup = () => {
-      this._container.appendChild(this._filmPopup.getElement());
-      document.addEventListener(`keydown`, onMoviePopUpEscPress);
+    const openMoviePopup = (evt) => {
+      if (evt.target.tagName === `A` || evt.target.tagName === `H3` || evt.target.tagName === `IMG`) {
+        this._bodyElement.appendChild(this._filmPopup.getElement());
+        document.addEventListener(`keydown`, onMoviePopUpEscPress);
+      }
     };
 
     this._film.getElement()
