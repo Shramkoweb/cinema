@@ -36,11 +36,49 @@ export default class PageController {
     this._mostCommentedFilmsContainer = this._filmsComponent.getElement().querySelector(`.films-list__container--commented`);
     this._filmsListElement = this._filmsComponent.getElement().querySelector(`.films-list`);
     this._filmsContainerElement = this._filmsComponent.getElement().querySelector(`.films-list__container`);
+
+    this._onDataChange = this._onDataChange.bind(this);
+  }
+
+
+  // _renderBoard(films) {
+  //   unrenderElement(this._filmsComponent.getElement());
+  //
+  //   this._filmsComponent.removeElement();
+  //   renderElement(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
+  //   this._tasks.forEach((taskMock) => this._renderTask(taskMock));
+  // }
+  //
+  // _renderTask(task) {
+  //   new TaskController(this._taskList, task, this._onDataChange);
+  // }
+
+  _renderUpdatetFilms() {
+    this._filmsContainerElement.innerHTML = ``;
+    this._mostCommentedFilmsContainer.innerHTML = ``;
+    this._topRatedFilmsContainer.innerHTML = ``;
+
+    // if films > 5 render moreButton
+    if (this._filmCards.length > MAX_FILMS_TO_RENDER) {
+      renderElement(this._filmsListElement, this._moreButtonComponent.getElement());
+    }
+
+    this._renderFilms(this._filmCards.slice(0, MAX_FILMS_TO_RENDER), this._filmsContainerElement);
+    this._renderFilms(this._topRatedFilms, this._topRatedFilmsContainer);
+    this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);
+  }
+
+  _onDataChange(newData, oldData) {
+    this._filmCards[this._filmCards.findIndex((it) => it === oldData)] = newData;
+    this._mostCommentedFilms = sortByComments(this._filmCards).slice(0, 2);
+    this._topRatedFilms = sortByRating(this._filmCards).slice(0, 2);
+
+    this._renderUpdatetFilms();
   }
 
   // render one exemplar of film
   _renderFilm(film, container) {
-    new FilmController(container, film);
+    return new FilmController(container, film, this._onDataChange);
   }
 
   // render films in container
