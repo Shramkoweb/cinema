@@ -1,14 +1,15 @@
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
-import {isEscKeyDown, renderElement} from "../util";
+import {isEscKeyDown, renderElement, unrenderElement} from "../util";
 
 export default class FilmController {
-  constructor(container, data, onDataChange) {
+  constructor(container, data, onDataChange, onChangeView) {
     this._container = container;
     this._data = data;
     this._film = new FilmCard(data);
     this._filmPopup = new FilmDetails(data);
     this._onDataChange = onDataChange;
+    this._onChangeView = onChangeView;
     this._bodyElement = document.body;
     this._controlButtons = this._film.getElement().querySelector(`.film-card__controls`);
     this._filmStatusMap = {
@@ -17,10 +18,17 @@ export default class FilmController {
       favorite: `isFavorite`
     };
 
-    this.create();
+    this.init();
   }
 
-  create() {
+  setDefaultView() {
+    if (document.body.contains(this._filmPopup.getElement())) {
+      unrenderElement(this._filmPopup.getElement());
+      this._filmPopup.removeElement();
+    }
+  }
+
+  init() {
     const onMoviePopUpEscPress = (evt) => isEscKeyDown(evt, closeMoviePopUp);
 
     const closeMoviePopUp = () => {
@@ -31,6 +39,7 @@ export default class FilmController {
     const openMoviePopup = (evt) => {
       if (evt.target.tagName === `A` || evt.target.tagName === `H3` || evt.target.tagName === `IMG`) {
         this._bodyElement.appendChild(this._filmPopup.getElement());
+        // если по ТЗ сюда добавить _onChangeView то ничего не работает =)
         document.addEventListener(`keydown`, onMoviePopUpEscPress);
       }
     };

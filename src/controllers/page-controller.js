@@ -36,8 +36,10 @@ export default class PageController {
     this._mostCommentedFilmsContainer = this._filmsComponent.getElement().querySelector(`.films-list__container--commented`);
     this._filmsListElement = this._filmsComponent.getElement().querySelector(`.films-list`);
     this._filmsContainerElement = this._filmsComponent.getElement().querySelector(`.films-list__container`);
+    this._subscriptions = [];
 
     this._onDataChange = this._onDataChange.bind(this);
+    this._onChangeView = this._onChangeView.bind(this);
   }
 
   _renderUpdatesFilms() {
@@ -55,6 +57,10 @@ export default class PageController {
     this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);
   }
 
+  _onChangeView() {
+    this._subscriptions.forEach((subscription) => subscription());
+  }
+
   _onDataChange(newData, oldData) {
     this._filmCards[this._filmCards.findIndex((it) => it === oldData)] = newData;
     this._mostCommentedFilms = sortByComments(this._filmCards).slice(0, 2);
@@ -65,7 +71,8 @@ export default class PageController {
 
   // render one exemplar of film
   _renderFilm(film, container) {
-    return new FilmController(container, film, this._onDataChange);
+    const filmController = new FilmController(container, film, this._onDataChange, this._onChangeView);
+    this._subscriptions.push(filmController.setDefaultView.bind(filmController));
   }
 
   // render films in container
