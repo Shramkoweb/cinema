@@ -40,20 +40,7 @@ export default class PageController {
     this._onDataChange = this._onDataChange.bind(this);
   }
 
-
-  // _renderBoard(films) {
-  //   unrenderElement(this._filmsComponent.getElement());
-  //
-  //   this._filmsComponent.removeElement();
-  //   renderElement(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
-  //   this._tasks.forEach((taskMock) => this._renderTask(taskMock));
-  // }
-  //
-  // _renderTask(task) {
-  //   new TaskController(this._taskList, task, this._onDataChange);
-  // }
-
-  _renderUpdatetFilms() {
+  _renderUpdatesFilms() {
     this._filmsContainerElement.innerHTML = ``;
     this._mostCommentedFilmsContainer.innerHTML = ``;
     this._topRatedFilmsContainer.innerHTML = ``;
@@ -73,7 +60,7 @@ export default class PageController {
     this._mostCommentedFilms = sortByComments(this._filmCards).slice(0, 2);
     this._topRatedFilms = sortByRating(this._filmCards).slice(0, 2);
 
-    this._renderUpdatetFilms();
+    this._renderUpdatesFilms();
   }
 
   // render one exemplar of film
