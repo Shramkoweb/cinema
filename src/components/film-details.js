@@ -50,7 +50,7 @@ export default class FilmDetails extends AbstractComponent {
     return `
         <li class="film-details__comment">
           <span class="film-details__comment-emoji">
-            <img src="./images/emoji/${emoji}" width="55" height="55" alt="emoji">
+            <img src="./images/emoji/${emoji}" width="55" height="55" alt="emoji" data-name="${emoji}">
           </span>
           <div>
             <p class="film-details__comment-text">${comment}</p>
