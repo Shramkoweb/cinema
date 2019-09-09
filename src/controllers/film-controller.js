@@ -41,7 +41,6 @@ export default class FilmController {
 
       if (evt.target.tagName === `A` || evt.target.tagName === `H3` || evt.target.tagName === `IMG`) {
         this._bodyElement.appendChild(this._filmPopup.getElement());
-        // если по ТЗ сюда добавить _onChangeView то ничего не работает =)
         document.addEventListener(`keydown`, onMoviePopUpEscPress);
       }
     };
