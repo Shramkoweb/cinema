@@ -1,6 +1,7 @@
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
-import {isEscKeyDown, renderElement, unrenderElement} from "../util";
+import {isEscKeyDown, Position, renderElement, unrenderElement} from "../util";
+import FilmDetailsRating from "../components/film-details-rating";
 
 export default class FilmController {
   constructor(container, data, onDataChange, onChangeView) {
@@ -8,6 +9,7 @@ export default class FilmController {
     this._data = data;
     this._film = new FilmCard(data);
     this._filmPopup = new FilmDetails(data);
+    this._filmRatingComponent = new FilmDetailsRating({title: data.title, image: data.image});
     this._onDataChange = onDataChange;
     this._onChangeView = onChangeView;
     this._bodyElement = document.body;
@@ -21,6 +23,7 @@ export default class FilmController {
     this.init();
   }
 
+  // set default statement
   setDefaultView() {
     if (document.body.contains(this._filmPopup.getElement())) {
       unrenderElement(this._filmPopup.getElement());
@@ -42,6 +45,12 @@ export default class FilmController {
       if (evt.target.tagName === `A` || evt.target.tagName === `H3` || evt.target.tagName === `IMG`) {
         this._bodyElement.appendChild(this._filmPopup.getElement());
         document.addEventListener(`keydown`, onMoviePopUpEscPress);
+
+        this._filmPopup.getElement().querySelector(`#watched`)
+          .addEventListener(`change`, () => {
+            this._onDataChange(this._data, this._data.isWatched = true);
+            renderElement(this._filmPopup.getElement().querySelector(`.form-details__top-container`), this._filmRatingComponent.getElement(), Position.BEFOREEND);
+          });
       }
     };
 
