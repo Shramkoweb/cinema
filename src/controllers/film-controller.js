@@ -1,6 +1,6 @@
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
-import {isEscKeyDown, Position, renderElement, unrenderElement} from "../util";
+import {isEscKeyDown, renderElement, unrenderElement} from "../util";
 import FilmDetailsRating from "../components/film-details-rating";
 
 export default class FilmController {
