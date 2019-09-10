@@ -46,12 +46,6 @@ export default class FilmController {
       if (evt.target.tagName === `A` || evt.target.tagName === `H3` || evt.target.tagName === `IMG`) {
         this._bodyElement.appendChild(this._filmPopup.getElement());
         document.addEventListener(`keydown`, onMoviePopUpEscPress);
-
-        this._filmPopup.getElement().querySelector(`#watched`)
-          .addEventListener(`change`, () => {
-            this._onDataChange(this._data, this._data.isWatched = true);
-            renderElement(this._filmPopup.getElement().querySelector(`.form-details__top-container`), this._filmRatingComponent.getElement(), Position.BEFOREEND);
-          });
       }
     };
 
@@ -90,11 +84,12 @@ export default class FilmController {
         .from(this._filmPopup.getElement().querySelectorAll(`.film-details__control-input:checked`))
         .map((control) => control.getAttribute(`name`));
 
-      console.log(checkedControls);
-
-
       const newData = this.generateNewData(this._filmPopup.getElement(), checkedControls);
-      console.log(newData);
+
+      // temporary for test
+      console.table({Watchlist: this._data.isInWatchlist, Watched: this._data.isWatched, Favorite: this._data.isFavorite});
+      console.table({Watchlist: newData.isInWatchlist, Watched: newData.isWatched, Favorite: newData.isFavorite});
+
       this._onDataChange(newData, this._data);
     };
 
