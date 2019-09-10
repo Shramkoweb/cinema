@@ -86,10 +86,6 @@ export default class FilmController {
 
       const newData = this.generateNewData(this._filmPopup.getElement(), checkedControls);
 
-      // temporary for test
-      console.table({Watchlist: this._data.isInWatchlist, Watched: this._data.isWatched, Favorite: this._data.isFavorite});
-      console.table({Watchlist: newData.isInWatchlist, Watched: newData.isWatched, Favorite: newData.isFavorite});
-
       this._onDataChange(newData, this._data);
     };
 
@@ -118,6 +114,7 @@ export default class FilmController {
 
       return acc;
     }, {
+      id: this._data.id,
       image: this._data.image,
       title: this._data.title,
       originalTitle: this._data.originalTitle,

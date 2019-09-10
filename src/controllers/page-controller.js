@@ -62,7 +62,11 @@ export default class PageController {
   }
 
   _onDataChange(newData, oldData) {
-    this._filmCards[this._filmCards.findIndex((it) => it === oldData)] = newData;
+    const index = this._filmCards.findIndex((film) => film.id === oldData.id);
+
+    this._filmCards[index] = newData;
+
+
     this._mostCommentedFilms = sortByComments(this._filmCards).slice(0, 2);
     this._topRatedFilms = sortByRating(this._filmCards).slice(0, 2);
 
