@@ -23,6 +23,8 @@ export default class FilmDetails extends AbstractComponent {
     this._isWatched = isWatched;
     this._isInWatchlist = isInWatchlist;
     this._movieRatingInstance = new FilmDetailsRating({title, image});
+
+    this.addEventListeners();
   }
 
   // get movie rating template if movie is watched
@@ -186,5 +188,19 @@ export default class FilmDetails extends AbstractComponent {
         </form>
       </section>
     `.trim();
+  }
+
+  addEventListeners() {
+    const onWatchedControlClick = (evt) => {
+      if (evt.target.checked) {
+        const filmInfo = this.getElement().querySelector(`.form-details__top-container`);
+        const filmRatingTemplate = new FilmDetailsRating({title: this._title, image: this._image}).getTemplate();
+        filmInfo.insertAdjacentHTML(`afterend`, filmRatingTemplate);
+      } else {
+        this.getElement().querySelector(`.form-details__middle-container`).remove();
+      }
+    };
+
+    this.getElement().querySelector(`.film-details__control-input[name="watched"]`).addEventListener(`change`, onWatchedControlClick);
   }
 }
