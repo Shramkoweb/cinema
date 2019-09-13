@@ -1,6 +1,7 @@
-import {formatFilmDuration, getMovieFullDate, isChecked} from "../util";
+import {formatFilmDuration, isChecked} from "../util";
 import FilmDetailsRating from "./film-details-rating";
 import AbstractComponent from "./absctract-component";
+import moment from "moment";
 
 export default class FilmDetails extends AbstractComponent {
   constructor({title, rating, releaseDate, director, writers, genres, actors, age, originalTitle, country, isFavorite, isWatched, isInWatchlist, runtime, image, description, comments}) {
@@ -58,7 +59,7 @@ export default class FilmDetails extends AbstractComponent {
             <p class="film-details__comment-text">${comment}</p>
             <p class="film-details__comment-info">
               <span class="film-details__comment-author">${author}</span>
-              <span class="film-details__comment-day">${date} days ago</span>
+              <span class="film-details__comment-day">${moment(date).fromNow()}</span>
               <button class="film-details__comment-delete">Delete</button>
             </p>
           </div>
@@ -108,7 +109,7 @@ export default class FilmDetails extends AbstractComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Release Date</td>
-                    <td class="film-details__cell">${getMovieFullDate(this._releaseDate)}</td>
+                    <td class="film-details__cell">${moment(this._releaseDate).format(`DD MMMM YYYY`)}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>

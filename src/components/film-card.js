@@ -1,5 +1,6 @@
 import AbstractComponent from "./absctract-component";
 import {formatFilmDuration} from "../util";
+import moment from "moment";
 
 export default class FilmCard extends AbstractComponent {
   constructor({title, rating, releaseDate, runtime, genres, image, description, comments, isFavorite, isWatched, isInWatchlist}) {
@@ -21,11 +22,6 @@ export default class FilmCard extends AbstractComponent {
     return formatFilmDuration(this._runtime);
   }
 
-  /* get Year from Date*/
-  get movieYear() {
-    return new Date(this._releaseDate).getFullYear();
-  }
-
   /* return active class  */
   addActiveClass(isActive) {
     return `${isActive ? `film-card__controls-item--active` : ``}`;
@@ -37,7 +33,7 @@ export default class FilmCard extends AbstractComponent {
         <h3 class="film-card__title">${this._title}</h3>
         <p class="film-card__rating">${this._rating}</p>
         <p class="film-card__info">
-          <span class="film-card__year">${this.movieYear}</span>
+          <span class="film-card__year">${moment(this._releaseDate).format(`YYYY`)}</span>
           <span class="film-card__duration">${this.filmDuration}</span>
           <span class="film-card__genre">${this._genres.values().next().value}</span>
         </p>
