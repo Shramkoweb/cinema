@@ -1,12 +1,9 @@
 import Films from "../components/films";
-import FilmCard from "../components/film-card";
-import FilmDetails from "../components/film-details";
 import Sort from "../components/sort";
 import ShowMoreButton from "../components/show-more-button";
 import Search from "../components/search";
 import Profile from "../components/profile";
 import {
-  isEscKeyDown,
   renderElement,
   sortByComments,
   sortByRating, sortFilms,
@@ -15,6 +12,7 @@ import {
 import Navigation from "../components/navigation";
 import {getFilterCount} from "../filter";
 import FilmsEmpty from "../components/films-empty";
+import FilmController from "./film-controller";
 
 const MAX_FILMS_TO_RENDER = 5;
 
@@ -38,42 +36,47 @@ export default class PageController {
     this._mostCommentedFilmsContainer = this._filmsComponent.getElement().querySelector(`.films-list__container--commented`);
     this._filmsListElement = this._filmsComponent.getElement().querySelector(`.films-list`);
     this._filmsContainerElement = this._filmsComponent.getElement().querySelector(`.films-list__container`);
+    this._subscriptions = [];
+
+    this._onDataChange = this._onDataChange.bind(this);
+    this._onChangeView = this._onChangeView.bind(this);
+  }
+
+  _renderUpdatesFilms() {
+    this._filmsContainerElement.innerHTML = ``;
+    this._mostCommentedFilmsContainer.innerHTML = ``;
+    this._topRatedFilmsContainer.innerHTML = ``;
+
+    // if films > 5 render moreButton
+    if (this._filmCards.length > MAX_FILMS_TO_RENDER) {
+      renderElement(this._filmsListElement, this._moreButtonComponent.getElement());
+    }
+
+    this._renderFilms(this._filmCards.slice(0, MAX_FILMS_TO_RENDER), this._filmsContainerElement);
+    this._renderFilms(this._topRatedFilms, this._topRatedFilmsContainer);
+    this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);
+  }
+
+  _onChangeView() {
+    this._subscriptions.forEach((subscription) => subscription());
+  }
+
+  _onDataChange(newData, oldData) {
+    const index = this._filmCards.findIndex((film) => film.id === oldData.id);
+
+    this._filmCards[index] = newData;
+
+
+    this._mostCommentedFilms = sortByComments(this._filmCards).slice(0, 2);
+    this._topRatedFilms = sortByRating(this._filmCards).slice(0, 2);
+
+    this._renderUpdatesFilms();
   }
 
   // render one exemplar of film
   _renderFilm(film, container) {
-    const filmInstance = new FilmCard(film);
-    const filmDetailsInstance = new FilmDetails(film);
-    const onMoviePopUpEscPress = (evt) => isEscKeyDown(evt, closeMoviePopUp);
-
-    const closeMoviePopUp = () => {
-      this._container.removeChild(filmDetailsInstance.getElement());
-      document.removeEventListener(`keydown`, onMoviePopUpEscPress);
-    };
-
-    const openMoviePopup = () => {
-      this._container.appendChild(filmDetailsInstance.getElement());
-      document.addEventListener(`keydown`, onMoviePopUpEscPress);
-    };
-
-    filmInstance.getElement()
-      .addEventListener(`click`, openMoviePopup);
-
-    filmDetailsInstance.getElement()
-      .querySelector(`.film-details__close-btn`)
-      .addEventListener(`click`, closeMoviePopUp);
-
-    filmDetailsInstance.getElement().querySelector(`textarea`)
-      .addEventListener(`focus`, () => {
-        document.removeEventListener(`keydown`, onMoviePopUpEscPress);
-      });
-
-    filmDetailsInstance.getElement().querySelector(`textarea`)
-      .addEventListener(`blur`, () => {
-        document.addEventListener(`keydown`, onMoviePopUpEscPress);
-      });
-
-    renderElement(container, filmInstance.getElement());
+    const filmController = new FilmController(container, film, this._onDataChange, this._onChangeView);
+    this._subscriptions.push(filmController.setDefaultView.bind(filmController));
   }
 
   // render films in container
@@ -111,7 +114,7 @@ export default class PageController {
     }
   }
 
-  getFilmsAmountStatistics() {
+  _getFilmsAmountStatistics() {
     const footerStatisticsElement = document.querySelector(`.footer__statistics p`);
     footerStatisticsElement.textContent = `${this._filmCards.length} movies inside`;
   }
@@ -144,6 +147,6 @@ export default class PageController {
     this._renderFilms(this._topRatedFilms, this._topRatedFilmsContainer);
     this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);
     this._sortComponent.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
-    this.getFilmsAmountStatistics();
+    this._getFilmsAmountStatistics();
   }
 }

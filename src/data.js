@@ -134,7 +134,8 @@ const getRandomDescription = (descriptions, count = 1) => {
 };
 
 /* Мокап фильма */
-const generateMovieMock = () => ({
+const generateMovieMock = (id) => ({
+  id,
   image: getRandomItemFrom(IMAGES),
   title: getRandomItemFrom(TITLES),
   originalTitle: getRandomItemFrom(TITLES),
@@ -155,4 +156,4 @@ const generateMovieMock = () => ({
 });
 
 /* Получаем массив фильмов */
-export const getMovies = (count) => new Array(count).fill(``).map(generateMovieMock);
+export const getMovies = (amount) => [...Array(amount)].map((film, id) => generateMovieMock(id));

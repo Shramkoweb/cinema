@@ -23,6 +23,8 @@ export default class FilmDetails extends AbstractComponent {
     this._isWatched = isWatched;
     this._isInWatchlist = isInWatchlist;
     this._movieRatingInstance = new FilmDetailsRating({title, image});
+
+    this.addEventListeners();
   }
 
   // get movie rating template if movie is watched
@@ -50,7 +52,7 @@ export default class FilmDetails extends AbstractComponent {
     return `
         <li class="film-details__comment">
           <span class="film-details__comment-emoji">
-            <img src="./images/emoji/${emoji}" width="55" height="55" alt="emoji">
+            <img src="./images/emoji/${emoji}" width="55" height="55" alt="emoji" data-name="${emoji}">
           </span>
           <div>
             <p class="film-details__comment-text">${comment}</p>
@@ -160,22 +162,22 @@ export default class FilmDetails extends AbstractComponent {
                 </label>
       
                 <div class="film-details__emoji-list">
-                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="sleeping">
+                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
                   <label class="film-details__emoji-label" for="emoji-smile">
                     <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
                   </label>
       
-                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="neutral-face">
+                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
                   <label class="film-details__emoji-label" for="emoji-sleeping">
                     <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
                   </label>
       
-                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-gpuke" value="grinning">
-                  <label class="film-details__emoji-label" for="emoji-gpuke">
+                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
+                  <label class="film-details__emoji-label" for="emoji-puke">
                     <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
                   </label>
       
-                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="grinning">
+                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
                   <label class="film-details__emoji-label" for="emoji-angry">
                     <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
                   </label>
@@ -186,5 +188,35 @@ export default class FilmDetails extends AbstractComponent {
         </form>
       </section>
     `.trim();
+  }
+
+  addEventListeners() {
+    const onWatchedControlClick = (evt) => {
+      if (evt.target.checked) {
+        const filmInfo = this.getElement().querySelector(`.form-details__top-container`);
+        const filmRatingTemplate = new FilmDetailsRating({title: this._title, image: this._image}).getTemplate();
+        filmInfo.insertAdjacentHTML(`afterend`, filmRatingTemplate);
+      } else {
+        this.getElement().querySelector(`.form-details__middle-container`).remove();
+      }
+    };
+
+    const onEmojiClick = (evt) => {
+      if (evt.target.tagName === `INPUT`) {
+        const emojiBlock = this.getElement().querySelector(`.film-details__add-emoji-label`);
+        emojiBlock.innerHTML = ``;
+
+        const emojiElement = document.createElement(`img`);
+        emojiElement.width = `55`;
+        emojiElement.height = `55`;
+        emojiElement.alt = `emoji`;
+        emojiElement.src = `images/emoji/${evt.target.value}.png`;
+
+        emojiBlock.insertAdjacentElement(`beforeend`, emojiElement);
+      }
+    };
+
+    this.getElement().querySelector(`.film-details__control-input[name="watched"]`).addEventListener(`change`, onWatchedControlClick);
+    this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, onEmojiClick);
   }
 }
