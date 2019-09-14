@@ -3,6 +3,9 @@ import FilmDetailsRating from "./film-details-rating";
 import AbstractComponent from "./absctract-component";
 import moment from "moment";
 
+const EMOJI_WIDTH = 55;
+const EMOJI_HEIGHT = 55;
+
 export default class FilmDetails extends AbstractComponent {
   constructor({title, rating, releaseDate, director, writers, genres, actors, age, originalTitle, country, isFavorite, isWatched, isInWatchlist, runtime, image, description, comments}) {
     super();
@@ -12,9 +15,9 @@ export default class FilmDetails extends AbstractComponent {
     this._writers = writers;
     this._actors = actors;
     this._releaseDate = releaseDate;
+    this._runtime = formatFilmDuration(runtime);
     this._originalTitle = originalTitle;
     this._country = country;
-    this._runtime = runtime;
     this._genres = genres;
     this._age = age;
     this._image = image;
@@ -113,7 +116,7 @@ export default class FilmDetails extends AbstractComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>
-                    <td class="film-details__cell">${formatFilmDuration(this._runtime)}</td>
+                    <td class="film-details__cell">${this._runtime.hours}h ${this._runtime.minutes}m</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Country</td>
@@ -208,8 +211,8 @@ export default class FilmDetails extends AbstractComponent {
         emojiBlock.innerHTML = ``;
 
         const emojiElement = document.createElement(`img`);
-        emojiElement.width = `55`;
-        emojiElement.height = `55`;
+        emojiElement.width = EMOJI_WIDTH;
+        emojiElement.height = EMOJI_HEIGHT;
         emojiElement.alt = `emoji`;
         emojiElement.src = `images/emoji/${evt.target.value}.png`;
 

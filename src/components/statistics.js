@@ -1,17 +1,26 @@
 import AbstractComponent from "./absctract-component";
+import {getDurationOfWatchedFilms, getUserRating, getWatchedMoviesAmount} from "../util";
 
 export default class Statistics extends AbstractComponent {
-  constructor({rank, filmsAmount, totalDuration, favoriteGenre}) {
+  constructor(movies) {
     super();
-    this._rank = rank;
-    this._filmsAmount = filmsAmount;
-    this._totalDuration = totalDuration;
-    this._favoriteGenre = favoriteGenre;
+    this._rank = getUserRating(movies);
+    this._watchedMovies = getWatchedMoviesAmount(movies);
+    this._totalDuration = getDurationOfWatchedFilms(movies);
+    this._favoriteGenre = movies.length;
+  }
+
+  hide() {
+    this.getElement().classList.add(`visually-hidden`);
+  }
+
+  show() {
+    this.getElement().classList.remove(`visually-hidden`);
   }
 
   getTemplate() {
     return `
-      <section class="statistic">
+      <section class="statistic visually-hidden">
         <p class="statistic__rank">
           Your rank
           <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
@@ -40,11 +49,11 @@ export default class Statistics extends AbstractComponent {
         <ul class="statistic__text-list">
           <li class="statistic__text-item">
             <h4 class="statistic__item-title">You watched</h4>
-            <p class="statistic__item-text">${this._filmsAmount} <span class="statistic__item-description">movies</span></p>
+            <p class="statistic__item-text">${this._watchedMovies} <span class="statistic__item-description">movies</span></p>
           </li>
           <li class="statistic__text-item">
             <h4 class="statistic__item-title">Total duration</h4>
-            <p class="statistic__item-text">${this._totalDuration} <span class="statistic__item-description">h</span> 22 <span class="statistic__item-description">m</span></p>
+            <p class="statistic__item-text">${this._totalDuration.hours} <span class="statistic__item-description">h</span> ${this._totalDuration.minutes} <span class="statistic__item-description">m</span></p>
           </li>
           <li class="statistic__text-item">
             <h4 class="statistic__item-title">Top genre</h4>

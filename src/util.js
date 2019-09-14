@@ -11,6 +11,42 @@ const getMovieFullDate = (date) => {
   });
 };
 
+// get amount of watched films
+const getWatchedMoviesAmount = (movies) => {
+  return movies.reduce((accumulator, currentValue) => {
+    return currentValue.isWatched ? ++accumulator : accumulator;
+  }, 0);
+};
+
+// get Total diration of watched films
+const getDurationOfWatchedFilms = (movies) => {
+  const totalDurationInMinutes = movies.reduce((accumulator, currentValue) => {
+    return currentValue.isWatched ? accumulator + currentValue.runtime : accumulator;
+  }, 0);
+
+  return formatFilmDuration(totalDurationInMinutes);
+};
+
+
+// getting user rating from watched movies
+const getUserRating = (movies) => {
+  let watchedMovies = getWatchedMoviesAmount(movies);
+
+  const getUserTitle = (moviesWatched) => {
+    let userTitle = ``;
+    if (moviesWatched >= 21) {
+      userTitle = `Movie Buff`;
+    } else if (moviesWatched >= 11) {
+      userTitle = `fan`;
+    } else if (moviesWatched > 0) {
+      userTitle = `novice`;
+    }
+    return userTitle;
+  };
+
+  return getUserTitle(watchedMovies);
+};
+
 /* Получаем случайное булевое значение */
 const getRandomBoolean = () => {
   return Boolean(Math.round(Math.random()));
@@ -87,7 +123,10 @@ const formatFilmDuration = (duration) => {
   const roundedHours = Math.floor(hours);
   const roundedMinutes = Math.round((hours - roundedHours) * UNITS.MINUTES_IN_HOUR);
 
-  return `${roundedHours}h ${roundedMinutes}m`;
+  return {
+    hours: roundedHours,
+    minutes: roundedMinutes,
+  };
 };
 
 export {
@@ -99,6 +138,7 @@ export {
   defaultSort,
   sortByRating,
   getRandomNumberInRange,
+  getDurationOfWatchedFilms,
   sortFilms,
   renderElement,
   createElement,
@@ -106,5 +146,7 @@ export {
   formatFilmDuration,
   unrenderElement,
   isChecked,
+  getUserRating,
+  getWatchedMoviesAmount,
   Position,
 };

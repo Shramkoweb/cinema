@@ -7,7 +7,7 @@ import {
   renderElement,
   sortByComments,
   sortByRating, sortFilms,
-  unrenderElement
+  unrenderElement,
 } from "../util";
 import Navigation from "../components/navigation";
 import {getFilterCount} from "../filter";
@@ -148,5 +148,15 @@ export default class PageController {
     this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);
     this._sortComponent.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
     this._getFilmsAmountStatistics();
+  }
+
+  hide() {
+    this._sortComponent.getElement().classList.add(`visually-hidden`);
+    this._filmsComponent.getElement().classList.add(`visually-hidden`);
+  }
+
+  show() {
+    this._sortComponent.getElement().classList.remove(`visually-hidden`);
+    this._filmsComponent.getElement().classList.remove(`visually-hidden`);
   }
 }
