@@ -10,4 +10,25 @@ const filmsControllerInstance = new PageController(mainElement, movies);
 const statisticsComponent = new Statistics(movies);
 
 filmsControllerInstance.init();
-document.body.appendChild(statisticsComponent.getElement());
+mainElement.appendChild(statisticsComponent.getElement());
+
+const statisticsLink = mainElement.querySelector(`.main-navigation__item--additional`);
+const showAllLink = mainElement.querySelector(`.main-navigation__item`);
+
+
+const showStatistics = (evt) => {
+  evt.preventDefault();
+
+  statisticsComponent.show();
+  filmsControllerInstance.hide();
+};
+
+const showMovies = (evt) => {
+  evt.preventDefault();
+
+  statisticsComponent.hide();
+  filmsControllerInstance.show();
+};
+
+statisticsLink.addEventListener(`click`, showStatistics);
+showAllLink.addEventListener(`click`, showMovies);
