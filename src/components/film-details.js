@@ -159,7 +159,7 @@ export default class FilmDetails extends AbstractComponent {
               </ul>
       
               <div class="film-details__new-comment">
-                <div class="film-details__add-emoji-label"></div>
+                <div class="film-details__add-emoji-label film-details__add-emoji-label--incorrect"></div>
       
                 <label class="film-details__comment-label">
                   <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
@@ -264,6 +264,7 @@ export default class FilmDetails extends AbstractComponent {
     const onEmojiClick = (evt) => {
       if (evt.target.tagName === `INPUT`) {
         const emojiBlock = this.getElement().querySelector(`.film-details__add-emoji-label`);
+        emojiBlock.classList.remove(`film-details__add-emoji-label--incorrect`);
         emojiBlock.innerHTML = ``;
 
         const emojiElement = document.createElement(`img`);
