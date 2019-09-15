@@ -205,6 +205,17 @@ export default class FilmDetails extends AbstractComponent {
       }
     };
 
+    // delete comment event
+    const onCommentDelete = (evt) => {
+      evt.preventDefault();
+
+      evt.target.closest(`.film-details__comment`).remove();
+      const commentsCount = parseInt(this.getElement().querySelector(`.film-details__comments-count`).textContent, 10);
+
+      this.getElement().querySelector(`.film-details__comments-count`).textContent = commentsCount - 1;
+    };
+
+    // click on Emoji event
     const onEmojiClick = (evt) => {
       if (evt.target.tagName === `INPUT`) {
         const emojiBlock = this.getElement().querySelector(`.film-details__add-emoji-label`);
@@ -219,6 +230,11 @@ export default class FilmDetails extends AbstractComponent {
         emojiBlock.insertAdjacentElement(`beforeend`, emojiElement);
       }
     };
+
+    // add listeners for all delete button in comment element
+    for (const deleteButton of this.getElement().querySelectorAll(`.film-details__comment-delete`)) {
+      deleteButton.addEventListener(`click`, onCommentDelete);
+    }
 
     this.getElement().querySelector(`.film-details__control-input[name="watched"]`).addEventListener(`change`, onWatchedControlClick);
     this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, onEmojiClick);

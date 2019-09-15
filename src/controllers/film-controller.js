@@ -18,10 +18,16 @@ export default class FilmController {
     this._filmStatusMap = {
       watched: `isWatched`,
       watchlist: `isInWatchlist`,
-      favorite: `isFavorite`
+      favorite: `isFavorite`,
     };
 
     this.init();
+  }
+
+  checkedControls() {
+    return Array
+      .from(this._filmPopup.getElement().querySelectorAll(`.film-details__control-input:checked`))
+      .map((control) => control.getAttribute(`name`));
   }
 
   // set default statement
@@ -78,13 +84,22 @@ export default class FilmController {
       this._onDataChange(newData, this._data);
     };
 
+    // click on delete comment in popup
+    const onCommentDelete = (evt) => {
+      evt.preventDefault();
+
+      const newData = this.generateNewData(this._filmPopup.getElement(), this.checkedControls());
+
+      this._onDataChange(newData, this._data);
+    };
+
+    for (const deleteButton of this._filmPopup.getElement().querySelectorAll(`.film-details__comment-delete`)) {
+      deleteButton.addEventListener(`click`, onCommentDelete);
+    }
+
     // Click on film popup controls
     const onDetailedControlClick = () => {
-      const checkedControls = Array
-        .from(this._filmPopup.getElement().querySelectorAll(`.film-details__control-input:checked`))
-        .map((control) => control.getAttribute(`name`));
-
-      const newData = this.generateNewData(this._filmPopup.getElement(), checkedControls);
+      const newData = this.generateNewData(this._filmPopup.getElement(), this.checkedControls());
 
       this._onDataChange(newData, this._data);
     };
@@ -102,7 +117,7 @@ export default class FilmController {
         author: comment.querySelector(`.film-details__comment-author`).textContent,
         comment: comment.querySelector(`.film-details__comment-text`).textContent,
         emoji: comment.querySelector(`.film-details__comment-emoji`).querySelector(`img`).getAttribute(`data-name`),
-        date: new Date(comment.querySelector(`.film-details__comment-day`).textContent)
+        date: new Date(comment.querySelector(`.film-details__comment-day`).textContent),
       };
     });
 

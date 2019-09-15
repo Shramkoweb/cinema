@@ -21,9 +21,9 @@ export default class PageController {
     this._container = container;
     this._filmCards = filmCards;
     this._filmsOnPage = MAX_FILMS_TO_RENDER;
-    this._sortedFilms = filmCards.slice();
     this._headerElement = document.querySelector(`header`);
     this._searchComponent = new Search();
+    this._sortedFilms = filmCards.slice();
     this._emptyFilmsComponent = new FilmsEmpty();
     this._menuComponent = new Navigation(getFilterCount(filmCards));
     this._profileComponent = new Profile(filmCards);
@@ -85,8 +85,7 @@ export default class PageController {
   }
 
   _renderLeftFilms() {
-    this._sortedFilms
-      .slice(this._filmsOnPage, (this._filmsOnPage + MAX_FILMS_TO_RENDER))
+    this._sortedFilms.slice(this._filmsOnPage, (this._filmsOnPage + MAX_FILMS_TO_RENDER))
       .forEach((film) => this._renderFilm(film, this._filmsContainerElement));
 
     this._filmsOnPage = this._filmsOnPage + MAX_FILMS_TO_RENDER;
@@ -109,6 +108,7 @@ export default class PageController {
     if (evt.target.tagName === `A`) {
       const sortType = evt.target.dataset.sortType;
       this._sortedFilms = sortFilms(this._filmCards, sortType);
+
       this._filmsContainerElement.innerHTML = ``;
       this._renderFilms(this._sortedFilms.slice(0, MAX_FILMS_TO_RENDER), this._filmsContainerElement);
     }
