@@ -245,13 +245,13 @@ export default class FilmDetails extends AbstractComponent {
         }
 
 
-        // Fallback to default state
+        // default state
         this.getElement().querySelector(`.film-details__comment-input`).value = ``;
         this.getElement().querySelector(`.film-details__emoji-item:checked`).checked = false;
       }
     };
 
-    // Comment field element
+    // Comment field events
     this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`focus`, () => {
       this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`keydown`, onCommentSubmit);
     });
