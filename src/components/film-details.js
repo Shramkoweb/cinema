@@ -56,14 +56,14 @@ export default class FilmDetails extends AbstractComponent {
     return `
         <li class="film-details__comment">
           <span class="film-details__comment-emoji">
-            <img src="./images/emoji/${emoji}" width="55" height="55" alt="emoji" data-name="${emoji}">
+            <img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji" data-name="${emoji}">
           </span>
           <div>
             <p class="film-details__comment-text">${comment}</p>
             <p class="film-details__comment-info">
               <span class="film-details__comment-author">${author}</span>
               <span class="film-details__comment-day">${moment(date).fromNow()}</span>
-              <button class="film-details__comment-delete">Delete</button>
+              <button type="button" class="film-details__comment-delete">Delete</button>
             </p>
           </div>
         </li>
@@ -215,6 +215,51 @@ export default class FilmDetails extends AbstractComponent {
       this.getElement().querySelector(`.film-details__comments-count`).textContent = commentsCount - 1;
     };
 
+
+    // submit comment event
+    const onCommentSubmit = (evt) => {
+      if (evt.ctrlKey && evt.key === `Enter`) {
+        const emojiBlock = this.getElement().querySelector(`.film-details__add-emoji-label`);
+        if (!emojiBlock.querySelector(`img`)) {
+          emojiBlock.classList.add(`film-details__add-emoji-label--error`);
+
+          return;
+        }
+
+        const commentsCount = parseInt(this.getElement().querySelector(`.film-details__comments-count`).textContent, 10);
+        const commentsList = document.querySelector(`.film-details__comments-list`);
+        const comment = {
+          author: `Serhii Shramko`,
+          comment: this.getElement().querySelector(`.film-details__comment-input`).value,
+          emoji: this.getElement().querySelector(`.film-details__add-emoji-label`).querySelector(`img`).getAttribute(`data-name`),
+          date: new Date(),
+        };
+
+        commentsList.insertAdjacentHTML(`beforeend`, this.getCommentTemplate(comment));
+
+        this.getElement().querySelector(`.film-details__comments-count`).textContent = commentsCount + 1;
+
+        // add listeners for all delete button in comment element
+        for (const deleteButton of this.getElement().querySelectorAll(`.film-details__comment-delete`)) {
+          deleteButton.addEventListener(`click`, onCommentDelete);
+        }
+
+
+        // Fallback to default state
+        this.getElement().querySelector(`.film-details__comment-input`).value = ``;
+        this.getElement().querySelector(`.film-details__emoji-item:checked`).checked = false;
+      }
+    };
+
+    // Comment field element
+    this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`focus`, () => {
+      this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`keydown`, onCommentSubmit);
+    });
+
+    this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`blur`, () => {
+      this.getElement().querySelector(`.film-details__comment-input`).removeEventListener(`keydown`, onCommentSubmit);
+    });
+
     // click on Emoji event
     const onEmojiClick = (evt) => {
       if (evt.target.tagName === `INPUT`) {
@@ -226,6 +271,7 @@ export default class FilmDetails extends AbstractComponent {
         emojiElement.height = EMOJI_HEIGHT;
         emojiElement.alt = `emoji`;
         emojiElement.src = `images/emoji/${evt.target.value}.png`;
+        emojiElement.setAttribute(`data-name`, evt.target.value);
 
         emojiBlock.insertAdjacentElement(`beforeend`, emojiElement);
       }

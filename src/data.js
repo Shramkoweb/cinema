@@ -92,11 +92,11 @@ const COUNTRIES = [
 ];
 
 const EMOJIS = [
-  `angry.png`,
-  `puke.png`,
-  `sleeping.png`,
-  `smile.png`,
-  `trophy.png`
+  `angry`,
+  `puke`,
+  `sleeping`,
+  `smile`,
+  `trophy`
 ];
 
 const COMMENTS = [
