@@ -159,14 +159,16 @@ export default class FilmDetails extends AbstractComponent {
               </ul>
       
               <div class="film-details__new-comment">
-                <div class="film-details__add-emoji-label film-details__add-emoji-label--incorrect"></div>
+                <div class="film-details__add-emoji-label">
+                  <img src="images/emoji/smile.png" width="55" height="55" alt="emoji" data-name="smile">
+                </div>
       
                 <label class="film-details__comment-label">
                   <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
                 </label>
       
                 <div class="film-details__emoji-list">
-                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
+                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile" checked>
                   <label class="film-details__emoji-label" for="emoji-smile">
                     <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
                   </label>
@@ -219,14 +221,7 @@ export default class FilmDetails extends AbstractComponent {
     // submit comment event
     const onCommentSubmit = (evt) => {
       if (evt.ctrlKey && evt.key === `Enter`) {
-        const emojiBlock = this.getElement().querySelector(`.film-details__add-emoji-label`);
-        if (!emojiBlock.querySelector(`img`)) {
-          emojiBlock.classList.add(`film-details__add-emoji-label--error`);
-
-          return;
-        }
-
-        const commentsCount = parseInt(this.getElement().querySelector(`.film-details__comments-count`).textContent, 10);
+        let commentsCount = parseInt(this.getElement().querySelector(`.film-details__comments-count`).textContent, 10);
         const commentsList = document.querySelector(`.film-details__comments-list`);
         const comment = {
           author: `Serhii Shramko`,
@@ -264,7 +259,6 @@ export default class FilmDetails extends AbstractComponent {
     const onEmojiClick = (evt) => {
       if (evt.target.tagName === `INPUT`) {
         const emojiBlock = this.getElement().querySelector(`.film-details__add-emoji-label`);
-        emojiBlock.classList.remove(`film-details__add-emoji-label--incorrect`);
         emojiBlock.innerHTML = ``;
 
         const emojiElement = document.createElement(`img`);

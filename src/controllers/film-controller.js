@@ -110,8 +110,6 @@ export default class FilmController {
         const newData = this.generateNewData(this._filmPopup.getElement(), this.checkedControls());
 
         this._onDataChange(newData, this._data);
-
-        hasSelectedEmoji.remove();
       }
     };
 
