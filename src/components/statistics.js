@@ -1,5 +1,5 @@
 import AbstractComponent from "./absctract-component";
-import {getDurationOfWatchedFilms, getUserRating, getWatchedMoviesAmount} from "../util";
+import {getDurationOfWatchedFilms, getFavoriteGenre, getUserRating, getWatchedMoviesAmount} from "../util";
 
 export default class Statistics extends AbstractComponent {
   constructor(movies) {
@@ -7,7 +7,7 @@ export default class Statistics extends AbstractComponent {
     this._rank = getUserRating(movies);
     this._watchedMovies = getWatchedMoviesAmount(movies);
     this._totalDuration = getDurationOfWatchedFilms(movies);
-    this._favoriteGenre = movies.length;
+    this._favoriteGenre = getFavoriteGenre(movies);
   }
 
   hide() {
@@ -20,7 +20,7 @@ export default class Statistics extends AbstractComponent {
 
   getTemplate() {
     return `
-      <section class="statistic visually-hidden">
+      <section class="statistic">
         <p class="statistic__rank">
           Your rank
           <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">

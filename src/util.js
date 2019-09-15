@@ -27,6 +27,32 @@ const getDurationOfWatchedFilms = (movies) => {
   return formatFilmDuration(totalDurationInMinutes);
 };
 
+// get Favorite genre in all movies
+const getFavoriteGenre = (movies) => {
+  if (!movies.length) {
+    return undefined;
+  }
+
+  const genresCounter = {
+    Drama: 0,
+    Comedy: 0,
+    Mystery: 0,
+    Romance: 0,
+    History: 0,
+  };
+
+
+  const genres = movies.map((film) => [...film.genres]).flat();
+
+  for (const genre of genres) {
+    genresCounter[genre] += 1;
+  }
+
+
+  const findFavoriteGenre = (counter) => Object.keys(counter).reduce((accumulator, currentValue) => (counter[accumulator] > counter[currentValue] ? accumulator : currentValue));
+
+  return findFavoriteGenre(genresCounter);
+};
 
 // getting user rating from watched movies
 const getUserRating = (movies) => {
@@ -37,9 +63,9 @@ const getUserRating = (movies) => {
     if (moviesWatched >= 21) {
       userTitle = `Movie Buff`;
     } else if (moviesWatched >= 11) {
-      userTitle = `fan`;
+      userTitle = `Fan`;
     } else if (moviesWatched > 0) {
-      userTitle = `novice`;
+      userTitle = `Novice`;
     }
     return userTitle;
   };
@@ -147,6 +173,7 @@ export {
   unrenderElement,
   isChecked,
   getUserRating,
+  getFavoriteGenre,
   getWatchedMoviesAmount,
   Position,
 };
