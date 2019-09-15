@@ -2,15 +2,6 @@ const getRandomItemFrom = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-/* Получаем дату в нужном формате */
-const getMovieFullDate = (date) => {
-  return new Date(date).toLocaleDateString(`en-GB`, {
-    day: `2-digit`,
-    month: `long`,
-    year: `numeric`,
-  });
-};
-
 // get amount of watched films
 const getWatchedMoviesAmount = (movies) => {
   return movies.reduce((accumulator, currentValue) => {
@@ -18,7 +9,7 @@ const getWatchedMoviesAmount = (movies) => {
   }, 0);
 };
 
-// get Total diration of watched films
+// get Total duration of watched films
 const getDurationOfWatchedFilms = (movies) => {
   const totalDurationInMinutes = movies.reduce((accumulator, currentValue) => {
     return currentValue.isWatched ? accumulator + currentValue.runtime : accumulator;
@@ -41,15 +32,14 @@ const getFavoriteGenre = (movies) => {
     History: 0,
   };
 
-
   const genres = movies.map((film) => [...film.genres]).flat();
 
   for (const genre of genres) {
     genresCounter[genre] += 1;
   }
 
-
-  const findFavoriteGenre = (counter) => Object.keys(counter).reduce((accumulator, currentValue) => (counter[accumulator] > counter[currentValue] ? accumulator : currentValue));
+  const findFavoriteGenre = (counter) => Object.keys(counter)
+    .reduce((accumulator, currentValue) => (counter[accumulator] > counter[currentValue] ? accumulator : currentValue));
 
   return findFavoriteGenre(genresCounter);
 };
@@ -158,7 +148,6 @@ const formatFilmDuration = (duration) => {
 export {
   getRandomBoolean,
   getRandomItemFrom,
-  getMovieFullDate,
   sortByComments,
   sortByDate,
   defaultSort,
