@@ -99,8 +99,12 @@ export default class PageController {
 
   _onSortLinkClick(evt) {
     evt.preventDefault();
+    this._sortComponent.getElement()
+      .querySelector(`.sort__button--active`).classList
+      .remove(`sort__button--active`);
 
     if (evt.target.tagName === `A`) {
+      evt.target.classList.add(`sort__button--active`);
       const sortType = evt.target.dataset.sortType;
       this._filmsCopy = sortFilms(this._filmCards, sortType);
 
