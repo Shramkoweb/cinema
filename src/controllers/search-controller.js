@@ -3,15 +3,13 @@ import {NoSearchResult} from "../components/no-search-result";
 import {renderElement} from "../util";
 
 export default class SearchController {
-  constructor(container, searchPhrase, films) {
+  constructor(searchPhrase, films) {
     this._films = films;
-    this._container = container;
     this._searchPhrase = searchPhrase;
     this._searchResult = new SearchResult();
     this._emptySearchResult = new NoSearchResult();
     this._filmsContainer = document.querySelector(`.films-list__container`);
     this._resultElement = document.querySelector(`.result`);
-
   }
 
   search() {
@@ -22,7 +20,7 @@ export default class SearchController {
       this._searchResult.removeElement();
     }
 
-    renderElement(this._container, this._searchResult.getElement());
+    renderElement(this._filmsContainer, this._searchResult.getElement());
 
     const pattern = new RegExp(this._searchPhrase, `i`);
 
@@ -37,7 +35,7 @@ export default class SearchController {
     return filteredMovies;
   }
 
-  cansel() {
+  cancel() {
     this._searchResult.removeElement();
     this._filmsContainer.innerHTML = ``;
   }

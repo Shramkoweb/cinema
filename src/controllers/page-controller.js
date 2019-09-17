@@ -13,8 +13,10 @@ import Navigation from "../components/navigation";
 import {getFilterCount} from "../filter";
 import FilmsEmpty from "../components/films-empty";
 import FilmController from "./film-controller";
+import SearchController from "./search-controller";
 
 const MAX_FILMS_TO_RENDER = 5;
+const MIN_PHRASE_LENGTH = 3;
 
 export default class PageController {
   constructor(container, filmCards) {
@@ -29,6 +31,7 @@ export default class PageController {
     this._profileComponent = new Profile(filmCards);
     this._sortComponent = new Sort();
     this._filmsComponent = new Films();
+    this._searchPhrase = ``;
     this._moreButtonComponent = new ShowMoreButton();
     this._mostCommentedFilms = sortByComments(filmCards).slice(0, 2);
     this._topRatedFilms = sortByRating(filmCards).slice(0, 2);
@@ -147,6 +150,29 @@ export default class PageController {
     this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);
     this._sortComponent.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
     this._getFilmsAmountStatistics();
+
+    const searchInput = this._headerElement.querySelector(`.search__field`);
+    const searchResetButton = this._headerElement.querySelector(`.search__reset`);
+
+    searchResetButton.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      searchInput.value = ``;
+      const searchController = new SearchController();
+      searchController.cancel();
+    });
+
+    searchInput.addEventListener(`input`, () => {
+      this._phrase = searchInput.value;
+      const searchController = new SearchController(this._phrase, this._filmCards);
+
+      if (this._phrase.length >= MIN_PHRASE_LENGTH) {
+        const sortedFilms = searchController.search();
+        this._renderFilms(sortedFilms, this._filmsContainerElement);
+      } else if (this._phrase.length === 0) {
+        searchController.cancel();
+        this._renderFilms(this._filmCards, this._filmsContainerElement);
+      }
+    });
   }
 
   hide() {
