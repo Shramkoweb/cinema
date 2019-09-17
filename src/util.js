@@ -145,6 +145,14 @@ const formatFilmDuration = (duration) => {
   };
 };
 
+const hideElement = (element) => {
+  element.classList.add(`visually-hidden`);
+};
+
+const showElement = (element) => {
+  element.classList.remove(`visually-hidden`);
+};
+
 export {
   getRandomBoolean,
   getRandomItemFrom,
@@ -155,6 +163,8 @@ export {
   getRandomNumberInRange,
   getDurationOfWatchedFilms,
   sortFilms,
+  hideElement,
+  showElement,
   renderElement,
   createElement,
   isEscKeyDown,

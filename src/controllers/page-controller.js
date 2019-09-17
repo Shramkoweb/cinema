@@ -31,7 +31,6 @@ export default class PageController {
     this._profileComponent = new Profile(filmCards);
     this._sortComponent = new Sort();
     this._filmsComponent = new Films();
-    this._searchPhrase = ``;
     this._moreButtonComponent = new ShowMoreButton();
     this._mostCommentedFilms = sortByComments(filmCards).slice(0, 2);
     this._topRatedFilms = sortByRating(filmCards).slice(0, 2);
@@ -39,6 +38,7 @@ export default class PageController {
     this._mostCommentedFilmsContainer = this._filmsComponent.getElement().querySelector(`.films-list__container--commented`);
     this._filmsListElement = this._filmsComponent.getElement().querySelector(`.films-list`);
     this._filmsContainerElement = this._filmsComponent.getElement().querySelector(`.films-list__container`);
+    this._isSearchActive = false;
     this._subscriptions = [];
 
     this._onDataChange = this._onDataChange.bind(this);
@@ -74,7 +74,14 @@ export default class PageController {
     this._mostCommentedFilms = sortByComments(this._filmCards).slice(0, 2);
     this._topRatedFilms = sortByRating(this._filmCards).slice(0, 2);
 
-    this._renderUpdatesFilms();
+    if (this._isSearchActive) {
+      const searchController = new SearchController(this._phrase, this._filmCards);
+
+      const sortedFilms = searchController.search();
+      this._renderFilms(sortedFilms, this._filmsContainerElement);
+    } else {
+      this._renderUpdatesFilms();
+    }
   }
 
   // render one exemplar of film
@@ -159,6 +166,10 @@ export default class PageController {
       searchInput.value = ``;
       const searchController = new SearchController();
       searchController.cancel();
+      this._isSearchActive = false;
+      this._renderFilms(this._filmsCopy.slice(0, this._filmsOnPage), this._filmsContainerElement);
+      this._renderFilms(this._topRatedFilms, this._topRatedFilmsContainer);
+      this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);
     });
 
     searchInput.addEventListener(`input`, () => {
@@ -168,9 +179,13 @@ export default class PageController {
       if (this._phrase.length >= MIN_PHRASE_LENGTH) {
         const sortedFilms = searchController.search();
         this._renderFilms(sortedFilms, this._filmsContainerElement);
+        this._isSearchActive = true;
       } else if (this._phrase.length === 0) {
         searchController.cancel();
-        this._renderFilms(this._filmCards, this._filmsContainerElement);
+        this._isSearchActive = false;
+        this._renderFilms(this._filmsCopy.slice(0, this._filmsOnPage), this._filmsContainerElement);
+        this._renderFilms(this._topRatedFilms, this._topRatedFilmsContainer);
+        this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);
       }
     });
   }
