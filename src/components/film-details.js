@@ -3,6 +3,9 @@ import FilmDetailsRating from "./film-details-rating";
 import AbstractComponent from "./absctract-component";
 import moment from "moment";
 
+const EMOJI_WIDTH = 55;
+const EMOJI_HEIGHT = 55;
+
 export default class FilmDetails extends AbstractComponent {
   constructor({title, rating, releaseDate, director, writers, genres, actors, age, originalTitle, country, isFavorite, isWatched, isInWatchlist, runtime, image, description, comments}) {
     super();
@@ -12,9 +15,9 @@ export default class FilmDetails extends AbstractComponent {
     this._writers = writers;
     this._actors = actors;
     this._releaseDate = releaseDate;
+    this._runtime = formatFilmDuration(runtime);
     this._originalTitle = originalTitle;
     this._country = country;
-    this._runtime = runtime;
     this._genres = genres;
     this._age = age;
     this._image = image;
@@ -53,14 +56,14 @@ export default class FilmDetails extends AbstractComponent {
     return `
         <li class="film-details__comment">
           <span class="film-details__comment-emoji">
-            <img src="./images/emoji/${emoji}" width="55" height="55" alt="emoji" data-name="${emoji}">
+            <img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji" data-name="${emoji}">
           </span>
           <div>
             <p class="film-details__comment-text">${comment}</p>
             <p class="film-details__comment-info">
               <span class="film-details__comment-author">${author}</span>
               <span class="film-details__comment-day">${moment(date).fromNow()}</span>
-              <button class="film-details__comment-delete">Delete</button>
+              <button type="button" class="film-details__comment-delete">Delete</button>
             </p>
           </div>
         </li>
@@ -113,7 +116,7 @@ export default class FilmDetails extends AbstractComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>
-                    <td class="film-details__cell">${formatFilmDuration(this._runtime)}</td>
+                    <td class="film-details__cell">${this._runtime.hours}h ${this._runtime.minutes}m</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Country</td>
@@ -156,14 +159,16 @@ export default class FilmDetails extends AbstractComponent {
               </ul>
       
               <div class="film-details__new-comment">
-                <div class="film-details__add-emoji-label"></div>
+                <div class="film-details__add-emoji-label">
+                  <img src="images/emoji/smile.png" width="55" height="55" alt="emoji" data-name="smile">
+                </div>
       
                 <label class="film-details__comment-label">
                   <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
                 </label>
       
                 <div class="film-details__emoji-list">
-                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
+                  <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile" checked>
                   <label class="film-details__emoji-label" for="emoji-smile">
                     <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
                   </label>
@@ -202,20 +207,75 @@ export default class FilmDetails extends AbstractComponent {
       }
     };
 
+    // delete comment event
+    const onCommentDelete = (evt) => {
+      evt.preventDefault();
+
+      evt.target.closest(`.film-details__comment`).remove();
+      const commentsCount = parseInt(this.getElement().querySelector(`.film-details__comments-count`).textContent, 10);
+
+      this.getElement().querySelector(`.film-details__comments-count`).textContent = commentsCount - 1;
+    };
+
+
+    // submit comment event
+    const onCommentSubmit = (evt) => {
+      if (evt.ctrlKey && evt.key === `Enter`) {
+        let commentsCount = parseInt(this.getElement().querySelector(`.film-details__comments-count`).textContent, 10);
+        const commentsList = document.querySelector(`.film-details__comments-list`);
+        const comment = {
+          author: `Serhii Shramko`,
+          comment: this.getElement().querySelector(`.film-details__comment-input`).value,
+          emoji: this.getElement().querySelector(`.film-details__add-emoji-label`).querySelector(`img`).getAttribute(`data-name`),
+          date: new Date(),
+        };
+
+        commentsList.insertAdjacentHTML(`beforeend`, this.getCommentTemplate(comment));
+
+        this.getElement().querySelector(`.film-details__comments-count`).textContent = commentsCount + 1;
+
+        // add listeners for all delete button in comment element
+        for (const deleteButton of this.getElement().querySelectorAll(`.film-details__comment-delete`)) {
+          deleteButton.addEventListener(`click`, onCommentDelete);
+        }
+
+
+        // default state
+        this.getElement().querySelector(`.film-details__comment-input`).value = ``;
+        this.getElement().querySelector(`.film-details__emoji-item:checked`).checked = false;
+      }
+    };
+
+    // Comment field events
+    this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`focus`, () => {
+      this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`keydown`, onCommentSubmit);
+    });
+
+    this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`blur`, () => {
+      this.getElement().querySelector(`.film-details__comment-input`).removeEventListener(`keydown`, onCommentSubmit);
+    });
+
+    // click on Emoji event
     const onEmojiClick = (evt) => {
       if (evt.target.tagName === `INPUT`) {
         const emojiBlock = this.getElement().querySelector(`.film-details__add-emoji-label`);
         emojiBlock.innerHTML = ``;
 
         const emojiElement = document.createElement(`img`);
-        emojiElement.width = `55`;
-        emojiElement.height = `55`;
+        emojiElement.width = EMOJI_WIDTH;
+        emojiElement.height = EMOJI_HEIGHT;
         emojiElement.alt = `emoji`;
         emojiElement.src = `images/emoji/${evt.target.value}.png`;
+        emojiElement.setAttribute(`data-name`, evt.target.value);
 
         emojiBlock.insertAdjacentElement(`beforeend`, emojiElement);
       }
     };
+
+    // add listeners for all delete button in comment element
+    for (const deleteButton of this.getElement().querySelectorAll(`.film-details__comment-delete`)) {
+      deleteButton.addEventListener(`click`, onCommentDelete);
+    }
 
     this.getElement().querySelector(`.film-details__control-input[name="watched"]`).addEventListener(`change`, onWatchedControlClick);
     this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, onEmojiClick);

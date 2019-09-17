@@ -1,7 +1,6 @@
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
 import {isEscKeyDown, renderElement, unrenderElement} from "../util";
-import FilmDetailsRating from "../components/film-details-rating";
 
 export default class FilmController {
   constructor(container, data, onDataChange, onChangeView) {
@@ -9,7 +8,6 @@ export default class FilmController {
     this._data = data;
     this._film = new FilmCard(data);
     this._filmPopup = new FilmDetails(data);
-    this._filmRatingComponent = new FilmDetailsRating({title: data.title, image: data.image});
     this._onDataChange = onDataChange;
     this._onChangeView = onChangeView;
     this._bodyElement = document.body;
@@ -18,10 +16,16 @@ export default class FilmController {
     this._filmStatusMap = {
       watched: `isWatched`,
       watchlist: `isInWatchlist`,
-      favorite: `isFavorite`
+      favorite: `isFavorite`,
     };
 
     this.init();
+  }
+
+  checkedControls() {
+    return Array
+      .from(this._filmPopup.getElement().querySelectorAll(`.film-details__control-input:checked`))
+      .map((control) => control.getAttribute(`name`));
   }
 
   // set default statement
@@ -78,16 +82,50 @@ export default class FilmController {
       this._onDataChange(newData, this._data);
     };
 
-    // Click on film popup controls
-    const onDetailedControlClick = () => {
-      const checkedControls = Array
-        .from(this._filmPopup.getElement().querySelectorAll(`.film-details__control-input:checked`))
-        .map((control) => control.getAttribute(`name`));
+    // click on delete comment in popup
+    const onCommentDelete = (evt) => {
+      evt.preventDefault();
 
-      const newData = this.generateNewData(this._filmPopup.getElement(), checkedControls);
+      const newData = this.generateNewData(this._filmPopup.getElement(), this.checkedControls());
 
       this._onDataChange(newData, this._data);
     };
+
+    for (const deleteButton of this._filmPopup.getElement().querySelectorAll(`.film-details__comment-delete`)) {
+      deleteButton.addEventListener(`click`, onCommentDelete);
+    }
+
+    // Click on film popup controls
+    const onDetailedControlClick = () => {
+      const newData = this.generateNewData(this._filmPopup.getElement(), this.checkedControls());
+
+      this._onDataChange(newData, this._data);
+    };
+
+    const onCommentSubmit = (evt) => {
+      const isRequiredKeys = (evt.ctrlKey || evt.metaKey) && evt.key === `Enter`;
+      const hasSelectedEmoji = this._filmPopup.getElement().querySelector(`.film-details__add-emoji-label`).querySelector(`img`);
+
+      if (isRequiredKeys && hasSelectedEmoji) {
+        const newData = this.generateNewData(this._filmPopup.getElement(), this.checkedControls());
+
+        this._onDataChange(newData, this._data);
+      }
+    };
+
+    // Comment field element
+    const commentField = this._filmPopup.getElement().querySelector(`.film-details__comment-input`);
+
+    // events on comment input
+    commentField.addEventListener(`focus`, () => {
+      commentField.addEventListener(`keydown`, onCommentSubmit);
+      document.removeEventListener(`keydown`, onMoviePopUpEscPress);
+    });
+
+    commentField.addEventListener(`blur`, () => {
+      commentField.removeEventListener(`keydown`, onCommentSubmit);
+      document.addEventListener(`keydown`, onMoviePopUpEscPress);
+    });
 
     this._controlButtons.addEventListener(`click`, onFilmControlClick);
     this._filmPopupControls.addEventListener(`change`, onDetailedControlClick);
@@ -95,6 +133,7 @@ export default class FilmController {
     renderElement(this._container, this._film.getElement());
   }
 
+  // function for generated new data
   generateNewData(element, checkedControls) {
 
     const comments = [...element.querySelectorAll(`.film-details__comment`)].map((comment) => {
@@ -102,7 +141,7 @@ export default class FilmController {
         author: comment.querySelector(`.film-details__comment-author`).textContent,
         comment: comment.querySelector(`.film-details__comment-text`).textContent,
         emoji: comment.querySelector(`.film-details__comment-emoji`).querySelector(`img`).getAttribute(`data-name`),
-        date: new Date(comment.querySelector(`.film-details__comment-day`).textContent)
+        date: new Date(comment.querySelector(`.film-details__comment-day`).textContent),
       };
     });
 

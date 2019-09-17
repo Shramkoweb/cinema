@@ -8,7 +8,7 @@ export default class FilmCard extends AbstractComponent {
     this._title = title;
     this._rating = rating;
     this._releaseDate = releaseDate;
-    this._runtime = runtime;
+    this._runtime = formatFilmDuration(runtime);
     this._genres = genres;
     this._image = image;
     this._description = description;
@@ -16,10 +16,6 @@ export default class FilmCard extends AbstractComponent {
     this._isFavorite = isFavorite;
     this._isWatched = isWatched;
     this._isInWatchlist = isInWatchlist;
-  }
-
-  get filmDuration() {
-    return formatFilmDuration(this._runtime);
   }
 
   /* return active class  */
@@ -34,7 +30,7 @@ export default class FilmCard extends AbstractComponent {
         <p class="film-card__rating">${this._rating}</p>
         <p class="film-card__info">
           <span class="film-card__year">${moment(this._releaseDate).format(`YYYY`)}</span>
-          <span class="film-card__duration">${this.filmDuration}</span>
+          <span class="film-card__duration">${this._runtime.hours}h ${this._runtime.minutes}m</span>
           <span class="film-card__genre">${this._genres.values().next().value}</span>
         </p>
         <img src="./images/posters/${this._image}" alt="some placeholder" class="film-card__poster">

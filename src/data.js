@@ -92,11 +92,11 @@ const COUNTRIES = [
 ];
 
 const EMOJIS = [
-  `angry.png`,
-  `puke.png`,
-  `sleeping.png`,
-  `smile.png`,
-  `trophy.png`
+  `angry`,
+  `puke`,
+  `sleeping`,
+  `smile`,
+  `trophy`
 ];
 
 const COMMENTS = [
@@ -146,7 +146,7 @@ const generateMovieMock = (id) => ({
   releaseDate: new Date(+(new Date()) - Math.floor(Math.random() * 10000000000)),
   runtime: getRandomNumberInRange(MIN_FILM_DURATION, MAX_FILM_DURATION),
   country: getRandomItemFrom(COUNTRIES),
-  genres: new Set([`Drama`, `Comedy`, `Film-Noir`, `Mystery`]),
+  genres: new Set([`Drama`, `Comedy`, `Mystery`, `Romance`, `History`]),
   description: getRandomDescription(DESCRIPTIONS, getRandomNumberInRange(MIN_DESCRIPTION_COUNT, MAX_DESCRIPTION_COUNT)),
   age: getRandomNumberInRange(MIN_AGE, MAX_AGE),
   isFavorite: getRandomBoolean(),
