@@ -37,6 +37,10 @@ export default class StatisticController {
         scales: {
           yAxes: [{
             barThickness: 20,
+            gridLines: {
+              display: false,
+              drawBorder: false,
+            },
             ticks: {
               fontColor: `#fff`,
               padding: 80,
@@ -47,6 +51,10 @@ export default class StatisticController {
             ticks: {
               display: false,
               beginAtZero: true,
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false,
             },
           }],
         },
