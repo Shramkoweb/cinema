@@ -10,6 +10,7 @@ export default class StatisticController {
 
   _renderChart() {
     const ctx = document.querySelector(`.statistic__chart`);
+
     return new Chart(ctx, {
       plugins: [ChartDataLabels],
       type: `horizontalBar`,
@@ -18,6 +19,8 @@ export default class StatisticController {
         datasets: [{
           data: [...Object.values(this._genres)],
           backgroundColor: `#ffe800`,
+          anchor: `start`,
+          hoverBackgroundColor: `#fff`,
         }],
       },
       options: {
@@ -57,6 +60,15 @@ export default class StatisticController {
               drawBorder: false,
             },
           }],
+        },
+        tooltips: {
+          displayColors: false,
+          backgroundColor: `#000`,
+          bodyFontColor: `#fff`,
+          borderWidth: 1,
+          cornerRadius: 2,
+          xPadding: 10,
+          yPadding: 10,
         },
       },
     });
