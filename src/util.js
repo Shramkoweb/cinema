@@ -18,12 +18,7 @@ const getDurationOfWatchedFilms = (movies) => {
   return formatFilmDuration(totalDurationInMinutes);
 };
 
-// get Favorite genre in all movies
-const getFavoriteGenre = (movies) => {
-  if (!movies.length) {
-    return undefined;
-  }
-
+const countUniqGenres = (movies) => {
   const genresCounter = {
     Drama: 0,
     Comedy: 0,
@@ -38,10 +33,19 @@ const getFavoriteGenre = (movies) => {
     genresCounter[genre] += 1;
   }
 
+  return genresCounter;
+};
+
+// get Favorite genre in all movies
+const getFavoriteGenre = (movies) => {
+  if (!movies.length) {
+    return undefined;
+  }
+
   const findFavoriteGenre = (counter) => Object.keys(counter)
     .reduce((accumulator, currentValue) => (counter[accumulator] > counter[currentValue] ? accumulator : currentValue));
 
-  return findFavoriteGenre(genresCounter);
+  return findFavoriteGenre(countUniqGenres(movies));
 };
 
 // getting user rating from watched movies
@@ -167,6 +171,7 @@ export {
   showElement,
   renderElement,
   createElement,
+  countUniqGenres,
   isEscKeyDown,
   formatFilmDuration,
   unrenderElement,

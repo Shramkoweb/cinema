@@ -1,7 +1,7 @@
 import {getMovies} from "./data";
 import PageController from "./controllers/page-controller";
-import {getRandomNumberInRange} from "./util";
 import Statistics from "./components/statistics";
+import StatisticController from "./controllers/statistic-controller";
 
 const moviesAmount = 11; // Временно добавил для проверки работы фильтров и т.д
 const movies = getMovies(moviesAmount);
@@ -21,6 +21,9 @@ const showStatistics = (evt) => {
 
   statisticsComponent.show();
   filmsControllerInstance.hide();
+
+  const chart = new StatisticController(movies);
+  chart._renderChart();
 };
 
 const showMovies = (evt) => {
@@ -32,3 +35,4 @@ const showMovies = (evt) => {
 
 statisticsLink.addEventListener(`click`, showStatistics);
 showAllLink.addEventListener(`click`, showMovies);
+
