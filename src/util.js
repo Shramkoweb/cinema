@@ -1,3 +1,15 @@
+const Method = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`,
+};
+
+const Code = {
+  SUCCESS: 200,
+  REDIRECT: 300,
+};
+
 const getRandomItemFrom = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
@@ -19,21 +31,16 @@ const getDurationOfWatchedFilms = (movies) => {
 };
 
 const countUniqGenres = (movies) => {
-  const genresCounter = {
-    Drama: 0,
-    Comedy: 0,
-    Mystery: 0,
-    Romance: 0,
-    History: 0,
-  };
+  const filmGenres = movies.map((movies) => Object.values(movies.genres));
 
-  const genres = movies.map((film) => [...film.genres]).flat();
-
-  for (const genre of genres) {
-    genresCounter[genre] += 1;
-  }
-
-  return genresCounter;
+  return filmGenres.flat().reduce((acc, item) => {
+    if (acc[item]) {
+      acc[item]++;
+    } else {
+      acc[item] = 1;
+    }
+    return acc;
+  }, {});
 };
 
 // get Favorite genre in all movies
@@ -157,6 +164,18 @@ const showElement = (element) => {
   element.classList.remove(`visually-hidden`);
 };
 
+const toJSON = (response) => {
+  return response.json();
+};
+
+const checkStatus = (response) => {
+  if (response.status >= Code.SUCCESS && response.status < Code.REDIRECT) {
+    return response;
+  } else {
+    throw new Error(`${response.status}: ${response.statusText}`);
+  }
+};
+
 export {
   getRandomBoolean,
   getRandomItemFrom,
@@ -168,10 +187,10 @@ export {
   getDurationOfWatchedFilms,
   sortFilms,
   hideElement,
+  checkStatus,
   showElement,
   renderElement,
   createElement,
-  countUniqGenres,
   isEscKeyDown,
   formatFilmDuration,
   unrenderElement,
@@ -180,4 +199,7 @@ export {
   getFavoriteGenre,
   getWatchedMoviesAmount,
   Position,
+  Method,
+  countUniqGenres,
+  toJSON,
 };

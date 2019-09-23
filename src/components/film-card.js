@@ -33,7 +33,7 @@ export default class FilmCard extends AbstractComponent {
           <span class="film-card__duration">${this._runtime.hours}h ${this._runtime.minutes}m</span>
           <span class="film-card__genre">${this._genres.values().next().value}</span>
         </p>
-        <img src="./images/posters/${this._image}" alt="some placeholder" class="film-card__poster">
+        <img src="${this._image}" alt="some placeholder" class="film-card__poster">
         <p class="film-card__description">${this._description}</p>
         <a class="film-card__comments">${this._comments.length} comments</a>
         <form class="film-card__controls">
