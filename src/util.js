@@ -31,7 +31,7 @@ const getDurationOfWatchedFilms = (movies) => {
 };
 
 const countUniqGenres = (movies) => {
-  const filmGenres = movies.map((movies) => Object.values(movies.genres));
+  const filmGenres = movies.map((films) => Object.values(films.genres));
 
   return filmGenres.flat().reduce((acc, item) => {
     if (acc[item]) {
