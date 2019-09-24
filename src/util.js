@@ -60,15 +60,14 @@ const getUserRating = (movies) => {
   let watchedMovies = getWatchedMoviesAmount(movies);
 
   const getUserTitle = (moviesWatched) => {
-    let userTitle = ``;
     if (moviesWatched >= 21) {
-      userTitle = `Movie Buff`;
+      return `Movie Buff`;
     } else if (moviesWatched >= 11) {
-      userTitle = `Fan`;
+      return `Fan`;
     } else if (moviesWatched > 0) {
-      userTitle = `Novice`;
+      return `Novice`;
     }
-    return userTitle;
+    return ``;
   };
 
   return getUserTitle(watchedMovies);
