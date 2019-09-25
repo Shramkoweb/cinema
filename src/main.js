@@ -2,6 +2,7 @@ import PageController from "./controllers/page-controller";
 import Statistics from "./components/statistics";
 import API from "./api";
 import StatisticController from "./controllers/statistic-controller";
+import SearchController from "./controllers/search-controller";
 
 const AUTHORIZATION = `Basic dXNlckBwYXNzd29yZAo=${Math.random()}`;
 const END_POINT = `https://htmlacademy-es-9.appspot.com/cinemaddict/`;
@@ -16,8 +17,15 @@ const onDataChange = (actionType, updatedFilm) => {
         data: updatedFilm.toRAW(),
       })
         .then(() => api.getMovies())
-        .then(() => {
-          filmsControllerInstance._renderUpdatesFilms();
+        .then((movies) => {
+          if (filmsControllerInstance._isSearchActive) {
+            const searchController = new SearchController(filmsControllerInstance._phrase, movies);
+
+            const sortedFilms = searchController.search();
+            filmsControllerInstance._renderFilms(sortedFilms, filmsControllerInstance._filmsContainerElement);
+          } else {
+            filmsControllerInstance._renderUpdatesFilms();
+          }
         });
       break;
   }
