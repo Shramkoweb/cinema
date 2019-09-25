@@ -164,6 +164,8 @@ export default class PageController {
     const searchInput = this._headerElement.querySelector(`.search__field`);
     const searchResetButton = this._headerElement.querySelector(`.search__reset`);
 
+
+    // reset button Event
     searchResetButton.addEventListener(`click`, (evt) => {
       evt.preventDefault();
       searchInput.value = ``;
@@ -175,6 +177,8 @@ export default class PageController {
       this._renderFilms(this._mostCommentedFilms, this._mostCommentedFilmsContainer);
     });
 
+
+    // Search input event
     searchInput.addEventListener(`input`, () => {
       this._phrase = searchInput.value;
       const searchController = new SearchController(this._phrase, this._filmCards);

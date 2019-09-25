@@ -26,12 +26,11 @@ export default class ModelAdapter {
   }
 
   static parseMovies(data) {
-    console.log(data[0]);
     return data.map(ModelAdapter.parseMovie);
   }
 
   toRAW() {
-    const result = {
+    return {
       'id': this.id,
       'comments': ['511', '513', '512'],
       'film_info': {
@@ -59,8 +58,5 @@ export default class ModelAdapter {
         [`watching_date`]: new Date().toISOString(),
       },
     };
-
-    console.log(result);
-    return result;
   }
 }
