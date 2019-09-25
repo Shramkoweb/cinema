@@ -5,6 +5,13 @@ const Method = {
   DELETE: `DELETE`,
 };
 
+const ActionType = {
+  UPDATE: `update`,
+  CREATE: `create`,
+  CREATE_COMMENT: `create_comment`,
+  DELETE_COMMENT: `delete_comment`,
+};
+
 const Code = {
   SUCCESS: 200,
   REDIRECT: 300,
@@ -201,4 +208,5 @@ export {
   Method,
   countUniqGenres,
   toJSON,
+  ActionType,
 };

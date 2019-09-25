@@ -26,6 +26,41 @@ export default class ModelAdapter {
   }
 
   static parseMovies(data) {
+    console.log(data[0]);
     return data.map(ModelAdapter.parseMovie);
+  }
+
+  toRAW() {
+    const result = {
+      'id': this.id,
+      'comments': ['511', '513', '512'],
+      'film_info': {
+        'title': this.title,
+        'alternative_title': this.originalTitle,
+        'total_rating': this.rating,
+        'poster': this.image,
+        'age_rating': this.age,
+        'director': this.director,
+        'writers': this.writers,
+        'actors': this.actors,
+        'release': {
+          'date': `1994-03-06T05:08:21.536Z`,
+          'release_country': this.country,
+        },
+        'description': this.description,
+        'genre': this.genres,
+        'runtime': this.runtime,
+      },
+      'user_details': {
+        [`personal_rating`]: this.personalRating,
+        favorite: this.isFavorite,
+        watchlist: this.isInWatchlist,
+        [`already_watched`]: this.isWatched,
+        [`watching_date`]: new Date().toISOString(),
+      },
+    };
+
+    console.log(result);
+    return result;
   }
 }

@@ -8,13 +8,29 @@ const END_POINT = `https://htmlacademy-es-9.appspot.com/cinemaddict/`;
 
 const mainElement = document.querySelector(`.main`);
 
+const onDataChange = (actionType, updatedFilm) => {
+  switch (actionType) {
+    case `update`:
+      api.updateMovie({
+        id: updatedFilm.id,
+        data: updatedFilm.toRAW(),
+      })
+        .then(() => api.getMovies())
+        .then(() => {
+          filmsControllerInstance._renderUpdatesFilms();
+        });
+      break;
+  }
+};
+
 const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
+const filmsControllerInstance = new PageController(mainElement, onDataChange);
+
 
 api.getMovies().then((movies) => {
-  const filmsControllerInstance = new PageController(mainElement, movies);
   const statisticsComponent = new Statistics(movies);
 
-  filmsControllerInstance.init();
+  filmsControllerInstance.init(movies);
 
   mainElement.appendChild(statisticsComponent.getElement());
   const statisticsLink = mainElement.querySelector(`.main-navigation__item--additional`);

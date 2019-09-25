@@ -1,6 +1,6 @@
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
-import {isEscKeyDown, renderElement, unrenderElement} from "../util";
+import {ActionType, isEscKeyDown, renderElement, unrenderElement} from "../util";
 
 export default class FilmController {
   constructor(container, data, onDataChange, onChangeView) {
@@ -78,8 +78,10 @@ export default class FilmController {
         .from(this._controlButtons.querySelectorAll(`.film-card__controls-item--active`))
         .map((control) => control.getAttribute(`data-name`));
 
+
+
       const newData = this.generateNewData(this._filmPopup.getElement(), checkedControls);
-      this._onDataChange(newData, this._data);
+      this._onDataChange(ActionType.UPDATE, Object.assign(this._data, newData));
     };
 
     // click on delete comment in popup
@@ -88,7 +90,7 @@ export default class FilmController {
 
       const newData = this.generateNewData(this._filmPopup.getElement(), this.checkedControls());
 
-      this._onDataChange(newData, this._data);
+      this._onDataChange(ActionType.UPDATE, Object.assign(this._data, newData));
     };
 
     for (const deleteButton of this._filmPopup.getElement().querySelectorAll(`.film-details__comment-delete`)) {
@@ -99,7 +101,7 @@ export default class FilmController {
     const onDetailedControlClick = () => {
       const newData = this.generateNewData(this._filmPopup.getElement(), this.checkedControls());
 
-      this._onDataChange(newData, this._data);
+      this._onDataChange(ActionType.UPDATE, Object.assign(this._data, newData));
     };
 
     const onCommentSubmit = (evt) => {
@@ -109,7 +111,7 @@ export default class FilmController {
       if (isRequiredKeys && hasSelectedEmoji) {
         const newData = this.generateNewData(this._filmPopup.getElement(), this.checkedControls());
 
-        this._onDataChange(newData, this._data);
+        this._onDataChange(ActionType.UPDATE, Object.assign(this._data, newData));
       }
     };
 

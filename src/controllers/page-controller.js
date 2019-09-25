@@ -19,21 +19,17 @@ const MAX_FILMS_TO_RENDER = 5;
 const MIN_PHRASE_LENGTH = 3;
 
 export default class PageController {
-  constructor(container, filmCards) {
+  constructor(container, onDataChange) {
     this._container = container;
-    this._filmCards = filmCards;
+
     this._filmsOnPage = MAX_FILMS_TO_RENDER;
     this._headerElement = document.querySelector(`header`);
     this._searchComponent = new Search();
-    this._filmsCopy = filmCards.slice();
+    this._onDataChangeMain = onDataChange;
     this._emptyFilmsComponent = new FilmsEmpty();
-    this._menuComponent = new Navigation(getFilterCount(filmCards));
-    this._profileComponent = new Profile(filmCards);
     this._sortComponent = new Sort();
     this._filmsComponent = new Films();
     this._moreButtonComponent = new ShowMoreButton();
-    this._mostCommentedFilms = sortByComments(filmCards).slice(0, 2);
-    this._topRatedFilms = sortByRating(filmCards).slice(0, 2);
     this._topRatedFilmsContainer = this._filmsComponent.getElement().querySelector(`.films-list__container--rated`);
     this._mostCommentedFilmsContainer = this._filmsComponent.getElement().querySelector(`.films-list__container--commented`);
     this._filmsListElement = this._filmsComponent.getElement().querySelector(`.films-list`);
@@ -86,7 +82,7 @@ export default class PageController {
 
   // render one exemplar of film
   _renderFilm(film, container) {
-    const filmController = new FilmController(container, film, this._onDataChange, this._onChangeView);
+    const filmController = new FilmController(container, film, this._onDataChangeMain, this._onChangeView);
     this._subscriptions.push(filmController.setDefaultView.bind(filmController));
   }
 
@@ -128,7 +124,14 @@ export default class PageController {
     footerStatisticsElement.textContent = `${this._filmCards.length} movies inside`;
   }
 
-  init() {
+  init(filmCards) {
+    this._filmCards = filmCards;
+    this._profileComponent = new Profile(filmCards);
+    this._mostCommentedFilms = sortByComments(filmCards).slice(0, 2);
+    this._topRatedFilms = sortByRating(filmCards).slice(0, 2);
+    this._filmsCopy = filmCards.slice();
+    this._menuComponent = new Navigation(getFilterCount(filmCards));
+
     renderElement(this._headerElement, this._searchComponent.getElement());
     renderElement(this._headerElement, this._profileComponent.getElement());
     renderElement(this._container, this._menuComponent.getElement());
