@@ -1,6 +1,6 @@
 import AbstractComponent from "./absctract-component";
 
-export default class Navigation extends AbstractComponent {
+export default class Menu extends AbstractComponent {
   constructor(filters) {
     super();
     this._filters = filters;

@@ -9,7 +9,7 @@ import {
   sortByRating, sortFilms,
   unrenderElement,
 } from "../util";
-import Navigation from "../components/navigation";
+import Menu from "../components/menu";
 import {getFilterCount} from "../filter";
 import FilmsEmpty from "../components/films-empty";
 import FilmController from "./film-controller";
@@ -130,7 +130,7 @@ export default class PageController {
     this._mostCommentedFilms = sortByComments(filmCards).slice(0, 2);
     this._topRatedFilms = sortByRating(filmCards).slice(0, 2);
     this._filmsCopy = filmCards.slice();
-    this._menuComponent = new Navigation(getFilterCount(filmCards));
+    this._menuComponent = new Menu(getFilterCount(filmCards));
 
     renderElement(this._headerElement, this._searchComponent.getElement());
     renderElement(this._headerElement, this._profileComponent.getElement());
