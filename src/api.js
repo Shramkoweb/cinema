@@ -1,21 +1,23 @@
-import {checkStatus, Method, toJSON} from "./util";
-import ModelAdapter from "./model-adapter";
+import {checkResponseStatus, toJSON} from "./utils";
+import MovieAdapter from "./adapters/movie-adapter";
+import {Method} from "./constants";
+import CommentAdapter from "./adapters/comment-adapater";
 
-export default class API {
+class API {
   constructor({endPoint, authorization}) {
     this._endPoint = endPoint;
     this._authorization = authorization;
   }
 
-  getMovies() {
-    return this._load({url: `movies`}).then(toJSON).then(ModelAdapter.parseMovies);
+  getFilms() {
+    return this._load({url: `movies`}).then(toJSON).then(MovieAdapter.parseMovies);
   }
 
-  getMovieComments({movieId}) {
-    return this._load({url: `/comments/${movieId}`}).then(toJSON);
+  getFilmComments({movieId}) {
+    return this._load({url: `/comments/${movieId}`}).then(toJSON).then(CommentAdapter.parseComments);
   }
 
-  updateMovie({id, data}) {
+  updateFilm({id, data}) {
     return this._load({
       url: `movies/${id}`,
       method: Method.PUT,
@@ -23,21 +25,36 @@ export default class API {
       headers: new Headers({'Content-Type': `application/json`}),
     })
       .then(toJSON)
-      .then(ModelAdapter.parseMovie);
+      .then(MovieAdapter.parseMovie);
   }
+
 
   deleteComment({commentId}) {
     return this._load({url: `comments/${commentId}`, method: Method.DELETE});
+  }
+
+
+  createComment({id, comment}) {
+    return this._load({
+      url: `comments/${id}`,
+      method: Method.POST,
+      body: JSON.stringify(comment),
+      headers: new Headers({'Content-Type': `application/json`}),
+    })
+      .then(toJSON)
+      .then(CommentAdapter.parseComment);
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`${this._endPoint}/${url}`, {method, body, headers})
-      .then(checkStatus)
+      .then(checkResponseStatus)
       .catch((err) => {
         console.error(`fetch error: ${err}`);
         throw err;
       });
   }
 }
+
+export default API;
