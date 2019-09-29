@@ -1,15 +1,15 @@
 import AbstractComponent from "./absctract-component";
 
-class ShowMoreButton extends AbstractComponent {
+class Loading extends AbstractComponent {
   constructor() {
     super();
   }
 
   getTemplate() {
     return `
-      <button class="films-list__show-more">Show more</button>
+      <div class="no-result">Loading…</div>
     `.trim();
   }
 }
 
-export default ShowMoreButton;
+export default Loading;

@@ -1,7 +1,7 @@
 import AbstractComponent from "./absctract-component";
-import {getUserRating} from "../util";
+import {getUserRating} from "../utils";
 
-export default class Profile extends AbstractComponent {
+class Profile extends AbstractComponent {
   constructor(movies) {
     super();
     this._movies = movies;
@@ -17,3 +17,5 @@ export default class Profile extends AbstractComponent {
     `.trim();
   }
 }
+
+export default Profile;

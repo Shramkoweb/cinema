@@ -1,34 +1,37 @@
-import {formatFilmDuration, isChecked} from "../util";
 import FilmDetailsRating from "./film-details-rating";
 import AbstractComponent from "./absctract-component";
 import moment from "moment";
+import {formatFilmDuration, isChecked} from "../utils";
 
 const EMOJI_WIDTH = 55;
 const EMOJI_HEIGHT = 55;
 
 export default class FilmDetails extends AbstractComponent {
-  constructor({title, rating, releaseDate, director, writers, genres, actors, age, originalTitle, country, isFavorite, isWatched, isInWatchlist, runtime, image, description, comments}) {
+  constructor(film) {
     super();
-    this._title = title;
-    this._rating = rating;
-    this._director = director;
-    this._writers = writers;
-    this._actors = actors;
-    this._releaseDate = releaseDate;
-    this._runtime = formatFilmDuration(runtime);
-    this._originalTitle = originalTitle;
-    this._country = country;
-    this._genres = genres;
-    this._age = age;
-    this._image = image;
-    this._description = description;
-    this._comments = comments;
-    this._isFavorite = isFavorite;
-    this._isWatched = isWatched;
-    this._isInWatchlist = isInWatchlist;
-    this._movieRatingInstance = new FilmDetailsRating({title, image});
-
-    this.addEventListeners();
+    this._actors = film.actors;
+    this._age = film.age;
+    this._comments = film.comments;
+    this._country = film.country;
+    this._description = film.description;
+    this._director = film.director;
+    this._genres = film.genres;
+    this._image = film.image;
+    this._isFavorite = film.isFavorite;
+    this._isInWatchlist = film.isInWatchlist;
+    this._isWatched = film.isWatched;
+    this._originalTitle = film.originalTitle;
+    this._rating = film.rating;
+    this._releaseDate = film.releaseDate;
+    this._runtime = formatFilmDuration(film.runtime);
+    this._title = film.title;
+    this._writers = film.writers;
+    this._personalRating = film.personalRating;
+    this._movieRatingInstance = new FilmDetailsRating({
+      image: this._image,
+      title: this._title,
+      personalRating: this._personalRating,
+    });
   }
 
   // get movie rating template if movie is watched

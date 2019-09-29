@@ -1,6 +1,6 @@
 import AbstractComponent from "./absctract-component";
 
-export default class Search extends AbstractComponent {
+class Search extends AbstractComponent {
   constructor() {
     super();
   }
@@ -18,3 +18,5 @@ export default class Search extends AbstractComponent {
   `.trim();
   }
 }
+
+export default Search;
