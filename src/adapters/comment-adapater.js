@@ -10,11 +10,11 @@ class CommentAdapter {
   }
 
   static parseComment(comment) {
-    return new ModelComment(comment);
+    return new CommentAdapter(comment);
   }
 
   static parseComments(comment) {
-    return comment.map(ModelComment.parseComment);
+    return comment.map(CommentAdapter.parseComment);
   }
 
   toRAW() {
@@ -23,7 +23,7 @@ class CommentAdapter {
       'author': this.author,
       'comment': this.comment,
       'date': this.date,
-      'emotion': this.emotion
+      'emotion': this.emotion,
     };
   }
 }
