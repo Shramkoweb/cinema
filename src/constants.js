@@ -1,10 +1,10 @@
-import {sortByComments, defaultSort, sortByDate, sortByRating} from "./utils";
-
-export const AUTHORIZATION = `Basic eo0w590ik29889a`;
+export const AUTHORIZATION = `Basic eo0w590ik29889a=${Math.random()}`;
 export const MAX_EXTRA_FILMS_AMOUNT = 2;
 export const MAX_FILMS_TO_RENDER = 5;
 export const MIN_SEARCH_PHRASE = 3;
 export const SHORT_DESCRIPTION_LENGTH = 140;
+export const USER_SCORE_AMOUNT = 9;
+export const MINUTES_IN_HOURS = 60;
 export const URL = `https://htmlacademy-es-9.appspot.com/cinemaddict/`;
 
 export const Method = {
@@ -14,8 +14,26 @@ export const Method = {
   PUT: `PUT`,
 };
 
+export const RenderPosition = {
+  COMMENTED: `commented`,
+  DEFAULT: `default`,
+  RATED: `rated`,
+};
+
 export const UNIT = {
   MINUTES_IN_HOUR: 60,
+};
+
+export const MenuFilter = {
+  Watchlist: `isInWatchlist`,
+  History: `isWatched`,
+  Favorites: `isFavorite`,
+};
+
+export const FilmStatusMap = {
+  watched: `isWatched`,
+  watchlist: `isInWatchlist`,
+  favorite: `isFavorite`,
 };
 
 export const ActionType = {
@@ -23,6 +41,7 @@ export const ActionType = {
   CREATE_COMMENT: `create_comment`,
   DELETE_COMMENT: `delete_comment`,
   UPDATE: `update`,
+  UPDATE_RATING: `update_rating`,
 };
 
 export const Code = {
@@ -53,7 +72,7 @@ export const UserPoint = {
 };
 
 export const PageFilterTitle = {
-  ALL: `All movies`,
+  ALL: `All`,
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`,
@@ -75,11 +94,3 @@ export const STATISTIC_FILTERS = [
   {id: `week`, title: `Week`},
   {id: `year`, title: `Year`},
 ];
-
-export const sortingTypeMap = {
-  'comments': sortByComments,
-  'date': sortByDate,
-  'default': defaultSort,
-  'rating': sortByRating,
-};
-
