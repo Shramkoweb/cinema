@@ -10,6 +10,7 @@ export default class SearchController {
   constructor(container, searchComponent, onDataChange, onSearchReset) {
     this._container = container;
     this._dataBaseComponent = null;
+    this._films = [];
     this._filmsList = new FilmsList();
     this._filmsContainer = new FilmsContainer();
     this._isSearch = false;
