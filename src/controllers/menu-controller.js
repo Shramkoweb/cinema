@@ -63,15 +63,19 @@ export default class MenuController {
         switch (evt.target.hash.slice(1)) {
           case PageFilterTitle.ALL:
             this._pageController.show(this._films);
+            this._chartController.hide();
             break;
           case PageFilterTitle.WATCHLIST:
             this._getFilteredFilms(MenuFilter.Watchlist);
+            this._chartController.hide();
             break;
           case PageFilterTitle.HISTORY:
             this._getFilteredFilms(MenuFilter.History);
+            this._chartController.hide();
             break;
           case PageFilterTitle.FAVORITES:
             this._getFilteredFilms(MenuFilter.Favorites);
+            this._chartController.hide();
             break;
           case PageFilterTitle.STATS:
             this._pageController.hide();
