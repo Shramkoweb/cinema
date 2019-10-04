@@ -23,16 +23,15 @@ const loadingComponent = new Loading();
 const setSearchState = (state) => {
   menuController.setSearch(state);
   pageController.setSearch(state);
-  searchController.setSearch(state);
+  searchController.setState(state);
 };
 
-const onSearchCloseClick = () => {
+const onSearchReset = () => {
   searchController.hide();
   chartController.hide();
 
   // Сбрасиваем все контроллеры
   setSearchState(false);
-
   // отрисовка страницы п исходное состояние
   onDataChange(ActionType.CREATE);
 };
@@ -105,7 +104,7 @@ const onDataChange = (actionType, updatedFilm, callBackFunction) => {
 // Контроллеры
 const chartController = new StatisticController(mainElement);
 const pageController = new PageController(mainElement, onDataChange);
-const searchController = new SearchController(mainElement, searchComponent, onDataChange, onSearchCloseClick);
+const searchController = new SearchController(mainElement, searchComponent, onDataChange, onSearchReset);
 const menuController = new MenuController(mainElement, pageController, searchController, chartController);
 
 
