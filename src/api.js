@@ -13,15 +13,11 @@ class API {
     return this._load({url: `movies`}).then(toJSON).then(MovieAdapter.parseMovies);
   }
 
-  getFilmComments({movieId}) {
-    return this._load({url: `/comments/${movieId}`}).then(toJSON).then(CommentAdapter.parseComments);
-  }
-
-  updateFilm({id, data}) {
+  updateFilm({id, film}) {
     return this._load({
       url: `movies/${id}`,
       method: Method.PUT,
-      body: JSON.stringify(data),
+      body: JSON.stringify(film),
       headers: new Headers({'Content-Type': `application/json`}),
     })
       .then(toJSON)
@@ -45,13 +41,16 @@ class API {
       .then(CommentAdapter.parseComment);
   }
 
+  getMovieComments({movieId}) {
+    return this._load({url: `comments/${movieId}`}).then(toJSON).then(CommentAdapter.parseComments);
+  }
+
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`${this._endPoint}/${url}`, {method, body, headers})
       .then(checkResponseStatus)
       .catch((err) => {
-        console.error(`fetch error: ${err}`);
         throw err;
       });
   }
