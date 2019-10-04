@@ -2,11 +2,12 @@ import AbstractComponent from "./absctract-component";
 import {USER_SCORE_AMOUNT} from "../constants";
 
 export default class FilmDetailsRating extends AbstractComponent {
-  constructor({title, image, personalRating}) {
+  constructor({title, image, personalRating, isWatched}) {
     super();
     this._title = title;
     this._image = image;
     this._personalRating = personalRating;
+    this._isWatched = isWatched;
   }
 
   _getUserScoreTemplate() {
@@ -20,7 +21,7 @@ export default class FilmDetailsRating extends AbstractComponent {
 
   getTemplate() {
     return `
-      <div class="form-details__middle-container">
+      <div class="form-details__middle-container ${this._isWatched ? `` : `visually-hidden`}">
         <section class="film-details__user-rating-wrap">
           <div class="film-details__user-rating-controls">
             <button class="film-details__watched-reset" type="button">Undo</button>

@@ -1,6 +1,6 @@
 import AbstractComponent from "./absctract-component";
 
-class SearchResult extends AbstractComponent {
+export default class Result extends AbstractComponent {
   constructor(amount) {
     super();
     this._amount = amount;
@@ -14,5 +14,3 @@ class SearchResult extends AbstractComponent {
     `.trim();
   }
 }
-
-export default SearchResult;

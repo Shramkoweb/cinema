@@ -1,6 +1,6 @@
 import AbstractComponent from "./absctract-component";
 
-class Sort extends AbstractComponent {
+export default class Sort extends AbstractComponent {
   constructor() {
     super();
   }
@@ -15,5 +15,3 @@ class Sort extends AbstractComponent {
     `.trim();
   }
 }
-
-export default Sort;

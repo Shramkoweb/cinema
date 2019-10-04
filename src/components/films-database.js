@@ -1,6 +1,6 @@
 import AbstractComponent from "./absctract-component";
 
-class FilmsEmpty extends AbstractComponent {
+export default class FilmsDatabase extends AbstractComponent {
   constructor() {
     super();
   }
@@ -11,5 +11,3 @@ class FilmsEmpty extends AbstractComponent {
     `.trim();
   }
 }
-
-export default FilmsEmpty;

@@ -2,7 +2,7 @@ import AbstractComponent from "./absctract-component";
 import moment from "moment";
 import {clipDescription, formatFilmDuration} from "../utils";
 
-class FilmCard extends AbstractComponent {
+export default class FilmCard extends AbstractComponent {
   constructor(film) {
     super();
     this._comments = film.comments;
@@ -23,7 +23,7 @@ class FilmCard extends AbstractComponent {
   }
 
   _getFirstGenre(genres) { // Первый жанр из множества
-    return genres.values().next().value;
+    return genres.size ? genres.values().next().value : ``;
   }
 
   getTemplate() {
@@ -40,13 +40,11 @@ class FilmCard extends AbstractComponent {
         <p class="film-card__description">${clipDescription(this._description)}</p>
         <a class="film-card__comments">${this._comments.length} comments</a>
         <form class="film-card__controls">
-          <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${this._addActiveClass(this._isInWatchlist)}" data-name="watchlist">Add to watchlist</button>
-          <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${this._addActiveClass(this._isWatched)}" data-name="watched">Mark as watched</button>
-          <button class="film-card__controls-item button film-card__controls-item--favorite ${this._addActiveClass(this._isFavorite)}" data-name="favorite">Mark as favorite</button>
+          <button type="button" class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${this._addActiveClass(this._isInWatchlist)}" data-name="isInWatchlist">Add to watchlist</button>
+          <button type="button" class="film-card__controls-item button film-card__controls-item--mark-as-watched ${this._addActiveClass(this._isWatched)}" data-name="isWatched">Mark as watched</button>
+          <button type="button" class="film-card__controls-item button film-card__controls-item--favorite ${this._addActiveClass(this._isFavorite)}" data-name="isFavorite">Mark as favorite</button>
         </form>
       </article>
     `.trim();
   }
 }
-
-export default FilmCard;

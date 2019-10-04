@@ -1,3 +1,5 @@
+import moment from "moment";
+
 class MovieAdapter {
   constructor(film) {
     this.id = film[`id`];
@@ -8,7 +10,7 @@ class MovieAdapter {
     this.director = film[`film_info`][`director`];
     this.writers = film[`film_info`][`writers`];
     this.actors = film[`film_info`][`actors`];
-    this.releaseDate = new Date(film[`film_info`][`release`][`date`]);
+    this.releaseDate = Number(moment(film[`film_info`][`release`][`date`]).format(`x`));
     this.runtime = film[`film_info`][`runtime`];
     this.country = film[`film_info`][`release`][`release_country`];
     this.genres = new Set(film[`film_info`][`genre`]);
@@ -26,8 +28,8 @@ class MovieAdapter {
     return new MovieAdapter(film);
   }
 
-  static parseMovies(film) {
-    return film.map(MovieAdapter.parseMovie);
+  static parseMovies(films) {
+    return films.map(MovieAdapter.parseMovie);
   }
 
   toRAW() {
@@ -48,11 +50,11 @@ class MovieAdapter {
           'release_country': this.country,
         },
         'description': this.description,
-        'genre': this.genres,
+        'genre': [...this.genres],
         'runtime': this.runtime,
       },
       'user_details': {
-        [`personal_rating`]: this.personalRating,
+        [`personal_rating`]: Number(this.personalRating),
         favorite: this.isFavorite,
         watchlist: this.isInWatchlist,
         [`already_watched`]: this.isWatched,

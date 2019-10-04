@@ -1,6 +1,6 @@
 import AbstractComponent from "./absctract-component";
 
-class Loading extends AbstractComponent {
+export default class Loading extends AbstractComponent {
   constructor() {
     super();
   }
@@ -11,5 +11,3 @@ class Loading extends AbstractComponent {
     `.trim();
   }
 }
-
-export default Loading;
