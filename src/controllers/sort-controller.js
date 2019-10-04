@@ -2,7 +2,7 @@ import Sort from "../components/sort";
 import {Position} from "../constants";
 import {renderElement, sortFilms} from "../utils";
 
-class SortController {
+export default class SortController {
   constructor(container, renderFilms) {
     this._container = container;
     this._renderFilms = renderFilms;
@@ -54,5 +54,3 @@ class SortController {
     renderElement(this._container, this._sortComponent.getElement(), Position.AFTERBEGIN);
   }
 }
-
-export default SortController;

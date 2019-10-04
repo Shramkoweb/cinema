@@ -2,7 +2,7 @@ import Menu from '../components/menu';
 import {Position, PageFilterTitle, MenuFilter} from '../constants';
 import {renderElement, unrenderElement, getFiltersAmount} from '../utils';
 
-class MenuController {
+export default class MenuController {
   constructor(container, pageController, searchController, chartController) {
     this._chartController = chartController;
     this._container = container;
@@ -87,5 +87,3 @@ class MenuController {
     renderElement(this._container, this._menu.getElement(), Position.AFTERBEGIN);
   }
 }
-
-export default MenuController;

@@ -2,7 +2,7 @@ import FilmDetailComments from "../components/film-detail-comments";
 import {ActionType} from "../constants";
 import {renderElement, unrenderElement} from "../utils";
 
-class CommentController {
+export default class CommentController {
   constructor(filmDetails, filmData, onDataChange, addRequest, deleteRequest) {
     this._addRequest = addRequest;
     this._comments = [];
@@ -120,5 +120,3 @@ class CommentController {
     renderElement(this._bottomContainer, this._commentsWrapper.getElement());
   }
 }
-
-export default CommentController;
