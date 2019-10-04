@@ -3,7 +3,6 @@ import {
   PageFilterTitle,
   Position,
   SHORT_DESCRIPTION_LENGTH,
-  sortingTypeMap,
   UNIT,
   UserPoint,
   UserRang,
@@ -13,10 +12,16 @@ import {
 // Функции типов сортировок фильмов
 export const sortByComments = (films) => films.slice().sort((a, b) => b.comments.length - a.comments.length);
 export const sortByRating = (films) => films.slice().sort((a, b) => b.rating - a.rating);
-export const sortByDate = (films) => films.slice().sort((a, b) => a.releaseDate - b.releaseDate);
+export const sortByDate = (films) => films.slice().sort((a, b) => b.releaseDate - a.releaseDate);
 export const defaultSort = (films) => films;
 
 
+export const sortingTypeMap = {
+  'comments': sortByComments,
+  'date': sortByDate,
+  'default': defaultSort,
+  'rating': sortByRating,
+};
 // Сортировка по типу
 export const sortFilms = (films, compareType) => sortingTypeMap[compareType](films);
 
@@ -63,7 +68,7 @@ export const createElement = (template) => { // Создаем елемент и
 
 
 export const clipDescription = (description) => { // Обрезка описания если оно больше 140 символов
-  return description.length > SHORT_DESCRIPTION_LENGTH ? `${description.slice(0, SHORT_DESCRIPTION_LENGTH - 1)}...` : description;
+  return description.length > SHORT_DESCRIPTION_LENGTH ? `${description.slice(0, SHORT_DESCRIPTION_LENGTH - 1)} ...` : description;
 };
 
 
@@ -109,7 +114,7 @@ export const getUserRating = (movies) => { // Получаем рейтинг п
 };
 
 
-export const renderElement = (container, element, place = Position.BEFOREEND) => {// Ф-я рендера компонента
+export const renderElement = (container, element, place = Position.BEFOREEND) => { // Ф-я рендера компонента
   switch (place) {
     case Position.BEFOREBEGIN:
       container.before(element);
@@ -129,7 +134,7 @@ export const renderElement = (container, element, place = Position.BEFOREEND) =>
 };
 
 
-export const unrenderElement = (element) => {// Убираем елемент если он есть
+export const unrenderElement = (element) => { // Убираем елемент если он есть
   if (element) {
     element.remove();
   }
@@ -159,11 +164,11 @@ export const getDurationWatchedFilms = (movies) => { // Общая продол�
 };
 
 
-export const countUniqGenres = (movies) => { // Вычисляем количество жанров без повторений
-  const filmGenres = movies.map((films) => Object.values(films.genres));
+export const countUniqGenres = (films) => { // Вычисляем количество жанров без повторений
+  const filmGenres = films.map((film) => Object.values([...film.genres]));
 
   return filmGenres.flat().reduce((acc, item) => {
-    if (acc[item]) {
+    if (acc.hasOwnProperty(item)) {
       acc[item]++;
     } else {
       acc[item] = 1;
@@ -172,12 +177,7 @@ export const countUniqGenres = (movies) => { // Вычисляем количе�
   }, {});
 };
 
-
 export const getFavoriteGenre = (movies) => { // Получаем самый популярный жанр
-  if (!movies.length) {
-    return undefined;
-  }
-
   const findFavoriteGenre = (counter) => Object.keys(counter)
     .reduce((accumulator, currentValue) => (counter[accumulator] > counter[currentValue] ? accumulator : currentValue));
 
