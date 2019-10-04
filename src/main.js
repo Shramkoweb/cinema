@@ -96,7 +96,7 @@ const onDataChange = (actionType, updatedFilm, callBackFunction) => {
         });
       break;
     default:
-      throw new Error(`Error onDataChenge`);
+      throw new Error(`Error onDataChange`);
   }
 };
 

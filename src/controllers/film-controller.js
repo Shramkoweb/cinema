@@ -1,9 +1,9 @@
+import API from "../api";
+import CommentController from "./comment-controller";
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
-import {renderElement, unrenderElement} from "../utils";
-import API from "../api";
 import {ActionType, AUTHORIZATION, FilmStatusMap, URL} from "../constants";
-import CommentController from "./comment-controller";
+import {renderElement, unrenderElement} from "../utils";
 
 export default class FilmController {
   constructor(container, filmData, onDataChange, onChangeView) {

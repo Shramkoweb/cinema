@@ -13,7 +13,7 @@ import {
   renderElement,
   unrenderElement,
 } from "../utils";
-import {MINUTES_IN_HOURS, Position, StatisticPeriod} from "../constants";
+import {Position, StatisticPeriod} from "../constants";
 
 export default class StatisticController {
   constructor(container) {
