@@ -42,8 +42,8 @@ export default class FilmsController {
 
   // Отрисовка новых фильмов
   renderMoreFilms(films) {
+    this._renderFilms(films, this._filmsList);
     this._films = this._films.concat(films);
-    this._renderFilms(this._films, this._filmsList);
   }
 
   // Отрисовка одного экземпляра фильма

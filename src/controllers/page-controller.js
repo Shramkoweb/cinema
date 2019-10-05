@@ -118,7 +118,6 @@ export default class PageController {
 
   _onShowMoreButtonClick(evt) {
     evt.preventDefault();
-
     this._filmsControllerMain.renderMoreFilms(this._films.slice(this._showedFilms, this._showedFilms + MAX_FILMS_TO_RENDER));
     this._showedFilms += MAX_FILMS_TO_RENDER;
 
