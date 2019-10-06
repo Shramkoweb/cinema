@@ -2,13 +2,13 @@ import FilmDetailsRating from "./film-details-rating";
 import AbstractComponent from "./absctract-component";
 import moment from "moment";
 import {formatFilmDuration, isChecked} from "../utils";
+import {MIN_GENRE_AMOUNT} from "../constants";
 
 export default class FilmDetails extends AbstractComponent {
   constructor(film) {
     super();
     this._actors = film.actors;
     this._age = film.age;
-    this._comments = film.comments;
     this._country = film.country;
     this._description = film.description;
     this._director = film.director;
@@ -32,11 +32,12 @@ export default class FilmDetails extends AbstractComponent {
     });
   }
 
-  getPersonalRatingTemplate() {
+  // Получаем разметку рейтинга
+  _getPersonalRatingTemplate() {
     return this._personalRating ? `Your rate  ${this._personalRating.toString()}` : ``;
   }
 
-  // getting genres template from Set of genres
+  // Получаем разметку жанров
   get genresTemplate() {
     const genresTemplate = [];
 
@@ -45,6 +46,11 @@ export default class FilmDetails extends AbstractComponent {
     });
 
     return genresTemplate;
+  }
+
+  // Получаем разметку загловка рейтингов
+  _getGenreTitle() {
+    return this._genres.size > MIN_GENRE_AMOUNT ? `Genres` : `Genre`;
   }
 
   getTemplate() {
@@ -71,7 +77,7 @@ export default class FilmDetails extends AbstractComponent {
 
                   <div class="film-details__rating">
                     <p class="film-details__total-rating">${this._rating}</p>
-                    <p class="film-details__user-rating">${this.getPersonalRatingTemplate()}</p>
+                    <p class="film-details__user-rating">${this._getPersonalRatingTemplate()}</p>
                   </div>
                 </div>
 
@@ -101,7 +107,10 @@ export default class FilmDetails extends AbstractComponent {
                     <td class="film-details__cell">${this._country}</td>
                   </tr>
                   <tr class="film-details__row">
-                    <td class="film-details__term">Genres</td>
+                    <td class="film-details__term">
+                      ${this._getGenreTitle()}
+                    </td>
+                    
                     <td class="film-details__cell">
                       ${this.genresTemplate.join(``)}
                     </td>
@@ -133,89 +142,4 @@ export default class FilmDetails extends AbstractComponent {
       </section>
     `.trim();
   }
-
-  // addEventListeners() {
-  //   const onWatchedControlClick = (evt) => {
-  //     if (evt.target.checked) {
-  //       const filmInfo = this.getElement().querySelector(`.form-details__top-container`);
-  //       const filmRatingTemplate = new FilmDetailsRating({title: this._title, image: this._image}).getTemplate();
-  //       filmInfo.insertAdjacentHTML(`afterend`, filmRatingTemplate);
-  //     } else {
-  //       this.getElement().querySelector(`.form-details__middle-container`).remove();
-  //     }
-  //   };
-  //
-  //   // delete comment event
-  //   const onCommentDelete = (evt) => {
-  //     evt.preventDefault();
-  //
-  //     evt.target.closest(`.film-details__comment`).remove();
-  //     const commentsCount = parseInt(this.getElement().querySelector(`.film-details__comments-count`).textContent, 10);
-  //
-  //     this.getElement().querySelector(`.film-details__comments-count`).textContent = commentsCount - 1;
-  //   };
-  //
-  //
-  //   // submit comment event
-  //   const onCommentSubmit = (evt) => {
-  //     if (evt.ctrlKey && evt.key === `Enter`) {
-  //       let commentsCount = parseInt(this.getElement().querySelector(`.film-details__comments-count`).textContent, 10);
-  //       const commentsList = document.querySelector(`.film-details__comments-list`);
-  //       const comment = {
-  //         author: `Serhii Shramko`,
-  //         comment: this.getElement().querySelector(`.film-details__comment-input`).value,
-  //         emoji: this.getElement().querySelector(`.film-details__add-emoji-label`).querySelector(`img`).getAttribute(`data-name`),
-  //         date: new Date(),
-  //       };
-  //
-  //       commentsList.insertAdjacentHTML(`beforeend`, this.getCommentTemplate(comment));
-  //
-  //       this.getElement().querySelector(`.film-details__comments-count`).textContent = commentsCount + 1;
-  //
-  //       // add listeners for all delete button in comment element
-  //       for (const deleteButton of this.getElement().querySelectorAll(`.film-details__comment-delete`)) {
-  //         deleteButton.addEventListener(`click`, onCommentDelete);
-  //       }
-  //
-  //
-  //       // default state
-  //       this.getElement().querySelector(`.film-details__comment-input`).value = ``;
-  //       this.getElement().querySelector(`.film-details__emoji-item:checked`).checked = false;
-  //     }
-  //   };
-  //
-  //   // Comment field events
-  //   this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`focus`, () => {
-  //     this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`keydown`, onCommentSubmit);
-  //   });
-  //
-  //   this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`blur`, () => {
-  //     this.getElement().querySelector(`.film-details__comment-input`).removeEventListener(`keydown`, onCommentSubmit);
-  //   });
-  //
-  //   // click on Emoji event
-  //   const onEmojiClick = (evt) => {
-  //     if (evt.target.tagName === `INPUT`) {
-  //       const emojiBlock = this.getElement().querySelector(`.film-details__add-emoji-label`);
-  //       emojiBlock.innerHTML = ``;
-  //
-  //       const emojiElement = document.createElement(`img`);
-  //       emojiElement.width = EMOJI_WIDTH;
-  //       emojiElement.height = EMOJI_HEIGHT;
-  //       emojiElement.alt = `emoji`;
-  //       emojiElement.src = `images/emoji/${evt.target.value}.png`;
-  //       emojiElement.setAttribute(`data-name`, evt.target.value);
-  //
-  //       emojiBlock.insertAdjacentElement(`beforeend`, emojiElement);
-  //     }
-  //   };
-  //
-  //   // add listeners for all delete button in comment element
-  //   for (const deleteButton of this.getElement().querySelectorAll(`.film-details__comment-delete`)) {
-  //     deleteButton.addEventListener(`click`, onCommentDelete);
-  //   }
-  //
-  //   this.getElement().querySelector(`.film-details__control-input[name="watched"]`).addEventListener(`change`, onWatchedControlClick);
-  //   this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, onEmojiClick);
-  // }
 }
