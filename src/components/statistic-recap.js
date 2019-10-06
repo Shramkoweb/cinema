@@ -9,6 +9,16 @@ class StatisticRecap extends AbstractComponent {
     this._topGenre = topGenre;
   }
 
+  _getTotalDurationTemplate() {
+    if (this._totalDuration !== 0) {
+      return `
+        <p class="statistic__item-text">${this._totalDuration.hours} <span class="statistic__item-description">h</span> ${this._totalDuration.minutes} <span class="statistic__item-description">m</span></p>
+      `.trim();
+    }
+
+    return `<p class="statistic__item-text">0 <span class="statistic__item-description">h</span> 0 <span class="statistic__item-description">m</span></p>`;
+  }
+
   getTemplate() {
     return `
       <ul class="statistic__text-list">
@@ -19,7 +29,8 @@ class StatisticRecap extends AbstractComponent {
         
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">Total duration</h4>
-          <p class="statistic__item-text">${this._totalDuration.hours} <span class="statistic__item-description">h</span> ${this._totalDuration.minutes} <span class="statistic__item-description">m</span></p>
+          
+          ${this._getTotalDurationTemplate()}
         </li>
         
         <li class="statistic__text-item">

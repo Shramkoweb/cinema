@@ -69,7 +69,6 @@ export default class PageController {
 
   _setFilms(films) {
     this._films = films.slice();
-    this._showedFilms = MAX_FILMS_TO_RENDER;
     this._initialRender(this._films);
   }
 

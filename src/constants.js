@@ -6,6 +6,7 @@ export const SHORT_DESCRIPTION_LENGTH = 140;
 export const USER_SCORE_AMOUNT = 9;
 export const MINUTES_IN_HOURS = 60;
 export const URL = `https://htmlacademy-es-9.appspot.com/cinemaddict/`;
+export const MIN_GENRE_AMOUNT = 1;
 
 export const Method = {
   DELETE: `DELETE`,
