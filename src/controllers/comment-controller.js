@@ -26,6 +26,21 @@ export default class CommentController {
     this._init();
   }
 
+  _shakeComment() {
+    this._commentTextarea.classList.add(`shake`);
+  }
+
+  _commentShowError() {
+    this._commentTextarea.classList.add(`film-details__comment-input--error`);
+    this._shakeComment();
+    this.enableTextarea();
+  }
+
+  _commentHideError() {
+    this._commentTextarea.classList.remove(`film-details__comment-input--error`);
+    this._commentTextarea.classList.remove(`shake`);
+  }
+
   disableTextarea() {
     this._commentTextarea.disabled = true;
   }
@@ -73,16 +88,20 @@ export default class CommentController {
 
       if (isRequiredKeys && evt.target.value !== ``) {
         const formData = this._getCommentsData();
+
         this.disableTextarea();
+
         this._onDataChenge(ActionType.CREATE_COMMENT, {
           id: this._filmData.id,
           comment: formData.comment,
-        }, this._addRequest);
+        }, this._addRequest, this._commentShowError.bind(this));
       }
     };
 
     const onTextareaFocus = () => {
       document.addEventListener(`keydown`, onCommentKeyDown);
+      this._commentHideError();
+
     };
 
     const onTextareaBlur = () => {

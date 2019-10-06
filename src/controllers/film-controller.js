@@ -54,8 +54,6 @@ export default class FilmController {
       this._commentController.enableTextarea();
       this._commentController.hide();
       this._commentController.show(comments);
-    }).catch(() => {
-      this._commentController.enableTextarea();
     });
   }
 
@@ -64,8 +62,6 @@ export default class FilmController {
       this._commentController.enableDelete();
       this._commentController.hide();
       this._commentController.show(comments);
-    }).catch(() => {
-      this._commentController.enableDelete();
     });
   }
 
@@ -90,15 +86,12 @@ export default class FilmController {
 
   _updateRatingRequestError() {
     this._shakeRating();
-    this._ratingShowErrorClass();
+    this._ratingShowError();
     this._enableRating();
     this._resetUserRating();
-    // const newData = Object.assign(this._filmData, {personalRating: 0});
-    // this._onDataChenge(ActionType.UPDATE_RATING, Object.assign(newData, this._getState()), this._updateRatingRequest.bind(this), this._updateRatingRequestError.bind(this));
-
   }
 
-  _ratingShowErrorClass() {
+  _ratingShowError() {
     this._filmPopupRatingElements.forEach((input) => {
       input.classList.add(`film-details__user-rating-input--error`);
     });

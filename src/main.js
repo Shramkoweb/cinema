@@ -71,6 +71,9 @@ const onDataChange = (actionType, updatedFilm, callback, callbackError) => {
         .then((movies) => {
           pageController.show(movies);
           callback();
+        })
+        .catch(() => {
+          callbackError();
         });
       break;
     case ActionType.DELETE_COMMENT:
@@ -81,6 +84,9 @@ const onDataChange = (actionType, updatedFilm, callback, callbackError) => {
         .then((movies) => {
           pageController.show(movies);
           callback();
+        })
+        .catch(() => {
+          callbackError();
         });
       break;
     case ActionType.UPDATE_RATING:
