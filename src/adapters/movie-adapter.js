@@ -24,14 +24,6 @@ class MovieAdapter {
     this.viewedDate = film[`user_details`][`watching_date`];
   }
 
-  static parseMovie(film) {
-    return new MovieAdapter(film);
-  }
-
-  static parseMovies(films) {
-    return films.map(MovieAdapter.parseMovie);
-  }
-
   toRAW() {
     return {
       'id': this.id,
@@ -61,6 +53,14 @@ class MovieAdapter {
         [`watching_date`]: new Date(this.viewedDate),
       },
     };
+  }
+
+  static parseMovie(film) {
+    return new MovieAdapter(film);
+  }
+
+  static parseMovies(films) {
+    return films.map(MovieAdapter.parseMovie);
   }
 }
 

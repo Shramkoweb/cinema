@@ -18,14 +18,6 @@ export default class FilmCard extends AbstractComponent {
     this._title = film.title;
   }
 
-  _addActiveClass(isActive) { // Возврат активного класса
-    return `${isActive ? `film-card__controls-item--active` : ``}`;
-  }
-
-  _getFirstGenre(genres) { // Первый жанр из множества
-    return genres.size ? genres.values().next().value : ``;
-  }
-
   getTemplate() {
     return `
       <article class="film-card">
@@ -47,4 +39,13 @@ export default class FilmCard extends AbstractComponent {
       </article>
     `.trim();
   }
+
+  _addActiveClass(isActive) { // Возврат активного класса
+    return `${isActive ? `film-card__controls-item--active` : ``}`;
+  }
+
+  _getFirstGenre(genres) { // Первый жанр из множества
+    return genres.size ? genres.values().next().value : ``;
+  }
+
 }

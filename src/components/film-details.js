@@ -32,27 +32,6 @@ export default class FilmDetails extends AbstractComponent {
     });
   }
 
-  // Получаем разметку рейтинга
-  _getPersonalRatingTemplate() {
-    return this._personalRating ? `Your rate  ${this._personalRating.toString()}` : ``;
-  }
-
-  // Получаем разметку жанров
-  get genresTemplate() {
-    const genresTemplate = [];
-
-    this._genres.forEach((genre) => {
-      genresTemplate.push(`<span class="film-details__genre">${genre}</span>`);
-    });
-
-    return genresTemplate;
-  }
-
-  // Получаем разметку загловка рейтингов
-  _getGenreTitle() {
-    return this._genres.size > MIN_GENRE_AMOUNT ? `Genres` : `Genre`;
-  }
-
   getTemplate() {
     return `
       <section class="film-details">
@@ -141,5 +120,26 @@ export default class FilmDetails extends AbstractComponent {
         </form>
       </section>
     `.trim();
+  }
+
+  // Получаем разметку жанров
+  get genresTemplate() {
+    const genresTemplate = [];
+
+    this._genres.forEach((genre) => {
+      genresTemplate.push(`<span class="film-details__genre">${genre}</span>`);
+    });
+
+    return genresTemplate;
+  }
+
+  // Получаем разметку рейтинга
+  _getPersonalRatingTemplate() {
+    return this._personalRating ? `Your rate  ${this._personalRating.toString()}` : ``;
+  }
+
+  // Получаем разметку загловка рейтингов
+  _getGenreTitle() {
+    return this._genres.size > MIN_GENRE_AMOUNT ? `Genres` : `Genre`;
   }
 }

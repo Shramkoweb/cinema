@@ -19,13 +19,19 @@ export default class FilmsController {
     switch (this._renderPosition) {
       case RenderPosition.RATED:
         this._ratedFilms = sortFilms(this._films, `rating`).slice(0, MAX_EXTRA_FILMS_AMOUNT);
-        this._ratedFilms.forEach((film) => this._renderFilm(film, this._filmsList));
-        renderElement(this._filmsContainer.getElement(), this._filmsList.getElement());
+
+        if (this._ratedFilms.length) {
+          this._ratedFilms.forEach((film) => this._renderFilm(film, this._filmsList));
+          renderElement(this._filmsContainer.getElement(), this._filmsList.getElement());
+        }
         break;
       case RenderPosition.COMMENTED:
         this._commentedFilms = sortFilms(this._films, `comments`).slice(0, MAX_EXTRA_FILMS_AMOUNT);
-        this._commentedFilms.forEach((film) => this._renderFilm(film, this._filmsList));
-        renderElement(this._filmsContainer.getElement(), this._filmsList.getElement());
+
+        if (this._commentedFilms.length) {
+          this._commentedFilms.forEach((film) => this._renderFilm(film, this._filmsList));
+          renderElement(this._filmsContainer.getElement(), this._filmsList.getElement());
+        }
         break;
       case RenderPosition.DEFAULT:
         this._films.forEach((film) => this._renderFilm(film, this._filmsList));

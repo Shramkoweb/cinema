@@ -113,7 +113,6 @@ export default class PageController {
     this._filmsControllerMain.init(films.slice(0, this._showedFilms));
     this._filmsControllerRated.init(films.slice());
     this._filmsControllerCommented.init(films.slice());
-
   }
 
   _onShowMoreButtonClick(evt) {
