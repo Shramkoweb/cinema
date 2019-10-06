@@ -1,22 +1,12 @@
 import AbstractComponent from "./absctract-component";
 
-class StatisticRecap extends AbstractComponent {
+export default class StatisticRecap extends AbstractComponent {
 
   constructor({watchedMovies, totalDuration, topGenre}) {
     super();
     this._watchedMovies = watchedMovies;
     this._totalDuration = totalDuration;
     this._topGenre = topGenre;
-  }
-
-  _getTotalDurationTemplate() {
-    if (this._totalDuration !== 0) {
-      return `
-        <p class="statistic__item-text">${this._totalDuration.hours} <span class="statistic__item-description">h</span> ${this._totalDuration.minutes} <span class="statistic__item-description">m</span></p>
-      `.trim();
-    }
-
-    return `<p class="statistic__item-text">0 <span class="statistic__item-description">h</span> 0 <span class="statistic__item-description">m</span></p>`;
   }
 
   getTemplate() {
@@ -40,6 +30,14 @@ class StatisticRecap extends AbstractComponent {
       </ul>
      `.trim();
   }
-}
 
-export default StatisticRecap;
+  _getTotalDurationTemplate() {
+    if (this._totalDuration !== 0) {
+      return `
+        <p class="statistic__item-text">${this._totalDuration.hours} <span class="statistic__item-description">h</span> ${this._totalDuration.minutes} <span class="statistic__item-description">m</span></p>
+      `.trim();
+    }
+
+    return `<p class="statistic__item-text">0 <span class="statistic__item-description">h</span> 0 <span class="statistic__item-description">m</span></p>`;
+  }
+}

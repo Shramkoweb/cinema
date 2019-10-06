@@ -32,6 +32,17 @@ export default class FilmDetails extends AbstractComponent {
     });
   }
 
+  // Получаем разметку жанров
+  get genresTemplate() {
+    const genresTemplate = [];
+
+    this._genres.forEach((genre) => {
+      genresTemplate.push(`<span class="film-details__genre">${genre}</span>`);
+    });
+
+    return genresTemplate;
+  }
+
   getTemplate() {
     return `
       <section class="film-details">
@@ -120,17 +131,6 @@ export default class FilmDetails extends AbstractComponent {
         </form>
       </section>
     `.trim();
-  }
-
-  // Получаем разметку жанров
-  get genresTemplate() {
-    const genresTemplate = [];
-
-    this._genres.forEach((genre) => {
-      genresTemplate.push(`<span class="film-details__genre">${genre}</span>`);
-    });
-
-    return genresTemplate;
   }
 
   // Получаем разметку рейтинга
