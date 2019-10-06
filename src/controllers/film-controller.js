@@ -15,6 +15,7 @@ export default class FilmController {
     this._filmCard = new FilmCard(this._filmData);
     this._filmDetails = new FilmDetails(this._filmData);
     this._controlButtons = this._filmCard.getElement().querySelector(`.film-card__controls`);
+    this._userRatingWrapper = this._filmDetails.getElement().querySelector(`.film-details__user-rating-score`);
     this._filmPopupControls = this._filmDetails.getElement().querySelector(`.film-details__controls`);
     this._filmPopupRatingElements = this._filmDetails.getElement().querySelectorAll(`.film-details__user-rating-input`);
     this._api = new API({authorization: AUTHORIZATION, endPoint: URL});
@@ -34,6 +35,19 @@ export default class FilmController {
       isInWatchlist: false,
     });
   }
+
+  _disableRating() {
+    this._filmPopupRatingElements.forEach((input) => {
+      input.disabled = true;
+    });
+  }
+
+  _enableRating() {
+    this._filmPopupRatingElements.forEach((input) => {
+      input.disabled = false;
+    });
+  }
+
 
   _addRequestComment() {
     this._api.getMovieComments({movieId: this._filmData.id}).then((comments) => {
@@ -68,6 +82,35 @@ export default class FilmController {
       isWatched: this._filmData.isWatched,
       isFavorite: this._filmData.isFavorite,
     };
+  }
+
+  _updateRatingRequest() {
+    this._enableRating();
+  }
+
+  _updateRatingRequestError() {
+    this._shakeRating();
+    this._ratingShowErrorClass();
+    this._enableRating();
+  }
+
+  _ratingShowErrorClass() {
+    this._filmPopupRatingElements.forEach((input) => {
+      input.classList.add(`film-details__user-rating-input--error`);
+    });
+  }
+
+
+  _ratingHideErrorClass() {
+    this._filmPopupRatingElements.forEach((input) => {
+      input.classList.remove(`film-details__user-rating-input--error`);
+    });
+
+    this._userRatingWrapper.classList.remove(`shake`);
+  }
+
+  _shakeRating() {
+    this._userRatingWrapper.classList.add(`shake`);
   }
 
   _renderComments() {
@@ -116,6 +159,8 @@ export default class FilmController {
     };
 
     const resetUserRating = () => {
+      this._ratingHideErrorClass();
+
       this._filmPopupRatingElements.forEach((elem) => {
         elem.checked = false;
       });
@@ -152,7 +197,9 @@ export default class FilmController {
 
     const onUserRatingChange = () => {
       const newData = Object.assign(this._filmData, this._getPersonalRating());
-      this._onDataChenge(ActionType.UPDATE_RATING, Object.assign(newData, this._getState()));
+
+      this._disableRating();
+      this._onDataChenge(ActionType.UPDATE_RATING, Object.assign(newData, this._getState()), this._updateRatingRequest.bind(this), this._updateRatingRequestError.bind(this));
     };
 
 
@@ -180,6 +227,7 @@ export default class FilmController {
 
     const onUserRatingReset = () => {
       resetUserRating();
+
       const newData = Object.assign(this._filmData, {personalRating: 0});
       this._onDataChenge(ActionType.UPDATE, Object.assign(newData, this._getState()));
     };
@@ -204,8 +252,8 @@ export default class FilmController {
 
     // Изменения рейтинга
     this._filmDetails.getElement().querySelectorAll(`.film-details__user-rating-input`)
-      .forEach((elem) => {
-        elem.addEventListener(`click`, onUserRatingChange);
+      .forEach((input) => {
+        input.addEventListener(`click`, onUserRatingChange);
       });
 
     // Клик по контролам попапа

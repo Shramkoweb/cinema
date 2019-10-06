@@ -37,7 +37,7 @@ const onSearchReset = () => {
 };
 
 
-const onDataChange = (actionType, updatedFilm, callBackFunction) => {
+const onDataChange = (actionType, updatedFilm, callback, callbackError) => {
   switch (actionType) {
     case ActionType.UPDATE:
       api.updateFilm({
@@ -70,7 +70,7 @@ const onDataChange = (actionType, updatedFilm, callBackFunction) => {
         .then(() => api.getFilms())
         .then((movies) => {
           pageController.show(movies);
-          callBackFunction();
+          callback();
         });
       break;
     case ActionType.DELETE_COMMENT:
@@ -80,7 +80,7 @@ const onDataChange = (actionType, updatedFilm, callBackFunction) => {
         .then(() => api.getFilms())
         .then((movies) => {
           pageController.show(movies);
-          callBackFunction();
+          callback();
         });
       break;
     case ActionType.UPDATE_RATING:
@@ -93,6 +93,10 @@ const onDataChange = (actionType, updatedFilm, callBackFunction) => {
           menuController.show(movies);
           pageController.show(movies);
           searchController.show(movies);
+          callback();
+        })
+        .catch(() => {
+          callbackError();
         });
       break;
     default:
