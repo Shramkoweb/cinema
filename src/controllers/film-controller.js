@@ -2,7 +2,7 @@ import API from "../api";
 import CommentController from "./comment-controller";
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
-import {ActionType, AUTHORIZATION, FilmStatusMap, URL} from "../constants";
+import {ActionType, ANIMATION_DELAY, AUTHORIZATION, FilmStatusMap, URL} from "../constants";
 import {renderElement, unrenderElement} from "../utils";
 
 export default class FilmController {
@@ -92,6 +92,10 @@ export default class FilmController {
     this._shakeRating();
     this._ratingShowErrorClass();
     this._enableRating();
+    this._resetUserRating();
+    // const newData = Object.assign(this._filmData, {personalRating: 0});
+    // this._onDataChenge(ActionType.UPDATE_RATING, Object.assign(newData, this._getState()), this._updateRatingRequest.bind(this), this._updateRatingRequestError.bind(this));
+
   }
 
   _ratingShowErrorClass() {
@@ -99,7 +103,6 @@ export default class FilmController {
       input.classList.add(`film-details__user-rating-input--error`);
     });
   }
-
 
   _ratingHideErrorClass() {
     this._filmPopupRatingElements.forEach((input) => {
@@ -109,8 +112,19 @@ export default class FilmController {
     this._userRatingWrapper.classList.remove(`shake`);
   }
 
+  _resetUserRating() {
+    this._filmPopupRatingElements.forEach((elem) => {
+      elem.checked = false;
+    });
+  }
+
   _shakeRating() {
     this._userRatingWrapper.classList.add(`shake`);
+
+    setTimeout(() => {
+      this._userRatingWrapper.classList.remove(`shake`);
+      this._ratingHideErrorClass();
+    }, ANIMATION_DELAY);
   }
 
   _renderComments() {
@@ -158,14 +172,6 @@ export default class FilmController {
       }
     };
 
-    const resetUserRating = () => {
-      this._ratingHideErrorClass();
-
-      this._filmPopupRatingElements.forEach((elem) => {
-        elem.checked = false;
-      });
-    };
-
     const onFilmControlClick = (evt) => {
       evt.target.classList.toggle(`film-card__controls-item--active`);
 
@@ -199,6 +205,7 @@ export default class FilmController {
       const newData = Object.assign(this._filmData, this._getPersonalRating());
 
       this._disableRating();
+      this._ratingHideErrorClass();
       this._onDataChenge(ActionType.UPDATE_RATING, Object.assign(newData, this._getState()), this._updateRatingRequest.bind(this), this._updateRatingRequestError.bind(this));
     };
 
@@ -208,7 +215,7 @@ export default class FilmController {
         const isWatched = !this._filmData.isWatched;
 
         if (isWatched === false) {
-          resetUserRating();
+          this._resetUserRating();
         }
 
         this._filmDetails.getElement().querySelector(`.form-details__middle-container`).classList.toggle(`visually-hidden`);
@@ -226,7 +233,7 @@ export default class FilmController {
 
 
     const onUserRatingReset = () => {
-      resetUserRating();
+      this._resetUserRating();
 
       const newData = Object.assign(this._filmData, {personalRating: 0});
       this._onDataChenge(ActionType.UPDATE, Object.assign(newData, this._getState()));
