@@ -36,6 +36,10 @@ export default class CommentController {
     this.enableTextarea();
   }
 
+  _commentDeleteErrorRequest() {
+    this.enableDelete();
+  }
+
   _commentHideError() {
     this._commentTextarea.classList.remove(`film-details__comment-input--error`);
     this._commentTextarea.classList.remove(`shake`);
@@ -111,7 +115,7 @@ export default class CommentController {
     const onDeleteButtonClick = (evt, id) => {
       evt.preventDefault();
       this.disableDelete(evt);
-      this._onDataChenge(ActionType.DELETE_COMMENT, {id: this._comments[id].id}, this._deleteRequest);
+      this._onDataChenge(ActionType.DELETE_COMMENT, {id: this._comments[id].id}, this._deleteRequest, this._commentDeleteErrorRequest.bind(this));
     };
 
     const onSelectEmojiClick = (evt) => {

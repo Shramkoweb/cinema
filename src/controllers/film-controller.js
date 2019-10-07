@@ -97,7 +97,7 @@ export default class FilmController {
     });
   }
 
-  _ratingHideErrorClass() {
+  _ratingHideError() {
     this._filmPopupRatingElements.forEach((input) => {
       input.classList.remove(`film-details__user-rating-input--error`);
     });
@@ -116,7 +116,7 @@ export default class FilmController {
 
     setTimeout(() => {
       this._userRatingWrapper.classList.remove(`shake`);
-      this._ratingHideErrorClass();
+      this._ratingHideError();
     }, ANIMATION_DELAY);
   }
 
@@ -126,14 +126,12 @@ export default class FilmController {
     });
   }
 
-
   _getPersonalRating() {
     const formData = new FormData(this._filmDetails.getElement().querySelector(`.film-details__inner`));
     return {
       personalRating: formData.get(`score`),
     };
   }
-
 
   setDefaultView() {
     if (this._bodyElement.contains(this._filmDetails.getElement())) {
@@ -198,7 +196,7 @@ export default class FilmController {
       const newData = Object.assign(this._filmData, this._getPersonalRating());
 
       this._disableRating();
-      this._ratingHideErrorClass();
+      this._ratingHideError();
       this._onDataChenge(ActionType.UPDATE_RATING, Object.assign(newData, this._getState()), this._updateRatingRequest.bind(this), this._updateRatingRequestError.bind(this));
     };
 
