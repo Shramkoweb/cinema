@@ -9,14 +9,6 @@ class CommentAdapter {
     this.date = Number(moment(comment[`date`]).format(`x`));
   }
 
-  static parseComment(comment) {
-    return new CommentAdapter(comment);
-  }
-
-  static parseComments(comment) {
-    return comment.map(CommentAdapter.parseComment);
-  }
-
   toRAW() {
     return {
       'id': this.id,
@@ -25,6 +17,14 @@ class CommentAdapter {
       'date': this.date,
       'emotion': this.emotion,
     };
+  }
+
+  static parseComment(comment) {
+    return new CommentAdapter(comment);
+  }
+
+  static parseComments(comment) {
+    return comment.map(CommentAdapter.parseComment);
   }
 }
 

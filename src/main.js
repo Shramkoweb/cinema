@@ -28,7 +28,7 @@ const setSearchState = (state) => {
 
 const onSearchReset = () => {
   searchController.hide();
-  chartController.hide();
+  statisticController.hide();
 
   // Сбрасиваем все контроллеры
   setSearchState(false);
@@ -37,7 +37,7 @@ const onSearchReset = () => {
 };
 
 
-const onDataChange = (actionType, updatedFilm, callBackFunction) => {
+const onDataChange = (actionType, updatedFilm, callback, callbackError) => {
   switch (actionType) {
     case ActionType.UPDATE:
       api.updateFilm({
@@ -70,7 +70,10 @@ const onDataChange = (actionType, updatedFilm, callBackFunction) => {
         .then(() => api.getFilms())
         .then((movies) => {
           pageController.show(movies);
-          callBackFunction();
+          callback();
+        })
+        .catch(() => {
+          callbackError();
         });
       break;
     case ActionType.DELETE_COMMENT:
@@ -80,7 +83,10 @@ const onDataChange = (actionType, updatedFilm, callBackFunction) => {
         .then(() => api.getFilms())
         .then((movies) => {
           pageController.show(movies);
-          callBackFunction();
+          callback();
+        })
+        .catch(() => {
+          callbackError();
         });
       break;
     case ActionType.UPDATE_RATING:
@@ -93,6 +99,10 @@ const onDataChange = (actionType, updatedFilm, callBackFunction) => {
           menuController.show(movies);
           pageController.show(movies);
           searchController.show(movies);
+          callback();
+        })
+        .catch(() => {
+          callbackError();
         });
       break;
     default:
@@ -102,10 +112,10 @@ const onDataChange = (actionType, updatedFilm, callBackFunction) => {
 
 
 // Контроллеры
-const chartController = new StatisticController(mainElement);
+const statisticController = new StatisticController(mainElement);
 const pageController = new PageController(mainElement, onDataChange);
 const searchController = new SearchController(mainElement, searchComponent, onDataChange, onSearchReset);
-const menuController = new MenuController(mainElement, pageController, searchController, chartController);
+const menuController = new MenuController(mainElement, pageController, searchController, statisticController);
 
 
 // отрисовка статики Поиска и Загрзки до ответа сервера
@@ -124,7 +134,7 @@ api.getFilms().then((films) => {
 const hideMainPage = () => {
   menuController.hide();
   pageController.hide();
-  chartController.hide();
+  statisticController.hide();
   setSearchState(true);
 };
 
@@ -132,7 +142,7 @@ const hideMainPage = () => {
 // Вернуть мейн к дефолту
 const initMainPage = () => {
   searchController.hide();
-  chartController.hide();
+  statisticController.hide();
   pageController._init();
   setSearchState(false);
   onDataChange(ActionType.CREATE);

@@ -13,7 +13,7 @@ import {
   renderElement,
   unrenderElement,
 } from "../utils";
-import {Position, StatisticPeriod} from "../constants";
+import {MIN_GENRE_AMOUNT, Position, StatisticPeriod} from "../constants";
 
 export default class StatisticController {
   constructor(container) {
@@ -31,7 +31,7 @@ export default class StatisticController {
   }
 
   show(films) {
-    this._films = films.filter((elem) => elem.isWatched);
+    this._films = films.filter((film) => film.isWatched);
     this._originalFilms = this._films.slice();
     this._statisticComponent.getElement().classList.remove(`visually-hidden`);
     this._renderStatisticContainer();
@@ -54,8 +54,8 @@ export default class StatisticController {
 
   _renderUserRecap() {
     this._unrenderRecap();
-    const getTopGenre = getFavoriteGenre(this._films);
-    const getTotalDuration = getDurationWatchedFilms(this._films);
+    const getTopGenre = this._films.length > MIN_GENRE_AMOUNT ? getFavoriteGenre(this._films) : `-`;
+    const getTotalDuration = this._films.length > 0 ? getDurationWatchedFilms(this._films) : 0;
 
     this._statisticRecap = new StatisticRecap({
       watchedMovies: this._films.length,

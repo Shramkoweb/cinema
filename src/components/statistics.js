@@ -1,16 +1,7 @@
 import {STATISTIC_FILTERS} from "../constants";
 import AbstractComponent from "./absctract-component";
 
-class Statistics extends AbstractComponent {
-
-  _getFiltersTemplate() {
-    return STATISTIC_FILTERS.map((filter) => {
-      return `
-        <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${filter.id}" value="${filter.id}" ${filter.checked ? `checked` : ``}>
-        <label for="statistic-${filter.id}" class="statistic__filters-label">${filter.title}</label>
-      `;
-    }).join(` `);
-  }
+export default class Statistics extends AbstractComponent {
 
   getTemplate() {
     return `
@@ -24,7 +15,13 @@ class Statistics extends AbstractComponent {
         <div class="statistic__chart-wrap"></div>
       </section>`.trim();
   }
+
+  _getFiltersTemplate() {
+    return STATISTIC_FILTERS.map((filter) => {
+      return `
+        <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${filter.id}" value="${filter.id}" ${filter.checked ? `checked` : ``}>
+        <label for="statistic-${filter.id}" class="statistic__filters-label">${filter.title}</label>
+      `;
+    }).join(` `);
+  }
 }
-
-
-export default Statistics;

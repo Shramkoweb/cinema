@@ -2,7 +2,7 @@ import API from "../api";
 import CommentController from "./comment-controller";
 import FilmCard from "../components/film-card";
 import FilmDetails from "../components/film-details";
-import {ActionType, AUTHORIZATION, FilmStatusMap, URL} from "../constants";
+import {ActionType, ANIMATION_DELAY, AUTHORIZATION, FilmStatusMap, URL} from "../constants";
 import {renderElement, unrenderElement} from "../utils";
 
 export default class FilmController {
@@ -15,6 +15,7 @@ export default class FilmController {
     this._filmCard = new FilmCard(this._filmData);
     this._filmDetails = new FilmDetails(this._filmData);
     this._controlButtons = this._filmCard.getElement().querySelector(`.film-card__controls`);
+    this._userRatingWrapper = this._filmDetails.getElement().querySelector(`.film-details__user-rating-score`);
     this._filmPopupControls = this._filmDetails.getElement().querySelector(`.film-details__controls`);
     this._filmPopupRatingElements = this._filmDetails.getElement().querySelectorAll(`.film-details__user-rating-input`);
     this._api = new API({authorization: AUTHORIZATION, endPoint: URL});
@@ -35,13 +36,24 @@ export default class FilmController {
     });
   }
 
+  _disableRating() {
+    this._filmPopupRatingElements.forEach((input) => {
+      input.disabled = true;
+    });
+  }
+
+  _enableRating() {
+    this._filmPopupRatingElements.forEach((input) => {
+      input.disabled = false;
+    });
+  }
+
+
   _addRequestComment() {
     this._api.getMovieComments({movieId: this._filmData.id}).then((comments) => {
       this._commentController.enableTextarea();
       this._commentController.hide();
       this._commentController.show(comments);
-    }).catch(() => {
-      this._commentController.enableTextarea();
     });
   }
 
@@ -50,8 +62,6 @@ export default class FilmController {
       this._commentController.enableDelete();
       this._commentController.hide();
       this._commentController.show(comments);
-    }).catch(() => {
-      this._commentController.enableDelete();
     });
   }
 
@@ -70,12 +80,51 @@ export default class FilmController {
     };
   }
 
+  _updateRatingRequest() {
+    this._enableRating();
+  }
+
+  _updateRatingRequestError() {
+    this._shakeRating();
+    this._ratingShowError();
+    this._enableRating();
+    this._resetUserRating();
+  }
+
+  _ratingShowError() {
+    this._filmPopupRatingElements.forEach((input) => {
+      input.classList.add(`film-details__user-rating-input--error`);
+    });
+  }
+
+  _ratingHideError() {
+    this._filmPopupRatingElements.forEach((input) => {
+      input.classList.remove(`film-details__user-rating-input--error`);
+    });
+
+    this._userRatingWrapper.classList.remove(`shake`);
+  }
+
+  _resetUserRating() {
+    this._filmPopupRatingElements.forEach((elem) => {
+      elem.checked = false;
+    });
+  }
+
+  _shakeRating() {
+    this._userRatingWrapper.classList.add(`shake`);
+
+    setTimeout(() => {
+      this._userRatingWrapper.classList.remove(`shake`);
+      this._ratingHideError();
+    }, ANIMATION_DELAY);
+  }
+
   _renderComments() {
     this._api.getMovieComments({movieId: this._filmData.id}).then((comments) => {
       this._commentController.show(comments);
     });
   }
-
 
   _getPersonalRating() {
     const formData = new FormData(this._filmDetails.getElement().querySelector(`.film-details__inner`));
@@ -83,7 +132,6 @@ export default class FilmController {
       personalRating: formData.get(`score`),
     };
   }
-
 
   setDefaultView() {
     if (this._bodyElement.contains(this._filmDetails.getElement())) {
@@ -113,12 +161,6 @@ export default class FilmController {
         this._bodyElement.appendChild(this._filmDetails.getElement());
         document.addEventListener(`keydown`, onEscKeyDown);
       }
-    };
-
-    const resetUserRating = () => {
-      this._filmPopupRatingElements.forEach((elem) => {
-        elem.checked = false;
-      });
     };
 
     const onFilmControlClick = (evt) => {
@@ -152,7 +194,10 @@ export default class FilmController {
 
     const onUserRatingChange = () => {
       const newData = Object.assign(this._filmData, this._getPersonalRating());
-      this._onDataChenge(ActionType.UPDATE_RATING, Object.assign(newData, this._getState()));
+
+      this._disableRating();
+      this._ratingHideError();
+      this._onDataChenge(ActionType.UPDATE_RATING, Object.assign(newData, this._getState()), this._updateRatingRequest.bind(this), this._updateRatingRequestError.bind(this));
     };
 
 
@@ -161,7 +206,7 @@ export default class FilmController {
         const isWatched = !this._filmData.isWatched;
 
         if (isWatched === false) {
-          resetUserRating();
+          this._resetUserRating();
         }
 
         this._filmDetails.getElement().querySelector(`.form-details__middle-container`).classList.toggle(`visually-hidden`);
@@ -179,7 +224,8 @@ export default class FilmController {
 
 
     const onUserRatingReset = () => {
-      resetUserRating();
+      this._resetUserRating();
+
       const newData = Object.assign(this._filmData, {personalRating: 0});
       this._onDataChenge(ActionType.UPDATE, Object.assign(newData, this._getState()));
     };
@@ -204,8 +250,8 @@ export default class FilmController {
 
     // Изменения рейтинга
     this._filmDetails.getElement().querySelectorAll(`.film-details__user-rating-input`)
-      .forEach((elem) => {
-        elem.addEventListener(`click`, onUserRatingChange);
+      .forEach((input) => {
+        input.addEventListener(`click`, onUserRatingChange);
       });
 
     // Клик по контролам попапа

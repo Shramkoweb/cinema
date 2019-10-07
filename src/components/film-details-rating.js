@@ -10,15 +10,6 @@ export default class FilmDetailsRating extends AbstractComponent {
     this._isWatched = isWatched;
   }
 
-  _getUserScoreTemplate() {
-    return Array.from(Array(USER_SCORE_AMOUNT), (currentValue, index) => {
-      return `
-         <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${index + 1}" id="rating-${index + 1}" ${(this._personalRating) === (index + 1) ? `checked` : ``}> 
-         <label class="film-details__user-rating-label" for="rating-${index + 1}">${index + 1}</label>
-       `.trim();
-    }).join(``);
-  }
-
   getTemplate() {
     return `
       <div class="form-details__middle-container ${this._isWatched ? `` : `visually-hidden`}">
@@ -45,5 +36,14 @@ export default class FilmDetailsRating extends AbstractComponent {
         </section>
       </div>
     `.trim();
+  }
+
+  _getUserScoreTemplate() {
+    return Array.from(Array(USER_SCORE_AMOUNT), (currentValue, index) => {
+      return `
+         <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${index + 1}" id="rating-${index + 1}" ${(this._personalRating) === (index + 1) ? `checked` : ``}> 
+         <label class="film-details__user-rating-label" for="rating-${index + 1}">${index + 1}</label>
+       `.trim();
+    }).join(``);
   }
 }

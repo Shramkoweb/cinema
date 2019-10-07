@@ -26,6 +26,25 @@ export default class CommentController {
     this._init();
   }
 
+  _shakeComment() {
+    this._commentTextarea.classList.add(`shake`);
+  }
+
+  _commentShowError() {
+    this._commentTextarea.classList.add(`film-details__comment-input--error`);
+    this._shakeComment();
+    this.enableTextarea();
+  }
+
+  _commentDeleteErrorRequest() {
+    this.enableDelete();
+  }
+
+  _commentHideError() {
+    this._commentTextarea.classList.remove(`film-details__comment-input--error`);
+    this._commentTextarea.classList.remove(`shake`);
+  }
+
   disableTextarea() {
     this._commentTextarea.disabled = true;
   }
@@ -73,16 +92,20 @@ export default class CommentController {
 
       if (isRequiredKeys && evt.target.value !== ``) {
         const formData = this._getCommentsData();
+
         this.disableTextarea();
+
         this._onDataChenge(ActionType.CREATE_COMMENT, {
           id: this._filmData.id,
           comment: formData.comment,
-        }, this._addRequest);
+        }, this._addRequest, this._commentShowError.bind(this));
       }
     };
 
     const onTextareaFocus = () => {
       document.addEventListener(`keydown`, onCommentKeyDown);
+      this._commentHideError();
+
     };
 
     const onTextareaBlur = () => {
@@ -92,7 +115,7 @@ export default class CommentController {
     const onDeleteButtonClick = (evt, id) => {
       evt.preventDefault();
       this.disableDelete(evt);
-      this._onDataChenge(ActionType.DELETE_COMMENT, {id: this._comments[id].id}, this._deleteRequest);
+      this._onDataChenge(ActionType.DELETE_COMMENT, {id: this._comments[id].id}, this._deleteRequest, this._commentDeleteErrorRequest.bind(this));
     };
 
     const onSelectEmojiClick = (evt) => {
