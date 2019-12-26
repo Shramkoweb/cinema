@@ -7,7 +7,8 @@
     "build": "webpack",
     "start": "webpack-dev-server --open",
     "eslint": "eslint src/**/*.js",
-    "test": "npm run eslint"
+    "test": "npm run eslint",
+    "deploy": "gh-pages -d public"
   },
   "devDependencies": {
     "chart.js": "2.8.0",
@@ -23,6 +24,7 @@
     "node": "10"
   },
   "dependencies": {
+    "gh-pages": "^2.1.1",
     "moment": "2.24.0"
   }
 }
