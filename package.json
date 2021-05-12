@@ -11,7 +11,7 @@
     "deploy": "gh-pages -d public"
   },
   "devDependencies": {
-    "chart.js": "2.8.0",
+    "chart.js": "2.9.4",
     "chartjs-plugin-datalabels": "0.7.0",
     "eslint": "6.1.0",
     "eslint-config-htmlacademy": "0.5.2",
