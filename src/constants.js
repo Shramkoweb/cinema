@@ -5,7 +5,7 @@ export const MIN_SEARCH_PHRASE = 3;
 export const SHORT_DESCRIPTION_LENGTH = 140;
 export const USER_SCORE_AMOUNT = 9;
 export const ANIMATION_DELAY = 1000; // 1s
-export const URL = `https://htmlacademy-es-9.appspot.com/cinemaddict/`;
+export const URL = `https://15.ecmascript.pages.academy/cinemaddict/`;
 export const MIN_GENRE_AMOUNT = 1;
 
 export const Method = {
