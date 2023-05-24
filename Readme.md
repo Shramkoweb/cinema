@@ -16,3 +16,5 @@ Coming soon ...
    **How to build the project:**
     `npm run build`
    
+   
+   Created by [Serhii Shramko](https://shramko.dev/). This is my personal website and blog. 
